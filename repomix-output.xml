@@ -1,0 +1,2551 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+app.py
+Images/WhatsApp Image 2024-10-05 at 9.30.49 PM.jpeg
+Images/WhatsApp Image 2024-10-05 at 9.34.33 PM.jpeg
+Images/WhatsApp Image 2024-10-05 at 9.34.34 PM (1).jpeg
+Images/WhatsApp Image 2024-10-05 at 9.34.34 PM.jpeg
+Images/WhatsApp Image 2024-10-05 at 9.34.35 PM.jpeg
+LICENSE
+README.md
+requirements.txt
+static/css/style.css
+static/image.jpg
+static/uploads/detected_image.jpg
+static/uploads/download_2.jpg
+templates/base.html
+templates/fruit_detection.html
+templates/image.jpg
+templates/index.html
+templates/result_page.html
+templates/ripeness_detection.html
+train/args.yaml
+train/confusion_matrix_normalized.png
+train/confusion_matrix.png
+train/events.out.tfevents.1708949733.LAPTOP-M8VMOAHV.10996.0
+train/results.csv
+train/results.png
+train/train_batch0.jpg
+train/train_batch1.jpg
+train/train_batch2.jpg
+train/train_batch670.jpg
+train/train_batch671.jpg
+train/train_batch672.jpg
+train/val_batch0_labels.jpg
+train/val_batch0_pred.jpg
+train/val_batch1_labels.jpg
+train/val_batch1_pred.jpg
+train/val_batch2_labels.jpg
+train/val_batch2_pred.jpg
+train/weights/best.pt
+train/weights/last.pt
+train2/args.yaml
+train2/confusion_matrix_normalized.png
+train2/confusion_matrix.png
+train2/events.out.tfevents.1708952140.LAPTOP-M8VMOAHV.12440.0
+train2/results.csv
+train2/results.png
+train2/templates/banana_detection.html
+train2/templates/disease_detection.html
+train2/templates/fruit_detection.html
+train2/templates/image.jpg
+train2/templates/index.html
+train2/templates/mango_detection.html
+train2/templates/uploaded_image.html
+train2/train_batch0.jpg
+train2/train_batch1.jpg
+train2/train_batch140.jpg
+train2/train_batch141.jpg
+train2/train_batch142.jpg
+train2/train_batch2.jpg
+train2/val_batch0_labels.jpg
+train2/val_batch0_pred.jpg
+train2/val_batch1_labels.jpg
+train2/val_batch1_pred.jpg
+train2/weights/best.pt
+train2/weights/last.pt
+train4/args.yaml
+train4/confusion_matrix_normalized.png
+train4/confusion_matrix.png
+train4/events.out.tfevents.1713327586.LAPTOP-M8VMOAHV.10408.0
+train4/results.csv
+train4/results.png
+train4/train_batch0.jpg
+train4/train_batch1.jpg
+train4/train_batch2.jpg
+train4/val_batch0_labels.jpg
+train4/val_batch0_pred.jpg
+train4/val_batch1_labels.jpg
+train4/val_batch1_pred.jpg
+train4/val_batch2_labels.jpg
+train4/val_batch2_pred.jpg
+train4/weights/best.pt
+train4/weights/last.pt
+weights_1/best.pt
+weights_1/last.pt
+weights_2/best.pt
+weights_2/last.pt
+weights_3/best.pt
+weights_3/last.pt
+weights/best.pt
+weights/last.pt
+yolov5s.pt
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="app.py">
+from flask import Flask, render_template, request, redirect, url_for, Response, jsonify
+from werkzeug.utils import secure_filename
+import cv2
+from ultralytics import YOLO
+import numpy as np
+from PIL import Image
+import io
+import base64
+
+app = Flask(__name__)
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+# Detection filtering to reduce false positives
+CONF_THRESHOLD = 0.5  # increase if still seeing false positives
+MIN_BOX_REL_AREA = 0.02  # ignore boxes smaller than 2% of frame area
+
+# Relaxed thresholds for single image uploads (to avoid missing small/low-contrast fruit)
+UPLOAD_CONF_THRESHOLD = 0.35
+UPLOAD_MIN_BOX_REL_AREA = 0.005
+
+# Load YOLO model for fruit detection only
+fruit_detection_model = YOLO("weights_3/best.pt")
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def image_to_base64(image):
+    buffered = io.BytesIO()
+    image.save(buffered, format="JPEG")
+    return base64.b64encode(buffered.getvalue()).decode()
+
+# --- Main Page Routes ---
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/fruit_detection')
+def fruit_detection():
+    return render_template('fruit_detection.html')
+
+## Disease detection removed
+
+@app.route('/ripeness_detection')
+def ripeness_detection():
+    return render_template('ripeness_detection.html')
+
+# --- Ripeness Detection Logic ---
+@app.route('/detect_ripeness', methods=['GET', 'POST'])
+def detect_ripeness():
+    if request.method == 'POST':
+        file = request.files.get('file')
+        if file and allowed_file(file.filename):
+            img = Image.open(io.BytesIO(file.read())).convert("RGB")
+            # Check if a fruit is detected before running ripeness analysis
+            img_bgr = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+            results = fruit_detection_model(img_bgr, conf=UPLOAD_CONF_THRESHOLD)
+            any_valid_box = False
+            if results:
+                r0 = results[0]
+                if r0.boxes is not None and r0.boxes.xyxy is not None:
+                    boxes = r0.boxes.xyxy.cpu().numpy()
+                    h, w = img_bgr.shape[:2]
+                    frame_area = float(max(1, w * h))
+                    confs = r0.boxes.conf.float().cpu().tolist()
+                    for (x1, y1, x2, y2), conf in zip(boxes, confs):
+                        bw = max(0.0, x2 - x1)
+                        bh = max(0.0, y2 - y1)
+                        rel_area = float((bw * bh) / frame_area)
+                        if conf >= UPLOAD_CONF_THRESHOLD and rel_area >= UPLOAD_MIN_BOX_REL_AREA:
+                            any_valid_box = True
+                            break
+
+            img_str = image_to_base64(img)
+            if not any_valid_box:
+                # As a fallback, try ripeness analysis; if it clearly indicates fruit-like colors, show ripeness
+                ripeness_result = analyze_fruit_ripeness(img)
+                if ripeness_result and ripeness_result.get('ripeness_level') != 'Unknown' and ripeness_result.get('confidence', 0) >= 0.5:
+                    return render_template('result_page.html', img_str=img_str, ripeness_result=ripeness_result)
+                return render_template('result_page.html', img_str=img_str, not_fruit=True)
+
+            ripeness_result = analyze_fruit_ripeness(img)
+            return render_template('result_page.html', img_str=img_str, ripeness_result=ripeness_result)
+    return redirect(url_for('ripeness_detection'))
+
+## Disease endpoints removed: banana/mango/pomegranate
+
+# --- Model Inference Functions ---
+## Disease inference removed
+
+def analyze_fruit_ripeness(image):
+    img_array = np.array(image)
+    hsv = cv2.cvtColor(img_array, cv2.COLOR_RGB2HSV)
+    
+    green_lower = np.array([35, 50, 50])
+    green_upper = np.array([85, 255, 255])
+    yellow_lower = np.array([20, 50, 50])
+    yellow_upper = np.array([35, 255, 255])
+    brown_lower = np.array([0, 50, 50])
+    brown_upper = np.array([20, 255, 255])
+    
+    green_mask = cv2.inRange(hsv, green_lower, green_upper)
+    yellow_mask = cv2.inRange(hsv, yellow_lower, yellow_upper)
+    brown_mask = cv2.inRange(hsv, brown_lower, brown_upper)
+    
+    green_pixels = cv2.countNonZero(green_mask)
+    yellow_pixels = cv2.countNonZero(yellow_mask)
+    brown_pixels = cv2.countNonZero(brown_mask)
+    
+    total_pixels = green_pixels + yellow_pixels + brown_pixels
+    
+    if total_pixels == 0:
+        return {'ripeness_level': 'Unknown', 'confidence': 0.0, 'color_analysis': {'green_percentage': 0,'yellow_percentage': 0,'brown_percentage': 0}}
+    
+    green_percentage = (green_pixels / total_pixels) * 100
+    yellow_percentage = (yellow_pixels / total_pixels) * 100
+    brown_percentage = (brown_pixels / total_pixels) * 100
+    
+    if green_percentage > 50:
+        ripeness_level, confidence = 'Unripe', green_percentage / 100
+    elif yellow_percentage > 40:
+        ripeness_level, confidence = 'Ripe', yellow_percentage / 100
+    elif brown_percentage > 30:
+        ripeness_level, confidence = 'Overripe', brown_percentage / 100
+    else:
+        max_percentage = max(green_percentage, yellow_percentage, brown_percentage)
+        confidence = max_percentage / 100
+        if max_percentage == green_percentage:
+            ripeness_level = 'Unripe'
+        elif max_percentage == yellow_percentage:
+            ripeness_level = 'Ripe'
+        else:
+            ripeness_level = 'Overripe'
+            
+    return {
+        'ripeness_level': ripeness_level,
+        'confidence': round(confidence, 2),
+        'color_analysis': {
+            'green_percentage': round(green_percentage, 1),
+            'yellow_percentage': round(yellow_percentage, 1),
+            'brown_percentage': round(brown_percentage, 1)
+        }
+    }
+    
+# --- Real-time detection (No changes needed here) ---
+@app.route('/video_feed')
+def video_feed():
+    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/detect_objects', methods=['POST'])
+def detect_objects():
+    image_data = request.json['image_data'].split(',')[1]
+    image_bytes = base64.b64decode(image_data)
+    image_array = np.frombuffer(image_bytes, dtype=np.uint8)
+    image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
+    results = fruit_detection_model(image, conf=CONF_THRESHOLD)
+    detected_objects = []
+    img_h, img_w = image.shape[:2]
+    frame_area = float(img_w * img_h) if img_w and img_h else 1.0
+    for result in results:
+        if result.boxes is None:
+            continue
+        boxes = result.boxes.xywh.cpu().numpy()
+        clss = result.boxes.cls.cpu().tolist()
+        names = result.names
+        confs = result.boxes.conf.float().cpu().tolist()
+        for (cx, cy, bw, bh), cls, conf in zip(boxes, clss, confs):
+            # Filter by size and confidence
+            rel_area = float((bw * bh) / frame_area)
+            if conf < CONF_THRESHOLD or rel_area < MIN_BOX_REL_AREA:
+                continue
+            detected_objects.append({'class': names[cls], 'bbox': [float(cx), float(cy), float(bw), float(bh)], 'confidence': float(conf)})
+    return jsonify(detected_objects)
+
+def generate_frames():
+    camera = cv2.VideoCapture(0)
+    while True:
+        success, frame = camera.read()
+        if not success:
+            break
+        else:
+            fruit_results = fruit_detection_model(frame, conf=CONF_THRESHOLD)
+            result = fruit_results[0]
+            if result.boxes is not None:
+                boxes_xyxy = result.boxes.xyxy.cpu().numpy()
+                classes = result.boxes.cls.cpu().tolist()
+                confidences = result.boxes.conf.float().cpu().tolist()
+            else:
+                boxes_xyxy, classes, confidences = [], [], []
+            names = result.names if hasattr(result, 'names') else {}
+
+            # Draw green bounding boxes and labels on the original BGR frame
+            fh, fw = frame.shape[:2]
+            frame_area = float(fw * fh) if fw and fh else 1.0
+            for (box, cls, conf) in zip(boxes_xyxy, classes, confidences):
+                x1f, y1f, x2f, y2f = box
+                bw = max(0.0, x2f - x1f)
+                bh = max(0.0, y2f - y1f)
+                rel_area = float((bw * bh) / frame_area)
+                if conf < CONF_THRESHOLD or rel_area < MIN_BOX_REL_AREA:
+                    continue
+                x1, y1, x2, y2 = int(x1f), int(y1f), int(x2f), int(y2f)
+                color = (0, 255, 0)  # Green in BGR
+                thickness = 2
+                cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
+
+                label = f"{names.get(cls, str(cls))} {conf:.2f}" if isinstance(names, dict) else f"{int(cls)} {conf:.2f}"
+
+                # Text background box for readability
+                (tw, th), baseline = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
+                y_text = y1 - 8 if y1 - 8 > th + 2 else y1 + th + 8
+                cv2.rectangle(frame, (x1, y_text - th - 4), (x1 + tw + 6, y_text + baseline - 2), color, -1)
+                cv2.putText(frame, label, (x1 + 3, y_text), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
+
+            ret, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 50])
+            frame_bytes = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", debug=True)
+</file>
+
+<file path="static/css/style.css">
+/* static/css/style.css */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #343a40; /* Darker text for better contrast */
+    background-color: #F8F9FA; /* A clean, professional off-white */
+}
+
+/* --- Hero Section with Background Image --- */
+.hero-section {
+    background-image: url('../image.jpg'); /* Using a local image from the 'static' folder */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 120px 0;
+    text-align: center;
+    position: relative;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+}
+
+/* --- Feature Cards & General Cards --- */
+.custom-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.custom-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.custom-card .card-body {
+    text-align: center;
+}
+
+.custom-card .icon {
+    font-size: 3rem;
+    line-height: 1;
+    color: #28a745; /* NEW: Vibrant Green Accent */
+    margin-bottom: 1rem;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+    background-color: #28a745; /* NEW: Vibrant Green */
+    border-color: #28a745; /* NEW: Vibrant Green */
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #218838; /* NEW: Darker Green on Hover */
+    border-color: #1e7e34;
+}
+
+/* --- Result Page Styling --- */
+.result-image {
+    max-width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.result-details {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    height: 100%;
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: #343a40;
+    color: white;
+    padding: 40px 0;
+    margin-top: 50px;
+}
+</file>
+
+<file path="templates/base.html">
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}RipeSense{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="/">🍎 RipeSense</a>
+      </div>
+    </nav>
+    <main class="container my-5">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2025 RipeSense. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+      // This script finds all elements with a 'data-width' attribute and sets their width.
+      document.addEventListener('DOMContentLoaded', () => {
+        const progressBars = document.querySelectorAll('[data-width]');
+        progressBars.forEach(bar => {
+          const widthValue = bar.getAttribute('data-width');
+          bar.style.width = widthValue + '%';
+        });
+      });
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>
+</file>
+
+<file path="templates/result_page.html">
+{% extends "base.html" %}
+
+{% block title %}Analysis Results{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h2 class="fw-bold">Analysis Results</h2>
+</div>
+<div class="row align-items-center g-4">
+    <div class="col-md-6 text-center">
+        <img src="data:image/jpeg;base64,{{ img_str }}" alt="Uploaded Image" class="result-image">
+    </div>
+    <div class="col-md-6">
+        <div class="result-details text-start">
+            <h4 class="mb-4 text-center">Detection Details:</h4>
+
+            {% if not_fruit %}
+                <div class="alert alert-warning text-center fs-5">🚫 Not a fruit</div>
+            {% endif %}
+
+            {% if class_names %}
+                <ul class="list-group list-group-flush fs-5">
+                    {% for name in class_names %}
+                        <li class="list-group-item"><strong>Detected Class:</strong> <span class="badge bg-primary rounded-pill fs-6">{{ name | title }}</span></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if ripeness_result %}
+                <div class="ripeness-card text-center text-white p-3 rounded mb-3 
+                    {% if ripeness_result.ripeness_level == 'Unripe' %} bg-secondary
+                    {% elif ripeness_result.ripeness_level == 'Ripe' %} bg-success
+                    {% elif ripeness_result.ripeness_level == 'Overripe' %} bg-warning text-dark
+                    {% endif %}">
+                    <h5 class="mb-0">Ripeness Level</h5>
+                    <div class="fs-2 fw-bold">
+                        {{ ripeness_result.ripeness_level }}
+                    </div>
+                    <div class="confidence">
+                        Confidence: {{ (ripeness_result.confidence * 100)|round(1) }}%
+                    </div>
+                </div>
+
+                <div class="color-analysis card p-4">
+                    <h5 class="text-center mb-4">Color Analysis</h5>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="fw-bold text-success">🟢 Green (Unripe)</span>
+                            <span class="badge bg-success rounded-pill">{{ ripeness_result.color_analysis.green_percentage | default(0) | round }}%</span>
+                        </div>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar bg-success" role="progressbar" 
+                                 data-width="{{ ripeness_result.color_analysis.green_percentage | default(0) | round }}"
+                                 aria-valuenow="{{ ripeness_result.color_analysis.green_percentage | default(0) | round }}" 
+                                 aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="fw-bold text-warning">🟡 Yellow (Ripe)</span>
+                            <span class="badge bg-warning text-dark rounded-pill">{{ ripeness_result.color_analysis.yellow_percentage | default(0) | round }}%</span>
+                        </div>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar bg-warning" role="progressbar" 
+                                 data-width="{{ ripeness_result.color_analysis.yellow_percentage | default(0) | round }}"
+                                 aria-valuenow="{{ ripeness_result.color_analysis.yellow_percentage | default(0) | round }}" 
+                                 aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="fw-bold text-secondary">🟤 Brown (Overripe)</span>
+                            <span class="badge bg-secondary rounded-pill">{{ ripeness_result.color_analysis.brown_percentage | default(0) | round }}%</span>
+                        </div>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar bg-secondary" role="progressbar" 
+                                 data-width="{{ ripeness_result.color_analysis.brown_percentage | default(0) | round }}"
+                                 aria-valuenow="{{ ripeness_result.color_analysis.brown_percentage | default(0) | round }}" 
+                                 aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendation alert alert-light mt-3">
+                    <h5 class="alert-heading">💡 Recommendation</h5>
+                    {% if ripeness_result.ripeness_level == 'Unripe' %}
+                        <p>This fruit is not yet ripe. Wait a few days at room temperature.</p>
+                    {% elif ripeness_result.ripeness_level == 'Ripe' %}
+                        <p>Perfect! This fruit is ready to eat for the best taste and texture.</p>
+                    {% elif ripeness_result.ripeness_level == 'Overripe' %}
+                        <p>This fruit is overripe. Consume it soon or use it for cooking/baking.</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+            
+            <div class="text-center mt-4">
+                <a href="/" class="btn btn-secondary">🏠 Run Another Analysis</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</file>
+
+<file path="templates/ripeness_detection.html">
+{% extends "base.html" %}
+
+{% block title %}Ripeness Detection - RipeSense{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h2 class="fw-bold">Fruit Ripeness Analysis</h2>
+    <p class="text-muted">Analyze a fruit's ripeness level based on its color.</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card custom-card">
+            <div class="card-body p-4 p-md-5">
+                
+                <div class="alert alert-info text-start" role="alert">
+                    <h5 class="alert-heading">How it works:</h4>
+                    <ul class="mb-0">
+                        <li><strong>Unripe:</strong> Green color dominance (firm, not ready to eat).</li>
+                        <li><strong>Ripe:</strong> Yellow/orange color dominance (perfect for eating).</li>
+                        <li><strong>Overripe:</strong> Brown/red color dominance (too soft, may be spoiled).</li>
+                    </ul>
+                    <hr>
+                    <p class="mb-0"><strong>Supported fruits:</strong> Bananas, apples, mangoes, and other color-changing fruits.</p>
+                </div>
+
+                <form action="{{ url_for('detect_ripeness') }}" method="post" enctype="multipart/form-data" class="mt-4">
+                    <div class="mb-3">
+                        <label for="fileInput" class="form-label fs-5">Upload Fruit Image</label>
+                        <input type="file" class="form-control" id="fileInput" name="file" onchange="displayFileName()" required accept="image/*">
+                        <div id="fileName" class="form-text"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg mt-3">🔍 Analyze Ripeness</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function displayFileName() {
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileName');
+        if (fileInput.files.length > 0) {
+            fileNameDisplay.textContent = "Selected: " + fileInput.files[0].name;
+        } else {
+            fileNameDisplay.textContent = "";
+        }
+    }
+</script>
+{% endblock %}
+</file>
+
+<file path="LICENSE">
+MIT License
+
+Copyright (c) 2024 Ashish Tukaral
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</file>
+
+<file path="requirements.txt">
+Flask
+ultralytics
+cv2
+</file>
+
+<file path="templates/fruit_detection.html">
+{% extends "base.html" %}
+
+{% block title %}Live Fruit Detection{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h2 class="fw-bold">Live Fruit Detection</h2>
+    <p class="text-muted">Your device's camera will be used to identify fruits in real-time.</p>
+</div>
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="video-container ratio ratio-1x1 rounded shadow-sm" style="position: relative;">
+            <video id="video" autoplay playsinline class="rounded" style="width: 100%; height: 100%;"></video>
+            <canvas id="overlay" class="rounded" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none;"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card custom-card h-100">
+            <div class="card-body p-4">
+                <h5 class="card-title text-center mb-3">Detection Info</h5>
+                <div id="detected-objects">
+                    <p class="text-muted text-center">Point your camera at a fruit...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // This JavaScript is the same as your original file
+    const video = document.getElementById('video');
+    const detectedObjectsElement = document.getElementById('detected-objects');
+    const overlay = document.getElementById('overlay');
+    const overlayCtx = overlay.getContext('2d');
+
+    function initializeCamera() {
+        const constraints = { video: { facingMode: 'environment' } };
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(stream => {
+                video.srcObject = stream;
+                syncCanvasSize();
+                detectObjects();
+            })
+            .catch(error => {
+                console.error('Error accessing the camera:', error);
+                detectedObjectsElement.innerHTML = '<p class="text-danger text-center">Could not access camera. Please grant permission.</p>';
+            });
+    }
+
+    function detectObjects() {
+        setInterval(() => {
+            if (video.readyState < 2) return;
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/jpeg');
+
+            fetch('/detect_objects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image_data: imageData }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                detectedObjectsElement.innerHTML = '';
+                drawOverlay(data);
+                if (data.length === 0) {
+                    detectedObjectsElement.innerHTML = '<p class="text-muted text-center">No fruit detected.</p>';
+                } else {
+                    data.forEach(object => {
+                        const { class: className, confidence } = object;
+                        const [rawRipe, fruitName] = className.split(' ');
+                        const card = document.createElement('div');
+                        card.className = 'alert alert-light';
+                        card.innerHTML = `<strong>Fruit:</strong> ${fruitName}<br><strong>Status:</strong> ${rawRipe}<br><strong>Confidence:</strong> ${Math.round(confidence * 100)}%`;
+                        detectedObjectsElement.appendChild(card);
+                    });
+                }
+            })
+            .catch(error => console.error('Error detecting objects:', error));
+        }, 1500);
+    }
+
+    function syncCanvasSize() {
+        const rect = video.getBoundingClientRect();
+        overlay.width = video.videoWidth || rect.width;
+        overlay.height = video.videoHeight || rect.height;
+    }
+
+    function drawOverlay(detections) {
+        syncCanvasSize();
+        overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
+        if (!detections || detections.length === 0) return;
+
+        // Draw green boxes for each detection. Server sends bbox as [cx, cy, w, h]
+        detections.forEach(d => {
+            const [cx, cy, w, h] = d.bbox;
+            const x1 = cx - w / 2;
+            const y1 = cy - h / 2;
+
+            overlayCtx.strokeStyle = '#00FF00';
+            overlayCtx.lineWidth = 3;
+            overlayCtx.strokeRect(x1, y1, w, h);
+
+            const label = `${d.class} ${(d.confidence * 100).toFixed(0)}%`;
+            overlayCtx.font = '14px Poppins, Arial, sans-serif';
+            const metrics = overlayCtx.measureText(label);
+            const textW = metrics.width + 10;
+            const textH = 18;
+            overlayCtx.fillStyle = '#00FF00';
+            const ty = y1 - 6 < textH ? y1 + textH + 6 : y1 - 6;
+            overlayCtx.fillRect(x1, ty - textH, textW, textH);
+            overlayCtx.fillStyle = '#000000';
+            overlayCtx.fillText(label, x1 + 5, ty - 4);
+        });
+    }
+
+    initializeCamera();
+</script>
+{% endblock %}
+</file>
+
+<file path="templates/index.html">
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RipeSense - Home</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="/">🍎 RipeSense</a>
+      </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="container">
+            <h1 class="display-4">Welcome to the Fruit Detection App</h1>
+            <p class="lead">Leveraging AI to detect fruits and analyze ripeness with precision.</p>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Our Features</h2>
+            <p class="text-muted">Choose a tool to get started.</p>
+        </div>
+        
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4 col-md-6">
+                <div class="card feature-card">
+                    <div class="card-body p-4">
+                        <div class="icon">📷</div>
+                        <h5 class="card-title fw-bold">Live Fruit Detection</h5>
+                        <p class="card-text">Identify different types of fruits in real-time using your device's camera.</p>
+                        <a href="{{ url_for('fruit_detection') }}" class="btn btn-primary">Launch Detector</a>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div class="col-lg-4 col-md-6">
+                <div class="card feature-card">
+                    <div class="card-body p-4">
+                        <div class="icon">🍎</div>
+                        <h5 class="card-title fw-bold">Ripeness Analysis</h5>
+                        <p class="card-text">Determine the ripeness stage of a fruit based on advanced color analysis.</p>
+                        <a href="{{ url_for('ripeness_detection') }}" class="btn btn-primary">Check Ripeness</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2025 RipeSense. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+</file>
+
+<file path="train/args.yaml">
+task: classify
+mode: train
+model: yolov8n-cls.pt
+data: C:/Users/hp/PycharmProjects/pythonProject/Mango disease images/Mango disease
+  images
+epochs: 20
+time: null
+patience: 100
+batch: 60
+imgsz: 224
+save: true
+save_period: -1
+cache: false
+device: null
+workers: 8
+project: null
+name: train
+exist_ok: false
+pretrained: true
+optimizer: auto
+verbose: true
+seed: 0
+deterministic: true
+single_cls: false
+rect: false
+cos_lr: false
+close_mosaic: 10
+resume: false
+amp: true
+fraction: 1.0
+profile: false
+freeze: null
+multi_scale: false
+overlap_mask: true
+mask_ratio: 4
+dropout: 0.0
+val: true
+split: val
+save_json: false
+save_hybrid: false
+conf: null
+iou: 0.7
+max_det: 300
+half: false
+dnn: false
+plots: true
+source: null
+vid_stride: 1
+stream_buffer: false
+visualize: false
+augment: false
+agnostic_nms: false
+classes: null
+retina_masks: false
+embed: null
+show: false
+save_frames: false
+save_txt: false
+save_conf: false
+save_crop: false
+show_labels: true
+show_conf: true
+show_boxes: true
+line_width: null
+format: torchscript
+keras: false
+optimize: false
+int8: false
+dynamic: false
+simplify: false
+opset: null
+workspace: 4
+nms: false
+lr0: 0.01
+lrf: 0.01
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.1
+box: 7.5
+cls: 0.5
+dfl: 1.5
+pose: 12.0
+kobj: 1.0
+label_smoothing: 0.0
+nbs: 64
+hsv_h: 0.015
+hsv_s: 0.7
+hsv_v: 0.4
+degrees: 0.0
+translate: 0.1
+scale: 0.5
+shear: 0.0
+perspective: 0.0
+flipud: 0.0
+fliplr: 0.5
+mosaic: 1.0
+mixup: 0.0
+copy_paste: 0.0
+auto_augment: randaugment
+erasing: 0.4
+crop_fraction: 1.0
+cfg: null
+tracker: botsort.yaml
+save_dir: runs\classify\train
+</file>
+
+<file path="train/results.csv">
+epoch,             train/loss,  metrics/accuracy_top1,  metrics/accuracy_top5,               val/loss,                 lr/pg0,                 lr/pg1,                 lr/pg2
+                      1,                 1.4735,                 0.9081,                0.99922,                 1.4386,             0.00023445,             0.00023445,             0.00023445
+                      2,                0.19833,                0.98676,                      1,                 1.3001,             0.00044906,             0.00044906,             0.00044906
+                      3,                0.06361,                0.99922,                      1,                 1.2793,             0.00064011,             0.00064011,             0.00064011
+                      4,                0.06211,                0.99611,                      1,                 1.2817,             0.00060797,             0.00060797,             0.00060797
+                      5,                0.04384,                0.99377,                      1,                 1.2824,             0.00060797,             0.00060797,             0.00060797
+                      6,                0.03547,                      1,                      1,                 1.2763,             0.00057263,             0.00057263,             0.00057263
+                      7,                0.04562,                0.98754,                      1,                 1.2887,             0.00053728,             0.00053728,             0.00053728
+                      8,                0.02516,                0.99844,                      1,                 1.2777,             0.00050194,             0.00050194,             0.00050194
+                      9,                0.02493,                      1,                      1,                 1.2745,              0.0004666,              0.0004666,              0.0004666
+                     10,                0.01164,                      1,                      1,                 1.2742,             0.00043126,             0.00043126,             0.00043126
+                     11,                0.01259,                      1,                      1,                 1.2742,             0.00039591,             0.00039591,             0.00039591
+                     12,                0.01541,                      1,                      1,                 1.2747,             0.00036057,             0.00036057,             0.00036057
+                     13,                0.01635,                      1,                      1,                 1.2742,             0.00032523,             0.00032523,             0.00032523
+                     14,                0.00832,                      1,                      1,                 1.2741,             0.00028988,             0.00028988,             0.00028988
+                     15,                0.01597,                      1,                      1,                 1.2741,             0.00025454,             0.00025454,             0.00025454
+                     16,                0.00671,                      1,                      1,                 1.2741,              0.0002192,              0.0002192,              0.0002192
+                     17,                0.00815,                      1,                      1,                 1.2741,             0.00018385,             0.00018385,             0.00018385
+                     18,                0.00848,                      1,                      1,                 1.2741,             0.00014851,             0.00014851,             0.00014851
+                     19,                 0.0108,                      1,                      1,                 1.2741,             0.00011317,             0.00011317,             0.00011317
+                     20,                0.00882,                      1,                      1,                 1.2741,             7.7826e-05,             7.7826e-05,             7.7826e-05
+</file>
+
+<file path="train2/args.yaml">
+task: classify
+mode: train
+model: yolov8n-cls.pt
+data: C:/Users/hp/PycharmProjects/pythonProject/Banana disease images/Original Images
+epochs: 30
+time: null
+patience: 100
+batch: 60
+imgsz: 224
+save: true
+save_period: -1
+cache: false
+device: null
+workers: 8
+project: null
+name: train2
+exist_ok: false
+pretrained: true
+optimizer: auto
+verbose: true
+seed: 0
+deterministic: true
+single_cls: false
+rect: false
+cos_lr: false
+close_mosaic: 10
+resume: false
+amp: true
+fraction: 1.0
+profile: false
+freeze: null
+multi_scale: false
+overlap_mask: true
+mask_ratio: 4
+dropout: 0.0
+val: true
+split: val
+save_json: false
+save_hybrid: false
+conf: null
+iou: 0.7
+max_det: 300
+half: false
+dnn: false
+plots: true
+source: null
+vid_stride: 1
+stream_buffer: false
+visualize: false
+augment: false
+agnostic_nms: false
+classes: null
+retina_masks: false
+embed: null
+show: false
+save_frames: false
+save_txt: false
+save_conf: false
+save_crop: false
+show_labels: true
+show_conf: true
+show_boxes: true
+line_width: null
+format: torchscript
+keras: false
+optimize: false
+int8: false
+dynamic: false
+simplify: false
+opset: null
+workspace: 4
+nms: false
+lr0: 0.01
+lrf: 0.01
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.1
+box: 7.5
+cls: 0.5
+dfl: 1.5
+pose: 12.0
+kobj: 1.0
+label_smoothing: 0.0
+nbs: 64
+hsv_h: 0.015
+hsv_s: 0.7
+hsv_v: 0.4
+degrees: 0.0
+translate: 0.1
+scale: 0.5
+shear: 0.0
+perspective: 0.0
+flipud: 0.0
+fliplr: 0.5
+mosaic: 1.0
+mixup: 0.0
+copy_paste: 0.0
+auto_augment: randaugment
+erasing: 0.4
+crop_fraction: 1.0
+cfg: null
+tracker: botsort.yaml
+save_dir: runs\classify\train2
+</file>
+
+<file path="train2/results.csv">
+epoch,             train/loss,  metrics/accuracy_top1,  metrics/accuracy_top5,               val/loss,                 lr/pg0,                 lr/pg1,                 lr/pg2
+                      1,                 2.0014,                0.10326,                0.72283,                 1.9492,              4.284e-05,              4.284e-05,              4.284e-05
+                      2,                  1.867,                0.27174,                 0.8913,                 1.9145,             8.9757e-05,             8.9757e-05,             8.9757e-05
+                      3,                 1.6478,                 0.5163,                0.97283,                 1.8487,             0.00013338,             0.00013338,             0.00013338
+                      4,                 1.3674,                0.70652,                0.98913,                 1.7478,             0.00017369,             0.00017369,             0.00017369
+                      5,                 1.0544,                0.78261,                0.99457,                  1.609,             0.00021072,             0.00021072,             0.00021072
+                      6,                0.81153,                0.84783,                      1,                   1.49,             0.00024444,             0.00024444,             0.00024444
+                      7,                0.60941,                0.91304,                      1,                 1.3907,             0.00027486,             0.00027486,             0.00027486
+                      8,                0.43706,                0.95652,                      1,                 1.3094,             0.00030199,             0.00030199,             0.00030199
+                      9,                0.32226,                0.96739,                      1,                 1.2675,             0.00032581,             0.00032581,             0.00032581
+                     10,                0.24244,                0.97826,                      1,                 1.2325,             0.00034634,             0.00034634,             0.00034634
+                     11,                 0.1979,                0.97826,                      1,                 1.2267,             0.00036357,             0.00036357,             0.00036357
+                     12,                0.15568,                0.98913,                      1,                 1.2037,              0.0003775,              0.0003775,              0.0003775
+                     13,                0.15608,                0.98913,                      1,                 1.1964,             0.00038813,             0.00038813,             0.00038813
+                     14,                0.12461,                0.99457,                      1,                  1.192,             0.00039546,             0.00039546,             0.00039546
+                     15,                0.13234,                0.99457,                      1,                 1.1828,             0.00038413,             0.00038413,             0.00038413
+                     16,                0.10911,                0.99457,                      1,                 1.1839,             0.00038413,             0.00038413,             0.00038413
+                     17,                0.07532,                0.99457,                      1,                 1.1844,             0.00036057,             0.00036057,             0.00036057
+                     18,                0.09364,                0.99457,                      1,                 1.1772,             0.00033701,             0.00033701,             0.00033701
+                     19,                0.08557,                0.99457,                      1,                 1.1785,             0.00031345,             0.00031345,             0.00031345
+                     20,                0.06367,                      1,                      1,                 1.1748,             0.00028988,             0.00028988,             0.00028988
+                     21,                 0.0756,                      1,                      1,                 1.1757,             0.00026632,             0.00026632,             0.00026632
+                     22,                0.04382,                      1,                      1,                 1.1729,             0.00024276,             0.00024276,             0.00024276
+                     23,                0.07309,                      1,                      1,                 1.1717,              0.0002192,              0.0002192,              0.0002192
+                     24,                0.05526,                      1,                      1,                 1.1714,             0.00019564,             0.00019564,             0.00019564
+                     25,                0.07443,                      1,                      1,                 1.1722,             0.00017207,             0.00017207,             0.00017207
+                     26,                0.03998,                      1,                      1,                 1.1722,             0.00014851,             0.00014851,             0.00014851
+                     27,                0.05633,                      1,                      1,                 1.1719,             0.00012495,             0.00012495,             0.00012495
+                     28,                 0.0458,                      1,                      1,                 1.1707,             0.00010139,             0.00010139,             0.00010139
+                     29,                0.04091,                      1,                      1,                 1.1711,             7.7826e-05,             7.7826e-05,             7.7826e-05
+                     30,                0.03974,                      1,                      1,                 1.1703,             5.4264e-05,             5.4264e-05,             5.4264e-05
+</file>
+
+<file path="train2/templates/banana_detection.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banana Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-size: cover; /* Prevent background color repeat */
+            background-attachment: fixed; /* Ensure background remains fixed */
+        }
+
+        .container {
+            max-width: 90%;
+            padding: 50px;
+            background: inherit;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+   
+        p {
+            margin-top: 60px;
+
+            text-align: center;
+            font-size: 40px;
+            color: #007bff;
+            background: linear-gradient(45deg, #ff7300, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        label {
+            display: block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        label:hover {
+            background-color: #0056b3;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .btn {
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+        }
+
+        .back-btn a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .back-btn a:hover,.back-btn a:hover {
+            color: #636463;
+        }
+
+
+
+
+
+        @media screen and (min-width: 1200px) {
+  
+            .menu-bar {
+                right: 50px; 
+            }
+        }
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0; 
+            width: 100%; 
+            background-color: #f5f7fa;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end;
+      
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-top: 2px solid white; 
+        }
+        
+          
+      
+          
+          .menu {
+            display: flex;
+          }
+          
+          .menu-item {
+            text-decoration: none;
+            padding: 10px 20px;
+            color: #007bff;
+            background: linear-gradient(45deg, #ff7300, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          
+          .menu-item:hover {
+            background-color: #555;
+          }
+
+
+         
+@media screen and (max-width: 1200px) {
+    .container {
+        padding: 15px; 
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        max-width: 95%; 
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        max-width: 100%;
+        padding: 10px; 
+    }
+}
+
+      
+@media screen and (max-width: 1200px) {
+    .container {
+        padding: 15px;
+    }
+    h1 {
+        font-size: 28px;
+    }
+    .menu-item {
+        padding: 8px 16px; 
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        max-width: 95%;
+        padding: 40px; 
+    }
+    p {
+        font-size: 30px; 
+    }
+    .menu-item {
+        padding: 6px 12px; 
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        max-width: 100%;
+        padding: 40px;
+    }
+    p {
+        font-size: 30px; 
+    }
+    .menu-item {
+        padding: 4px 8px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div class="menu-bar" >
+        <div class="menu">
+          <a href="/" class="menu-item">Home</a>
+          <a href="/" class="menu-item">Info</a>
+          <a href="/" class="menu-item">About  </a>
+          <a href="#" class="menu-item">  </a>
+          
+        </div>
+      </div>
+
+
+    <div class="container">
+        <p style="color:#8a8e8c">Banana Detection</p>
+        <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
+            <input type="file" name="file" id="fileInput" onchange="displayFileName()">
+            <label for="fileInput">Choose Banana Image</label>
+            <p class="file-name" id="fileName"></p>
+            <br>
+            <button type="submit" class="btn">Detect Disease</button>
+        </form>
+        <div class="back-btn">
+        </div>
+    </div>
+
+    <script>
+        function displayFileName() {
+            const fileInput = document.getElementById('fileInput');
+            const fileNameDisplay = document.getElementById('fileName');
+            fileNameDisplay.textContent = fileInput.files[0].name;
+        }
+    </script>
+</body>
+</html>
+</file>
+
+<file path="train2/templates/disease_detection.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-size: cover; 
+            background-attachment: fixed; 
+        }
+        .container {
+            max-width: 800px;
+            padding: 50px;
+            background: inherit;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        @media screen and (max-width: 768px) {
+            .btn {
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .btn {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+        }
+
+        p{
+            margin-top: 60px;
+
+            text-align: center;
+            font-size: 36px;
+            color: #007bff;
+            background: linear-gradient(45deg, #ff7300, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+
+        
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0; /* Adjusted left position */
+            width: 100%; /* Full horizontal coverage */
+            background-color: #f5f7fa;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end;
+      
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-top: 2px solid white; /* White line on top */
+        }
+        
+          
+      
+          
+          .menu {
+            display: flex;
+          }
+          
+          .menu-item {
+            text-decoration: none;
+            padding: 10px 20px;
+            color: #007bff;
+            background: linear-gradient(45deg, #ff7300, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          
+          .menu-item:hover {
+            background-color: #555;
+          }
+      
+
+          @media screen and (min-width: 1200px) {
+         
+            .menu-bar {
+                right: 50px;
+            }
+        }
+        
+
+
+        @media screen and (max-width: 1200px) {
+            .container {
+                padding: 15px;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 95%; 
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .container {
+                max-width: 100%; 
+                padding: 10px; 
+            }
+        }
+        
+              
+        @media screen and (max-width: 1200px) {
+            .container {
+                padding: 15px; 
+            }
+            h1 {
+                font-size: 28px; 
+            }
+            .menu-item {
+                padding: 8px 16px; 
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 95%; 
+                padding: 40px; 
+            }
+            p {
+                font-size: 30px; 
+            }
+            .menu-item {
+                padding: 6px 12px; 
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .container {
+                max-width: 100%; 
+                padding: 40px; 
+            }
+            p {
+                font-size: 30px; 
+            }
+            .menu-item {
+                padding: 4px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div class="menu-bar" >
+        <div class="menu">
+          <a href="/" class="menu-item">Home</a>
+          <a href="/" class="menu-item">Info</a>
+          <a href="/" class="menu-item">About  </a>
+          <a href="#" class="menu-item">  </a>
+          
+        </div>
+      </div>
+
+    <div class="container">
+        <p>Disease Detection</p>
+        <a href="/banana_detection" class="btn">Banana Disease Detection</a>
+        <a href="/mango_detection" class="btn">Mango Disease Detection</a>
+    </div>
+</body>
+</html>
+</file>
+
+<file path="train2/templates/fruit_detection.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fruit Detection</title>
+    <style>
+
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-size: cover; 
+            background-attachment: fixed; 
+        }
+        
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-top: 60px;
+
+            text-align: center;
+            font-size: 36px;
+            color: #007bff;
+            background: linear-gradient(45deg, #ff7300, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .video-container {
+            width: 100%;
+            position: relative;
+            padding-top: 30%; 
+            overflow: hidden;
+            border: 2px solid #6e84a3;
+        }
+        #video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .detected-info-container {
+            
+            width: 100%;
+            padding: 20px;
+            margin-top:10px;
+            background: inherit;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+
+        .detected-info-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            background: #007bff;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 24px; /* Increased font size */
+            max-width: 200px; /* Set maximum width */
+            margin-left: auto; /* Align center */
+            margin-right: auto; /* Align center */
+        }
+        
+    
+
+
+
+        .detected-objects p {
+            font-size: 18px; 
+            margin-bottom: 15px;
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .back-btn {
+            margin-top: 100px;
+            text-align: center;
+           
+        }
+        
+        .back-btn a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            transition: color 0.3s;
+            font-size: 16px; /* Reduced font size */
+            display: inline-block;
+            background-color: inherit; /* Set background color to inherit */
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        .back-btn a:hover {
+            color: #0056b3;
+        }
+
+        @media screen and (min-width: 768px) {
+            .video-container {
+                width: 50%;
+                margin-right: 20px;
+                margin-bottom: 0;
+            }
+            .detected-info-container {
+                width: 45%;
+            }
+        }
+        
+        @media screen and (min-width: 1200px) {
+            .container {
+                width: 70%; /* Adjust container width */
+            }
+            .menu-bar {
+                right: 50px; /* Adjust menu-bar position */
+            }
+        }
+
+
+
+        @media screen and (max-width: 768px) {
+            .video-container {
+                height: 200px; /* Set a fixed height for the video container */
+            }
+        }
+        
+
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0; /* Adjusted left position */
+            width: 100%; /* Full horizontal coverage */
+            background-color: #f5f7fa;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end;
+      
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-top: 2px solid white; /* White line on top */
+        }
+        
+          
+      
+          
+          .menu {
+            display: flex;
+          }
+          
+          .menu-item {
+            text-decoration: none;
+            padding: 10px 20px;
+            color: #007bff;
+            background: linear-gradient(45deg, #ff7300, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          
+          .menu-item:hover {
+            background-color: #555;
+          }
+      
+
+        
+
+    </style>
+</head>
+<body>
+
+
+    <div class="menu-bar" >
+        <div class="menu">
+          <a href="/" class="menu-item">Home</a>
+          <a href="/" class="menu-item">Info</a>
+          <a href="/" class="menu-item">About  </a>
+          <a href="#" class="menu-item">  </a>
+          
+        </div>
+      </div>
+
+   
+
+
+    <div class="container">
+        <h1>Fruit Detection</h1>
+        <div class="video-container">
+            <video id="video" autoplay playsinline></video>
+        </div>
+        <div class="detected-info-container">
+            <h2>Detection Info</h2>
+            <div class="detected-objects" id="detected-objects"></div>
+            <div class="back-btn">
+            </div>
+        </div>
+    </div>
+
+    <script>
+       // Function to initialize the camera feed and object detection
+function initializeCamera() {
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            video.srcObject = stream;
+            detectObjects();
+        })
+        .catch(error => {
+            console.error('Error accessing the camera:', error);
+        });
+}
+
+// Function to detect objects in the camera feed
+function detectObjects() {
+    setInterval(() => {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/jpeg');
+
+        // Send image data to the server for object detection
+        fetch('/detect_objects', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ image_data: imageData }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Clear previous detected objects
+            detectedObjectsElement.innerHTML = '';
+
+            // Process the detected objects data returned from the server
+            data.forEach(object => {
+                const { class: className, bbox, confidence } = object;
+                const rawRipe = className.split(' ')[0];
+                const fruitName = className.split(' ')[1];
+                const paragraph = document.createElement('p');
+                paragraph.innerHTML = `<strong>Name of fruit:</strong> ${fruitName}<br><strong>Raw/Ripe:</strong> ${rawRipe}<br><strong>Confidence:</strong> ${Math.round(confidence * 100)}%`;
+                detectedObjectsElement.appendChild(paragraph);
+            });
+        })
+        .catch(error => {
+            console.error('Error detecting objects:', error);
+        });
+    }, 1000); // Adjust the interval as needed
+}
+
+// Initialize camera and start object detection
+initializeCamera();
+
+        
+        
+    </script>
+    
+</body>
+</html>
+</file>
+
+<file path="train2/templates/index.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('image.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px; /* Adjust maximum width for better mobile layout */
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block; /* Ensure buttons occupy full width */
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Media Query for Mobile Phones */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            .btn {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Fruit & Disease Detection App</h1>
+        <a href="/fruit_detection" class="btn">Fruit Detection</a>
+        <a href="/disease_detection" class="btn">Disease Detection</a>
+    </div>
+</body>
+</html>
+</file>
+
+<file path="train2/templates/mango_detection.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mango Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-size: cover; /* Prevent background color repeat */
+            background-attachment: fixed; /* Ensure background remains fixed */
+        }
+
+       
+        .container {
+            max-width: 800px;
+            padding: 50px;
+            background: inherit;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        p {
+            margin-top: 60px;
+
+            text-align: center;
+            font-size: 40px;
+            color: #007bff;
+            background: linear-gradient(45deg, #ff7300, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        label {
+            display: block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        label:hover {
+            background-color: #0056b3;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        .btn {
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0; 
+            width: 100%; 
+            background-color: #f5f7fa;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end;
+      
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-top: 2px solid white; /* White line on top */
+        }
+        
+          
+      
+        @media screen and (min-width: 1200px) {
+  
+            .menu-bar {
+                right: 50px; 
+            }
+        }
+
+        .menu {
+            display: flex;
+          }
+          
+          .menu-item {
+            text-decoration: none;
+            padding: 10px 20px;
+            color: #007bff;
+            background: linear-gradient(45deg, #ff7300, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          
+          .menu-item:hover {
+            background-color: #555;
+          }
+
+
+          @media screen and (max-width: 1200px) {
+            .container {
+                padding: 15px;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 95%; 
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .container {
+                max-width: 100%; 
+                padding: 10px; 
+            }
+        }
+        
+              
+        @media screen and (max-width: 1200px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 28px;
+            }
+            .menu-item {
+                padding: 8px 16px; 
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 95%; 
+                padding: 40px; 
+            }
+            p {
+                font-size: 30px;
+            }
+            .menu-item {
+                padding: 6px 12px;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .container {
+                max-width: 100%;
+                padding: 40px; 
+            }
+            p {
+                font-size: 30px; 
+            }
+            .menu-item {
+                padding: 4px 8px; 
+            }
+        }
+      
+    </style>
+</head>
+<body>
+
+    <div class="menu-bar" >
+        <div class="menu">
+          <a href="/" class="menu-item">Home</a>
+          <a href="/" class="menu-item">Info</a>
+          <a href="/" class="menu-item">About  </a>
+          <a href="#" class="menu-item">  </a>
+          
+        </div>
+      </div>
+
+
+    <div class="container">
+        <p >Mango Detection</p>
+        <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
+            <input type="file" name="file" id="fileInput" onchange="displayFileName()">
+            <label for="fileInput">Choose Mango Image</label>
+            <p class="file-name" id="fileName"></p>
+            <br>
+            <button type="submit" class="btn">Detect Disease</button>
+        </form>
+    </div>
+
+    <script>
+        function displayFileName() {
+            const fileInput = document.getElementById('fileInput');
+            const fileNameDisplay = document.getElementById('fileName');
+            fileNameDisplay.textContent = fileInput.files[0].name;
+        }
+    </script>
+</body>
+</html>
+</file>
+
+<file path="train2/templates/uploaded_image.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploaded Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        li {
+            margin-bottom: 5px;
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+        }
+
+        .back-btn a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .back-btn a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Uploaded Image</h1>
+        <img src="data:image/jpeg;base64,{{ img_str }}" alt="Uploaded Image">
+        <h2>Detected Classes:</h2>
+        <ul>
+            {% for class_name in class_names %}
+            <li>{{ class_name }}</li>
+            {% endfor %}
+        </ul>
+        <div class="back-btn">
+            <a href="/">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
+</file>
+
+<file path="train4/args.yaml">
+task: classify
+mode: train
+model: yolov8n-cls.pt
+data: C:/Users/hp/PycharmProjects/pythonProject/Pomegranate Diseases dataset
+epochs: 10
+time: null
+patience: 100
+batch: 60
+imgsz: 224
+save: true
+save_period: -1
+cache: false
+device: null
+workers: 8
+project: null
+name: train4
+exist_ok: false
+pretrained: true
+optimizer: auto
+verbose: true
+seed: 0
+deterministic: true
+single_cls: false
+rect: false
+cos_lr: false
+close_mosaic: 10
+resume: false
+amp: true
+fraction: 1.0
+profile: false
+freeze: null
+multi_scale: false
+overlap_mask: true
+mask_ratio: 4
+dropout: 0.0
+val: true
+split: val
+save_json: false
+save_hybrid: false
+conf: null
+iou: 0.7
+max_det: 300
+half: false
+dnn: false
+plots: true
+source: null
+vid_stride: 1
+stream_buffer: false
+visualize: false
+augment: false
+agnostic_nms: false
+classes: null
+retina_masks: false
+embed: null
+show: false
+save_frames: false
+save_txt: false
+save_conf: false
+save_crop: false
+show_labels: true
+show_conf: true
+show_boxes: true
+line_width: null
+format: torchscript
+keras: false
+optimize: false
+int8: false
+dynamic: false
+simplify: false
+opset: null
+workspace: 4
+nms: false
+lr0: 0.01
+lrf: 0.01
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.1
+box: 7.5
+cls: 0.5
+dfl: 1.5
+pose: 12.0
+kobj: 1.0
+label_smoothing: 0.0
+nbs: 64
+hsv_h: 0.015
+hsv_s: 0.7
+hsv_v: 0.4
+degrees: 0.0
+translate: 0.1
+scale: 0.5
+shear: 0.0
+perspective: 0.0
+flipud: 0.0
+fliplr: 0.5
+mosaic: 1.0
+mixup: 0.0
+copy_paste: 0.0
+auto_augment: randaugment
+erasing: 0.4
+crop_fraction: 1.0
+cfg: null
+tracker: botsort.yaml
+save_dir: runs\classify\train4
+</file>
+
+<file path="train4/results.csv">
+epoch,             train/loss,  metrics/accuracy_top1,  metrics/accuracy_top5,               val/loss,                 lr/pg0,                 lr/pg1,                 lr/pg2
+                      1,                0.91768,                0.94917,                      1,                      1,              0.0002352,              0.0002352,              0.0002352
+                      2,                0.13669,                0.97144,                      1,                0.95401,             0.00042635,             0.00042635,             0.00042635
+                      3,                  0.085,                0.98115,                      1,                0.94258,             0.00057038,             0.00057038,             0.00057038
+                      4,                0.07616,                0.98344,                      1,                0.92832,             0.00050194,             0.00050194,             0.00050194
+                      5,                0.05308,                0.99029,                      1,                0.92277,             0.00050194,             0.00050194,             0.00050194
+                      6,                0.03646,                0.98858,                      1,                0.92143,             0.00043126,             0.00043126,             0.00043126
+                      7,                 0.0519,                0.99486,                      1,                0.91513,             0.00036057,             0.00036057,             0.00036057
+                      8,                0.03037,                0.99714,                      1,                0.91187,             0.00028988,             0.00028988,             0.00028988
+                      9,                0.02979,                0.99886,                      1,                0.91035,              0.0002192,              0.0002192,              0.0002192
+                     10,                0.02891,                0.99886,                      1,                0.90943,             0.00014851,             0.00014851,             0.00014851
+</file>
+
+<file path="README.md">
+# Fruit Ripeness and Disease Detection System
+
+## Introduction
+
+Welcome to the Fruit Ripeness and Disease Detection System! This application utilizes advanced YOLO (You Only Look Once) models to detect various fruits and diagnose diseases in bananas, mangoes, and pomegranates. Built with Flask, the web application allows users to either upload images for analysis or use a live video feed for real-time detection and diagnosis.
+
+## Datasets
+
+The models were trained using specialized datasets, which can be accessed here:
+- [Fruit Detection Dataset](#)
+- [Banana Disease Detection Dataset](#)
+- [Mango Disease Detection Dataset](#)
+- [Pomegranate Disease Detection Dataset](#)
+
+## Project Structure
+
+The project is organized as follows:
+
+```
+Fruit-and-Disease-Detection/
+│
+├── templates/
+│   ├── index.html
+│   ├── fruit_detection.html
+│   ├── disease_detection.html
+│   ├── banana_detection.html
+│   ├── mango_detection.html
+│   ├── pomogranate_detection.html
+│   ├── uploaded_image.html
+│
+├── static/
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│
+├── app.py
+├── requirements.txt
+└── README.md
+```
+
+## Installation
+
+To set up the project locally, follow these steps:
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/AshishTukaral/Fruit-Ripeness-and-Disease-Detection.git
+cd fruit-and-disease-detection
+```
+
+2. Install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Running the Application
+
+Start the Flask application by running:
+
+```bash
+python app.py
+```
+
+Access the application in your browser at `http://0.0.0.0:5000`.
+
+## Features
+
+### Home Page
+
+The main landing page, accessible at `/`, provides links to various functionalities of the application.
+
+### Fruit Detection
+
+- **Page**: `/fruit_detection`
+- **Live Video Feed**: `/video_feed`
+- **Image Detection Endpoint**: `/detect_objects`
+
+This feature allows users to use a live video feed for real-time fruit detection or upload images for analysis.
+
+### Disease Detection
+
+- **Main Page**: `/disease_detection`
+- **Banana Disease Detection**: `/banana_detection`
+- **Mango Disease Detection**: `/mango_detection`
+- **Pomegranate Disease Detection**: `/pomogranate_detection`
+
+Users can upload images of specific fruits to detect diseases. Each fruit type has its dedicated YOLO model.
+
+### Uploaded Images
+
+- **Endpoint**: `/uploads/<filename>`
+
+This endpoint displays the uploaded images along with the detection results.
+
+## YOLO Models
+
+The application utilizes several YOLO models for different detection tasks:
+
+- **Fruit Detection Model**: `weights_3/best.pt`
+- **Banana Disease Detection Model**: `train2/weights/best.pt`
+- **Mango Disease Detection Model**: `train/weights/best.pt`
+- **Pomegranate Disease Detection Model**: `train4/weights/best.pt`
+
+## API Endpoints
+
+The application provides several API endpoints:
+
+- **Home**: `GET /`
+- **Fruit Detection**: `GET /fruit_detection`
+- **Video Feed**: `GET /video_feed`
+- **Detect Objects**: `POST /detect_objects`
+- **Disease Detection**: `GET /disease_detection`
+- **Banana Detection**: `GET, POST /banana_detection`
+- **Mango Detection**: `GET, POST /mango_detection`
+- **Pomegranate Detection**: `GET, POST /pomogranate_detection`
+- **Uploaded Image**: `GET /uploads/<filename>`
+
+
+## Output
+
+Here are some example outputs generated by the system:
+
+
+![Fruit Ripeness and Disease Detection System](https://github.com/AshishTukaral/Fruit-Ripeness-and-Disease-Detection/blob/5f7cb8ad19e70d4230ae64af1b1596af22e7af88/Images/WhatsApp%20Image%202024-10-05%20at%209.34.34%20PM.jpeg)  
+
+ 
+
+
+## Contribution
+
+We welcome contributions! Feel free to fork the repository, make your changes, and submit a pull request. For issues or feature requests, open an issue on the repository.
+</file>
+
+</files>

@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}Results - RipeSense{% endblock %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<div class="container">
+    <div class="row g-5 align-items-center">
+        
+        <div class="col-lg-5 text-center fade-in-up">
+            <div class="card border-0 glass-card rounded-4 overflow-hidden position-relative p-2">
+                <img src="data:image/jpeg;base64,{{ img_str }}" class="img-fluid rounded-3 w-100 shadow-sm" style="object-fit: cover; min-height: 350px;">
+                <div class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white py-2">
+                    <small class="fw-bold tracking-wide">ANALYZED SAMPLE</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 fade-in-up" style="animation-delay: 0.2s;">
+            <div class="card border-0 glass-card rounded-4 h-100">
+                <div class="card-body p-4 p-md-5">
+
+                    {% if not_fruit %}
+                    <div class="alert alert-danger border-0 rounded-3 text-center py-5">
+                        <div class="display-1 mb-3">⚠️</div>
+                        <h4 class="fw-bold text-danger">Object Not Recognized</h4>
+                        <p class="mb-0">Gatekeeper Model detected: <strong>{{ detected_object }}</strong></p>
+                        <hr class="w-50 mx-auto text-danger">
+                        <small class="text-muted">System is calibrated for: Banana, Mango, Tomato.</small>
+                        <div class="mt-4">
+                             <a href="{{ url_for('ripeness_detection') }}" class="btn btn-outline-danger rounded-pill">Try Again</a>
+                        </div>
+                    </div>
+
+                    {% elif ripeness_result %}
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                            <h5 class="text-muted text-uppercase fw-bold mb-0" style="letter-spacing: 1px;">AI Diagnostics</h5>
+                            {% if class_names %}
+                                <span class="badge bg-primary fs-6 rounded-pill px-4 py-2">{{ class_names[0] | title }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="text-center py-4 rounded-4 mb-4"
+                             style="background: {% if ripeness_result.ripeness_level == 'Ripe' %}#FFF3E0{% elif ripeness_result.ripeness_level == 'Unripe' %}#E8F5E9{% else %}#FFEBEE{% endif %};">
+                            
+                            <h6 class="fw-bold text-uppercase text-muted mb-1">Ripeness Status</h6>
+                            <h1 class="display-3 fw-bold mb-2" 
+                                style="color: {% if ripeness_result.ripeness_level == 'Ripe' %}#F57C00{% elif ripeness_result.ripeness_level == 'Unripe' %}#2E7D32{% else %}#C62828{% endif %};">
+                                {{ ripeness_result.ripeness_level }}
+                            </h1>
+                            <span class="badge bg-white text-dark shadow-sm px-3 py-2 rounded-pill">
+                                Confidence: {{ (ripeness_result.confidence * 100)|round(1) }}%
+                            </span>
+                        </div>
+
+                        <h6 class="fw-bold mb-3">Color Composition</h6>
+                        
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="small fw-bold text-success w-25">Unripe</span>
+                            <div class="progress flex-grow-1" style="height: 10px; background-color: #E8F5E9;">
+                                <div class="progress-bar bg-success" style="width: {{ ripeness_result.color_analysis.green_percentage }}%"></div>
+                            </div>
+                            <span class="small ms-2 text-muted fw-bold">{{ ripeness_result.color_analysis.green_percentage|round }}%</span>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="small fw-bold text-warning w-25">
+                                {% if is_red_fruit %}Turning{% else %}Ripe{% endif %}
+                            </span>
+                            <div class="progress flex-grow-1" style="height: 10px; background-color: #FFF8E1;">
+                                <div class="progress-bar bg-warning" style="width: {{ ripeness_result.color_analysis.yellow_percentage }}%"></div>
+                            </div>
+                            <span class="small ms-2 text-muted fw-bold">{{ ripeness_result.color_analysis.yellow_percentage|round }}%</span>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-4">
+                            <span class="small fw-bold text-danger w-25">
+                                {% if is_red_fruit %}Ripe (Red){% else %}Overripe{% endif %}
+                            </span>
+                            <div class="progress flex-grow-1" style="height: 10px; background-color: #FFEBEE;">
+                                <div class="progress-bar bg-danger" style="width: {{ ripeness_result.color_analysis.brown_percentage }}%"></div>
+                            </div>
+                            <span class="small ms-2 text-muted fw-bold">{{ ripeness_result.color_analysis.brown_percentage|round }}%</span>
+                        </div>
+
+                        {% if nutrition %}
+                        <div class="bg-light p-4 rounded-4 mb-4">
+                            <h6 class="fw-bold text-uppercase text-muted mb-3">Nutritional Profile <span class="small">(per 100g)</span></h6>
+                            
+                            <div class="row g-2">
+                                <div class="col-3 text-center border-end">
+                                    <small class="text-muted d-block" style="font-size: 0.7rem;">CALORIES</small>
+                                    <span class="fw-bold">{{ nutrition.calories }}</span>
+                                </div>
+                                <div class="col-3 text-center border-end">
+                                    <small class="text-muted d-block" style="font-size: 0.7rem;">SUGAR</small>
+                                    <span class="fw-bold">{{ nutrition.sugar }}</span>
+                                </div>
+                                <div class="col-3 text-center border-end">
+                                    <small class="text-muted d-block" style="font-size: 0.7rem;">FIBER</small>
+                                    <span class="fw-bold">{{ nutrition.fiber }}</span>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <small class="text-muted d-block" style="font-size: 0.7rem;">VITAMIN</small>
+                                    <span class="fw-bold">{{ nutrition.vitamin }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-success d-flex align-items-center border-0 shadow-sm" role="alert">
+                            <span class="fs-4 me-3">💡</span>
+                            <div>
+                                <small class="fw-bold text-uppercase text-success">Health Benefit</small><br>
+                                <small class="text-dark">{{ nutrition.benefit }}</small>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="text-center mt-4 mb-3">
+                            <button onclick="window.print()" class="btn btn-link text-muted text-decoration-none small">
+                                🖨️ Download PDF Report
+                            </button>
+                        </div>
+
+                    {% endif %}
+
+                    <div class="row g-2 mt-4">
+                        <div class="col-6">
+                            <a href="/" class="btn btn-outline-secondary w-100 rounded-pill py-2">Home</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="{{ url_for('ripeness_detection') }}" class="btn btn-success w-100 rounded-pill py-2">Scan Again</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if ripeness_result %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const status = "{{ ripeness_result.ripeness_level }}";
+        
+        // Only fire if "Ripe"
+        if (status === "Ripe") {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                // Launch from two sides
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.1, y: 0.6 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.9, y: 0.6 } }));
+            }, 250);
+        }
+    });
+</script>
+{% endif %}
+{% endblock %}

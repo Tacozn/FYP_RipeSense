@@ -1,0 +1,247 @@
+[
+    {
+        "timestamp": "2025-12-10 23:32:41",
+        "file": "unnamed__44_-removebg-preview.png",
+        "fruit": "Unknown Fruit",
+        "result": "Overripe",
+        "confidence": "85.0%"
+    },
+    {
+        "timestamp": "2025-12-10 23:38:07",
+        "file": "bananna.jpeg",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "92.3%"
+    },
+    {
+        "timestamp": "2025-12-10 23:38:18",
+        "file": "unnamed__44_-removebg-preview.png",
+        "fruit": "Unknown Fruit",
+        "result": "Overripe",
+        "confidence": "85.0%"
+    },
+    {
+        "timestamp": "2025-12-10 23:43:42",
+        "file": "bananna.jpeg",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "92.3%"
+    },
+    {
+        "timestamp": "2025-12-10 23:53:48",
+        "file": "bananna.jpeg",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "92.3%"
+    },
+    {
+        "timestamp": "2025-12-11 00:43:06",
+        "file": "9921387.png",
+        "fruit": "Raw Banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-11 00:47:12",
+        "file": "9921387.png",
+        "fruit": "Raw Banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:02:01",
+        "file": "9921387.png",
+        "fruit": "Raw Banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:06:40",
+        "file": "1000122838.jpg",
+        "fruit": "Ripe Banana",
+        "result": "Overripe",
+        "confidence": "85.0%"
+    },
+    {
+        "timestamp": "2025-12-11 01:09:43",
+        "file": "download_3.jpg",
+        "fruit": "Ripe Mango",
+        "result": "Overripe",
+        "confidence": "85.0%"
+    },
+    {
+        "timestamp": "2025-12-11 01:13:54",
+        "file": "download_3.jpg",
+        "fruit": "Ripe Mango",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-11 01:14:03",
+        "file": "tomato.jpg",
+        "fruit": "Unidentified Fruit",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:14:25",
+        "file": "9921387.png",
+        "fruit": "Raw Banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:14:37",
+        "file": "unnamed__44_-removebg-preview.png",
+        "fruit": "Unidentified Fruit",
+        "result": "Overripe",
+        "confidence": "89.0%"
+    },
+    {
+        "timestamp": "2025-12-11 01:15:26",
+        "file": "house.jpg",
+        "fruit": "Unidentified Fruit",
+        "result": "Overripe",
+        "confidence": "89.0%"
+    },
+    {
+        "timestamp": "2025-12-11 01:15:40",
+        "file": "download_3.jpg",
+        "fruit": "Ripe Mango",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-11 01:15:46",
+        "file": "tomato.jpg",
+        "fruit": "Unidentified Fruit",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:23:56",
+        "file": "tomato.jpg",
+        "fruit": "hip",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:24:03",
+        "file": "download_3.jpg",
+        "fruit": "spaghetti_squash",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-11 01:26:24",
+        "file": "download_3.jpg",
+        "fruit": "spaghetti_squash",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-11 01:26:40",
+        "file": "tomato.jpg",
+        "fruit": "hip",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:30:29",
+        "file": "tomato.jpg",
+        "fruit": "hip",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:32:28",
+        "file": "tomato.jpg",
+        "fruit": "hip",
+        "result": "Unripe",
+        "confidence": "88.0%"
+    },
+    {
+        "timestamp": "2025-12-11 01:32:42",
+        "file": "tomato.jpg",
+        "fruit": "hip",
+        "result": "Unripe",
+        "confidence": "88.0%"
+    },
+    {
+        "timestamp": "2025-12-11 01:32:48",
+        "file": "tomato.jpg",
+        "fruit": "hip",
+        "result": "Unripe",
+        "confidence": "88.0%"
+    },
+    {
+        "timestamp": "2025-12-11 01:34:48",
+        "file": "tomato.jpg",
+        "fruit": "hip",
+        "result": "Ripe",
+        "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:44:24",
+        "file": "tomato.jpg",
+        "fruit": "Tomato",
+        "result": "Ripe",
+        "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:44:37",
+        "file": "download_3.jpg",
+        "fruit": "spaghetti_squash",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-11 01:47:32",
+        "file": "tomato.jpg",
+        "fruit": "Tomato",
+        "result": "Ripe",
+        "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:54:21",
+        "file": "tomato.jpg",
+        "fruit": "Tomato",
+        "result": "Ripe",
+        "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:54:39",
+        "file": "bananna.jpeg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-11 01:57:19",
+        "file": "tomato.jpg",
+        "fruit": "Tomato",
+        "result": "Ripe",
+        "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-11 01:58:51",
+        "file": "tomato.jpg",
+        "fruit": "Tomato",
+        "result": "Ripe",
+        "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-11 02:02:17",
+        "file": "tomato.jpg",
+        "fruit": "Tomato",
+        "result": "Ripe",
+        "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-11 02:14:23",
+        "file": "tomato.jpg",
+        "fruit": "Tomato",
+        "result": "Ripe",
+        "confidence": "96.5%"
+    }
+]

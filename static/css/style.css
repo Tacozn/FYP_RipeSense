@@ -1,0 +1,239 @@
+/* --- 1. MODERN VARIABLES --- */
+:root {
+    --primary-color: #2E7D32; /* Deep Fresh Green */
+    --accent-color: #81C784;  /* Soft Green */
+    --warning-color: #FFC107; /* Ripe Yellow */
+    --danger-color: #D32F2F;  /* Overripe Red */
+    --dark-bg: #1B5E20;       /* Dark Green Navbar */
+    --light-bg: #F1F8E9;      /* Very Light Green Tint */
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--light-bg);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- 2. GLASS NAVBAR (THE NEW PART!) --- */
+.navbar {
+    background: rgba(27, 94, 32, 0.85) !important; /* Semi-transparent Green */
+    backdrop-filter: blur(12px); /* The Blur Effect */
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.8rem 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    font-size: 1.4rem;
+    color: white !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.75) !important; /* Slightly faded text */
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: 30px; /* Pill Shape */
+    margin: 0 3px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+}
+
+/* Hover & Active State */
+.nav-link:hover, .nav-link.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Mobile Toggler */
+.navbar-toggler {
+    color: white !important;
+    border-color: rgba(255,255,255,0.5) !important;
+}
+
+/* --- 3. GLASSMORPHISM CARDS --- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-effect:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+/* --- 4. HERO & STATS --- */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    color: white;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+}
+.hero-overlay {
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border-bottom: 5px solid var(--primary-color);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+.stat-card:hover { transform: translateY(-10px); }
+.stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+/* --- 5. ANIMATIONS --- */
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scanning Overlay */
+.scan-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.scanner-box {
+    width: 300px; height: 300px;
+    border: 2px solid #2E7D32;
+    position: relative;
+    box-shadow: 0 0 20px #2E7D32;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.scan-line {
+    width: 100%; height: 4px;
+    background: #00FF00;
+    box-shadow: 0 0 15px #00FF00;
+    position: absolute;
+    top: 0;
+    animation: scanMove 2s infinite linear;
+}
+@keyframes scanMove {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+.scan-text {
+    margin-top: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    animation: blink 1s infinite;
+}
+@keyframes blink { 50% { opacity: 0.5; } }
+
+/* --- 6. UTILITIES --- */
+.upload-zone {
+    border: 3px dashed #A5D6A7;
+    background-color: #F9FBE7;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.upload-zone:hover {
+    border-color: var(--primary-color);
+    background-color: #E8F5E9;
+}
+
+.nutrition-card {
+    background: #fff;
+    border-left: 4px solid var(--primary-color);
+    transition: transform 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.nutrition-card:hover { transform: scale(1.05); }
+
+.fruit-badge {
+    background: white;
+    border: 1px solid #eee;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    display: inline-block;
+    margin: 5px;
+}
+
+/* --- 7. CAMERA HUD --- */
+.camera-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+.hud-overlay { position: absolute; top: 20px; left: 20px; z-index: 10; }
+.recording-indicator {
+    width: 12px; height: 12px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    animation: blink 1s infinite;
+}
+.scan-grid {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+/* --- 8. PRINT STYLES --- */
+@media print {
+    body { background: white; }
+    .navbar, .btn, .alert-success, footer, .hero-overlay, .fade-in-up {
+        display: none !important;
+    }
+    .card, .glass-card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        background: white !important;
+    }
+    .container { width: 100%; max-width: 100%; margin: 0; padding: 0; }
+    * { color: black !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+}

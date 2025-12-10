@@ -1,211 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fruit Detection</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-image:url({{url_for('static', filename='image.jpg')}});
-            background-repeat:no-repeat;
-            background-attachment:fixed;
-            background-size:100% 100%;
-            background-position:center;
-        }
-        .container {
-            width: 90%;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        h1 {
-            text-align: center;
-            font-size: 36px;
-            color: #007bff;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #ff7300, #ff0000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .video-container {
-            width: 100%;
-            position: relative;
-            padding-top: 100%; /* 1:1 Aspect Ratio (Square) */
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        #video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .detected-info-container {
-            width: 100%;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            box-sizing: border-box;
-        }
-        .detected-info-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            background: #007bff;
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 24px; /* Increased font size */
-        }
-        .detected-objects p {
-            font-size: 18px; /* Increased font size */
-            margin-bottom: 15px;
-            background: #e9ecef;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .back-btn {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .back-btn a {
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-            transition: color 0.3s;
-            font-size: 20px; /* Increased font size */
-            display: inline-block;
-            background-color: #f8f9fa;
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
-        .back-btn a:hover {
-            color: #0056b3;
-        }
+{% extends "base.html" %}
+{% block title %}Live - RipeSense{% endblock %}
 
-        /* Media Query for Laptop Screens */
-        @media screen and (min-width: 768px) {
-            .video-container {
-                width: 50%;
-                margin-right: 20px;
-                margin-bottom: 0;
-            }
-            .detected-info-container {
-                width: 45%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Fruit Detection</h1>
-        <div class="video-container">
-            <video id="video" autoplay playsinline></video>
-        </div>
-        <div class="detected-info-container">
-            <h2>Detection Info</h2>
-            <div class="detected-objects" id="detected-objects"></div>
-            <div class="back-btn">
-                <a href="/">Back to Home</a>
+{% block content %}
+<div class="container fade-in-up">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold">Live Object Detection</h2>
+                <span class="badge bg-danger rounded-pill px-3 py-2">
+                    <span class="recording-indicator me-2"></span> LIVE FEED
+                </span>
             </div>
+
+            <div class="camera-container aspect-ratio-16x9 mb-4">
+                
+                <div class="hud-overlay">
+                    <span class="badge bg-black bg-opacity-50 border border-success text-success font-monospace">
+                        YOLOv8 MODEL ACTIVE
+                    </span>
+                </div>
+                <div class="scan-grid"></div>
+
+                <video id="video" autoplay playsinline class="w-100" style="display: block;"></video>
+                <canvas id="canvas" class="w-100 h-100" style="position: absolute; top: 0; left: 0;"></canvas>
+            
+            </div>
+
+            <div class="card glass-card border-0 p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h5 class="fw-bold">Session Controls</h5>
+                        <p class="text-muted small mb-0">Stream runs locally in browser. No data is sent to server.</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <a href="/" class="btn btn-outline-danger rounded-pill px-4">Stop Stream</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
 
-    <script>
-        const video = document.getElementById('video');
-        const detectedObjectsElement = document.getElementById('detected-objects');
+<script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
 
-        // Function to initialize the camera feed and object detection
-        function initializeCamera() {
-            navigator.mediaDevices.enumerateDevices()
-                .then(devices => {
-                    // Find the video input devices
-                    const videoDevices = devices.filter(device => device.kind === 'videoinput');
-
-                    // Check if any video devices are found
-                    if (videoDevices.length > 0) {
-                        // Find the back camera device (if available)
-                        const backCamera = videoDevices.find(device => device.label.toLowerCase().includes('back'));
-
-                        // Set constraints to use the back camera
-                        const constraints = {
-                            video: {
-                                facingMode: backCamera ? { exact: 'environment' } : 'user'
-                            }
-                        };
-
-                        // Get user media based on the constraints
-                        return navigator.mediaDevices.getUserMedia(constraints);
-                    } else {
-                        throw new Error('No video devices found.');
-                    }
-                })
-                .then(stream => {
-                    // Set the video element's source to the camera stream
-                    video.srcObject = stream;
-                    // Start detecting objects
-                    detectObjects();
-                })
-                .catch(error => {
-                    console.error('Error accessing the camera:', error);
-                });
-        }
-
-        // Function to detect objects in the camera feed
-        function detectObjects() {
-            setInterval(() => {
-                const canvas = document.createElement('canvas');
+    // Access Webcam
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(stream => {
+            video.srcObject = stream;
+            video.onloadedmetadata = () => {
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                const imageData = canvas.toDataURL('image/jpeg');
+                startDetection(); // Start the loop
+            };
+        })
+        .catch(err => console.error("Camera Error:", err));
 
-                // Send image data to the server for object detection
-                fetch('/detect_objects', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ image_data: imageData }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Clear previous detected objects
-                    detectedObjectsElement.innerHTML = '';
+    function startDetection() {
+        setInterval(() => {
+            // Draw video to canvas (hidden processing step)
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/jpeg');
 
-                    // Process the detected objects data returned from the server
-                    data.forEach(object => {
-                        const { class: className, bbox, confidence } = object;
+            // Send to Backend
+            fetch('/detect_objects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image_data: imageData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear old boxes
+                
+                data.forEach(obj => {
+                    const [x1, y1, x2, y2] = obj.bbox;
+                    const width = x2 - x1;
+                    const height = y2 - y1;
 
-                        // Extract raw/ripe status from class name
-                        const rawRipe = className.split(' ')[0];
+                    // Draw Bounding Box
+                    ctx.strokeStyle = '#00FF00';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(x1, y1, width, height);
 
-                        // Extract fruit name from class name
-                        const fruitName = className.split(' ')[1];
-
-                        // Create a paragraph element for each detected object
-                        const paragraph = document.createElement('p');
-                        paragraph.innerHTML = `<strong>Name of fruit:</strong> ${fruitName}<br><strong>Raw/Ripe:</strong> ${rawRipe}<br><strong>Confidence:</strong> ${Math.round(confidence * 100)}%`;
-
-                        // Append paragraph to the container
-                        detectedObjectsElement.appendChild(paragraph);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error detecting objects:', error);
+                    // Draw Label
+                    ctx.fillStyle = '#00FF00';
+                    ctx.fillRect(x1, y1 - 25, width, 25);
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.fillText(`${obj.class} (${Math.round(obj.confidence * 100)}%)`, x1 + 5, y1 - 7);
                 });
-            }, 1000); // Adjust the interval as needed
-        }
-
-        // Initialize camera and start object detection
-        initializeCamera();
-    </script>
-</body>
-</html>
+            })
+            .catch(err => console.log("Detection Error (Is backend running?):", err));
+        }, 500); // Run every 500ms (2 FPS)
+    }
+</script>
+{% endblock %}

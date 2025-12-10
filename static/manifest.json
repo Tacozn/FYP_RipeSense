@@ -1,0 +1,21 @@
+{
+    "name": "RipeSense AI",
+    "short_name": "RipeSense",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#28a745",
+    "description": "Precision Fruit Ripeness Detection",
+    "icons": [
+      {
+        "src": "/static/icon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/static/icon.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }

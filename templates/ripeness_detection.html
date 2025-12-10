@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Analyze - RipeSense{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-success">Analyze Fruit Ripeness</h2>
+            <p class="text-muted">Upload a photo to detect freshness instantly.</p>
+        </div>
+
+        <div class="card shadow-lg p-4 border-0 rounded-4">
+            <div class="card-body">
+                
+                <div id="scanOverlay" class="scan-overlay">
+                    <div class="scanner-box">
+                        <img id="scanImage" src="" style="width:100%; height:100%; object-fit:cover; opacity:0.6;">
+                        <div class="scan-line"></div>
+                    </div>
+                    <div class="scan-text">Analyzing Neural Patterns...</div>
+                    <div class="spinner-border text-success mt-3" role="status"></div>
+                </div>
+                
+                <form id="uploadForm" action="{{ url_for('detect_ripeness') }}" method="post" enctype="multipart/form-data">
+                    
+                    <label for="fileInput" class="upload-zone w-100 p-5 text-center mb-4 d-block position-relative">
+                        <div id="uploadText">
+                            <div class="display-4 text-success mb-3">☁️</div>
+                            <h5 class="fw-bold">Tap to Select Image</h5>
+                        </div>
+                        
+                        <img id="preview" src="#" alt="Preview" 
+                             style="display: none; max-height: 250px; width: auto; margin: 0 auto; border-radius: 15px;">
+                        
+                        <input type="file" id="fileInput" name="file" accept="image/*" 
+                               style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;"
+                               onchange="showPreview(event)" required>
+                    </label>
+                
+                    <div class="d-grid gap-3">
+                        <button type="button" onclick="startScan()" class="btn btn-success btn-lg rounded-pill shadow-sm">
+                            ✨ Run AI Analysis
+                        </button>
+                        <a href="/" class="btn btn-outline-secondary rounded-pill border-0">Cancel</a>
+                    </div>
+                </form>
+                
+                <script>
+                    function showPreview(event) {
+                        if(event.target.files.length > 0){
+                            var src = URL.createObjectURL(event.target.files[0]);
+                            var preview = document.getElementById("preview");
+                            var text = document.getElementById("uploadText");
+                            var scanImage = document.getElementById("scanImage"); // For the scanner
+                            
+                            preview.src = src;
+                            preview.style.display = "block";
+                            scanImage.src = src; // Set the scanner image too
+                            text.style.display = "none";
+                        }
+                    }
+                
+                    function startScan() {
+                        const fileInput = document.getElementById('fileInput');
+                        if (fileInput.files.length === 0) {
+                            alert("Please select an image first!");
+                            return;
+                        }
+                
+                        // 1. Show the cool overlay
+                        document.getElementById('scanOverlay').style.display = 'flex';
+                
+                        // 2. Wait 2.5 seconds (Fake "Thinking" Time)
+                        setTimeout(() => {
+                            // 3. Actually submit the form
+                            document.getElementById('uploadForm').submit();
+                        }, 2500); 
+                    }
+                </script>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showPreview(event) {
+        if(event.target.files.length > 0){
+            var src = URL.createObjectURL(event.target.files[0]);
+            var preview = document.getElementById("preview");
+            var text = document.getElementById("uploadText");
+            
+            preview.src = src;
+            preview.style.display = "block";
+            text.style.display = "none"; // Hide the cloud icon text
+        }
+    }
+</script>
+{% endblock %}

@@ -1,3 +1,7 @@
-Flask
-ultralytics
-cv2
+Flask==3.0.0
+opencv-python-headless==4.8.1.78
+numpy==1.26.2
+Pillow==10.1.0
+ultralytics==8.0.227
+gunicorn==21.2.0
+werkzeug==3.0.1
