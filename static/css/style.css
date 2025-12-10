@@ -237,3 +237,50 @@ body {
     .container { width: 100%; max-width: 100%; margin: 0; padding: 0; }
     * { color: black !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }
+
+/* =========================================
+   MOBILE OPTIMIZATIONS
+   (Only applies to screens smaller than 768px)
+   ========================================= */
+   @media (max-width: 768px) {
+    
+    /* 1. Shrink the Giant Title */
+    .hero-section h1.display-3 {
+        font-size: 2.2rem !important; /* Much smaller than desktop */
+        line-height: 1.2;
+    }
+
+    /* 2. Shrink the Subtitle */
+    .hero-section p.lead {
+        font-size: 1rem !important;
+        padding: 0 15px; /* Add breathing room on sides */
+    }
+
+    /* 3. Fix the Buttons (Stack them vertically) */
+    .hero-section .d-flex {
+        flex-direction: column; /* Stack top-to-bottom instead of side-by-side */
+        width: 100%;
+        align-items: center;
+    }
+
+    /* 4. Make Buttons wide and easy to tap */
+    .hero-section .btn {
+        width: 80% !important; /* Buttons take up 80% of screen width */
+        margin-bottom: 10px;   /* Space between buttons */
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    /* 5. Reduce the huge Green Card padding */
+    .hero-section {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+        margin-bottom: 2rem !important;
+    }
+
+    /* 6. Fix the "Stats" cards stacking */
+    .stat-card {
+        margin-bottom: 15px;
+        padding: 1.5rem !important;
+    }
+}
