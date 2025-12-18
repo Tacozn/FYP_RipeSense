@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Model Performance - RipeSense{% endblock %}
+
+{% block content %}
+<div class="container fade-in-up">
+    <div class="text-center mb-5">
+        <h6 class="text-uppercase text-success fw-bold">System Evaluation</h6>
+        <h2 class="fw-bold">Model Performance Metrics</h2>
+        <p class="text-muted">Evaluation based on YOLOv8 Classification on the test dataset.</p>
+    </div>
+
+    <div class="row g-4 mb-5 justify-content-center">
+        <div class="col-6 col-md-3">
+            <div class="p-4 bg-white rounded-4 shadow-sm text-center border h-100 d-flex flex-column justify-content-center">
+                <h2 class="fw-bold text-success mb-0">{{ metrics.accuracy }}</h2>
+                <small class="text-muted text-uppercase fw-bold mt-2">Accuracy</small>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="p-4 bg-white rounded-4 shadow-sm text-center border h-100 d-flex flex-column justify-content-center">
+                <h2 class="fw-bold text-primary mb-0">{{ metrics.precision }}</h2>
+                <small class="text-muted text-uppercase fw-bold mt-2">Precision</small>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="p-4 bg-white rounded-4 shadow-sm text-center border h-100 d-flex flex-column justify-content-center">
+                <h2 class="fw-bold text-warning mb-0">{{ metrics.recall }}</h2>
+                <small class="text-muted text-uppercase fw-bold mt-2">Recall</small>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="p-4 bg-white rounded-4 shadow-sm text-center border h-100 d-flex flex-column justify-content-center">
+                <h2 class="fw-bold text-info mb-0">{{ metrics.f1_score }}</h2>
+                <small class="text-muted text-uppercase fw-bold mt-2">F1-Score</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-success text-white py-3 text-center">
+                    <h5 class="mb-0 fw-bold">Confusion Matrix</h5>
+                </div>
+                <div class="card-body bg-white text-center p-4">
+                    <img src="{{ url_for('static', filename='images/confusion_matrix_result.png') }}" 
+                         class="img-fluid rounded shadow-sm" 
+                         alt="Confusion Matrix Graph">
+                    
+                    <div class="alert alert-light border mt-4 text-start">
+                        <h6 class="fw-bold text-muted small text-uppercase"><i class="fas fa-info-circle me-1"></i> Analysis</h6>
+                        <p class="small text-muted mb-0">
+                            The matrix above visualizes the model's prediction accuracy across all 9 classes. 
+                            High numbers along the diagonal indicate correct predictions. The low error rate 
+                            confirms the model effectively distinguishes between similar classes like "Unripe Mango" 
+                            and "Unripe Banana" despite color similarities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center mb-5">
+        <a href="/" class="btn btn-outline-secondary rounded-pill px-4">
+            <i class="fas fa-arrow-left me-2"></i> Back to Home
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Page Not Found - RipeSense{% endblock %}
+
+{% block content %}
+<div class="container fade-in-up" style="margin-top: 80px;">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            
+            <div class="card border-0 shadow-lg rounded-4 p-5">
+                <div class="mb-4">
+                    <span class="display-1">🧭</span>
+                </div>
+                <h1 class="fw-bold text-success mb-3">Oops! Lost in the Orchard?</h1>
+                <p class="text-muted lead mb-4">
+                    We couldn't find the page you were looking for. It might have been moved, deleted, or never existed.
+                </p>
+                
+                <div class="d-grid gap-3 col-8 mx-auto">
+                    <a href="/" class="btn btn-success rounded-pill shadow fw-bold py-2">
+                        <i class="fas fa-home me-2"></i>Return Home
+                    </a>
+                    <a href="/ripeness_detection" class="btn btn-outline-secondary rounded-pill fw-bold py-2">
+                        <i class="fas fa-camera me-2"></i>Scan Fruit
+                    </a>
+                </div>
+
+                <div class="mt-4 text-muted small">
+                    Error Code: 404
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

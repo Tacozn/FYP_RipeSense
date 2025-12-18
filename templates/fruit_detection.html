@@ -82,16 +82,22 @@
                     const height = y2 - y1;
 
                     // Draw Bounding Box
-                    ctx.strokeStyle = '#00FF00';
-                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = '#00E676'; // Bright Green (Material Design)
+                    ctx.lineWidth = 4;
                     ctx.strokeRect(x1, y1, width, height);
 
-                    // Draw Label
-                    ctx.fillStyle = '#00FF00';
-                    ctx.fillRect(x1, y1 - 25, width, 25);
-                    ctx.fillStyle = '#000';
+                    // Draw Label Background
+                    ctx.fillStyle = '#00E676';
+                    const text = `${obj.class} ${Math.round(obj.confidence * 100)}%`;
+                    const textWidth = ctx.measureText(text).width;
+                    
+                    // Draw label background box
+                    ctx.fillRect(x1, y1 - 25, textWidth + 10, 25);
+                    
+                    // Draw Text
+                    ctx.fillStyle = '#000000'; // Black text for contrast
                     ctx.font = 'bold 16px Arial';
-                    ctx.fillText(`${obj.class} (${Math.round(obj.confidence * 100)}%)`, x1 + 5, y1 - 7);
+                    ctx.fillText(text, x1 + 5, y1 - 7);
                 });
             })
             .catch(err => console.log("Detection Error (Is backend running?):", err));

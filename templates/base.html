@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"> <title>{% block title %}RipeSense AI{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"> 
+    <title>{% block title %}RipeSense AI{% endblock %}</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,12 +12,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon.png') }}">
-    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/icon.png') }}">
     <meta name="theme-color" content="#2E7D32">
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -26,43 +23,32 @@
     <nav class="navbar navbar-expand-lg fixed-top">
       <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="/">
-            <div class="bg-white text-success rounded-circle d-flex align-items-center justify-content-center me-2" 
-                 style="width: 40px; height: 40px; font-size: 1.2rem;">
-                🍎
-            </div>
+            <img src="{{ url_for('static', filename='/images/icon.png') }}" 
+                 alt="Logo" 
+                 class="rounded-circle me-2"
+                 style="width: 40px; height: 40px; object-fit: cover;">
             RipeSense
         </a>
         
-        <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <i class="fas fa-bars"></i>
-        </button>
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-outline-light rounded-circle p-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#helpModal"
+        style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+    <i class="fas fa-question"></i>
+</button>
+
+            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto p-2 p-lg-0">
-                
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">
-                        <i class="fas fa-home"></i> Home
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/ripeness_detection' %}active{% endif %}" href="/ripeness_detection">
-                        <i class="fas fa-microchip"></i> AI Analysis
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/fruit_detection' %}active{% endif %}" href="/fruit_detection">
-                        <i class="fas fa-camera"></i> Live Cam
-                    </a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/history' %}active{% endif %}" href="/history">
-                        <i class="fas fa-history"></i> Database
-                    </a>
-                </li>
+                <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/ripeness_detection"><i class="fas fa-microchip"></i> AI Analysis</a></li>
+                <li class="nav-item"><a class="nav-link" href="/fruit_detection"><i class="fas fa-camera"></i> Live Cam</a></li>
+                <li class="nav-item"><a class="nav-link" href="/history"><i class="fas fa-history"></i> Database</a></li>
             </ul>
         </div>
       </div>
@@ -71,56 +57,110 @@
     <div style="height: 100px;"></div>
 
     <main>
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm rounded-4" role="alert">
+                            {% if category == 'danger' %}
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                            {% elif category == 'success' %}
+                                <i class="fas fa-check-circle me-2"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle me-2"></i>
+                            {% endif %}
+                            <strong>{{ message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
         {% block content %}{% endblock %}
     </main>
+
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header bg-success text-white border-0">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-book-open me-2"></i>User Guide</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <h6 class="fw-bold text-success mb-3">How to get 97% Accuracy:</h6>
+                    
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">1</div>
+                        <div>
+                            <span class="fw-bold d-block">Clean Background</span>
+                            <small class="text-muted">Place the fruit on a white or plain surface (paper, table).</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">2</div>
+                        <div>
+                            <span class="fw-bold d-block">Good Lighting</span>
+                            <small class="text-muted">Avoid heavy shadows. Natural light works best.</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">3</div>
+                        <div>
+                            <span class="fw-bold d-block">One at a Time</span>
+                            <small class="text-muted">For best results, scan one fruit (Banana, Mango, or Tomato) at a time.</small>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    <div class="text-center">
+                        <small class="text-muted">Developed by <strong>Gerald Tan (294879)</strong></small>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-0 pb-3 pe-3">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Got it!</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="bg-white pt-5 pb-4 mt-5 border-top">
         <div class="container text-center text-md-start">
             <div class="row text-center text-md-start">
-                
                 <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 fw-bold text-success">
-                        <i class="fas fa-leaf me-2"></i>RipeSense AI
-                    </h5>
-                    <p class="text-muted small">
-                        Advancing sustainable agriculture through computer vision and deep learning technologies.
-                    </p>
+                    <h5 class="text-uppercase mb-4 fw-bold text-success"><i class="fas fa-leaf me-2"></i>RipeSense AI</h5>
+                    <p class="text-muted small">Advancing sustainable agriculture through computer vision and deep learning technologies.</p>
                 </div>
-
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                     <h6 class="text-uppercase mb-4 fw-bold">Tech Stack</h6>
                     <p><span class="text-muted small">Python Flask</span></p>
                     <p><span class="text-muted small">YOLOv8</span></p>
                     <p><span class="text-muted small">OpenCV</span></p>
                 </div>
-
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
                     <h6 class="text-uppercase mb-4 fw-bold">Project</h6>
                     <p><a href="/history" class="text-muted text-decoration-none small">Scan History</a></p>
                     <p><a href="/ripeness_detection" class="text-muted text-decoration-none small">Upload Tool</a></p>
+                    <p><a href="/model_stats" class="text-muted text-decoration-none small fw-bold text-success">Model Performance</a></p>
                 </div>
-
                 <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
                     <h6 class="text-uppercase mb-4 fw-bold">Contact</h6>
                     <p class="small text-muted"><i class="fas fa-university me-2"></i> Universiti Utara Malaysia </p>
-                    <p class="small text-muted"><i class="fas fa-envelope me-2"></i> project@ripesense.ai</p>
+                    <p class="small text-muted"><i class="fas fa-envelope me-2"></i> gerald@student.uum.edu.my</p>
                 </div>
             </div>
             <hr class="my-3">
-            <div class="text-center p-3 small text-muted">
-                © 2025 RipeSense Project. All rights reserved.
-            </div>
+            <div class="text-center p-3 small text-muted">© 2025 RipeSense Project. All rights reserved.</div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}")
-            .then(reg => console.log('Service Worker registered! Scope:', reg.scope))
-            .catch(err => console.log('Service Worker failed:', err));
+          navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}");
         });
       }
     </script>

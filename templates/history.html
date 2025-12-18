@@ -1,75 +1,196 @@
 {% extends "base.html" %}
-{% block title %}History - RipeSense{% endblock %}
+{% block title %}Scan History - RipeSense{% endblock %}
 
 {% block content %}
+
+<style>
+    .fruit-link {
+        color: #212529; /* Standard dark text */
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .fruit-link:hover {
+        color: #2E7D32; /* Turns Green */
+        transform: translateX(5px); /* Slides right */
+    }
+
+    .fruit-link i {
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+
+    .fruit-link:hover i {
+        opacity: 0.5; /* Eye icon appears */
+    }
+</style>
+
 <div class="container fade-in-up">
     
-    <div class="d-flex justify-content-between align-items-center mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h6 class="text-uppercase text-muted fw-bold mb-1 tracking-wide">Database Records</h6>
-            <h2 class="fw-bold">Scan History</h2>
+            <h2 class="fw-bold mb-0">Scan History</h2>
+            <p class="text-muted small mb-0">Manage and analyze your past classification records.</p>
         </div>
-        <div>
-            <span class="badge bg-white text-dark shadow-sm px-3 py-2 rounded-pill border">
-                Total: {{ history|length }}
-            </span>
+        
+        <div class="d-flex gap-2">
+            <a href="/export_history" class="btn btn-success rounded-pill px-4 shadow-sm">
+                <i class="fas fa-file-csv me-2"></i>Export CSV
+            </a>
+
+            <form action="/clear_history" method="POST" onsubmit="return confirm('Are you sure you want to delete all history? This cannot be undone!');">
+                <button type="submit" class="btn btn-outline-danger rounded-pill px-4 shadow-sm">
+                    <i class="fas fa-trash-alt me-2"></i>Clear All
+                </button>
+            </form>
         </div>
     </div>
 
-    <div class="card border-0 glass-card shadow-lg rounded-4 overflow-hidden">
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
         <div class="card-body p-0">
-            
-            {% if history %}
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="bg-light">
                         <tr>
-                            <th class="ps-4 py-3 text-muted small fw-bold">TIMESTAMP</th>
-                            <th class="py-3 text-muted small fw-bold">FRUIT</th>
-                            <th class="py-3 text-muted small fw-bold">RESULT</th>
-                            <th class="py-3 text-muted small fw-bold">CONFIDENCE</th>
-                            <th class="pe-4 py-3 text-end text-muted small fw-bold">STATUS</th>
+                            <th class="py-3 ps-4 text-muted text-uppercase small fw-bold">Date</th>
+                            <th class="py-3 text-muted text-uppercase small fw-bold">Fruit Detected</th>
+                            <th class="py-3 text-muted text-uppercase small fw-bold">Status</th>
+                            <th class="py-3 text-muted text-uppercase small fw-bold">Confidence</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for entry in history %}
-                        <tr>
-                            <td class="ps-4 py-3 fw-bold">{{ entry.timestamp }}</td>
-                            <td class="py-3 text-uppercase fw-bold text-primary">{{ entry.fruit }}</td>
-                            <td class="py-3">
-                                {% if entry.result == 'Ripe' %}
-                                    <span class="badge bg-warning text-dark rounded-pill">Ripe</span>
-                                {% elif entry.result == 'Unripe' %}
-                                    <span class="badge bg-success rounded-pill">Unripe</span>
-                                {% else %}
-                                    <span class="badge bg-danger rounded-pill">Overripe</span>
-                                {% endif %}
-                            </td>
-                            <td class="py-3">
-                                <div class="d-flex align-items-center" style="width: 150px;">
-                                    <div class="progress flex-grow-1" style="height: 6px;">
-                                        <div class="progress-bar bg-dark" style="width: {{ entry.confidence.strip('%') }}%"></div>
+                        {% if history %}
+                            {% for entry in history %}
+                            <tr>
+                                <td class="py-3 ps-4 text-muted small">
+                                    <i class="far fa-clock me-2"></i>{{ entry.timestamp }}
+                                </td>
+                                
+                                <td class="py-3">
+                                    <div class="fruit-link fw-bold text-uppercase"
+                                         data-bs-toggle="modal" 
+                                         data-bs-target="#fruitModal"
+                                         data-fruit="{{ entry.fruit }}"
+                                         data-result="{{ entry.result }}"
+                                         data-confidence="{{ entry.confidence }}"
+                                         data-timestamp="{{ entry.timestamp }}"
+                                         data-image="{{ entry.file }}"
+                                         onclick="showDetails(this)">
+                                        
+                                        {{ entry.fruit }}
+                                        <i class="fas fa-eye ms-2 small"></i>
                                     </div>
-                                    <span class="ms-2 small fw-bold">{{ entry.confidence }}</span>
-                                </div>
-                            </td>
-                            <td class="pe-4 py-3 text-end">
-                                <span class="d-inline-block bg-success rounded-circle" style="width: 10px; height: 10px;"></span>
-                            </td>
-                        </tr>
-                        {% endfor %}
+                                </td>
+
+                                <td class="py-3">
+                                    {% if entry.get('flagged') %}
+                                        <span class="badge bg-danger text-white border border-danger px-3 py-2 rounded-pill mb-1">
+                                            <i class="fas fa-flag me-1"></i> Flagged
+                                        </span><br>
+                                    {% endif %}
+
+                                    {% if entry.result == 'Ripe' %}
+                                        <span class="badge bg-warning text-dark bg-opacity-25 border border-warning px-3 py-2 rounded-pill">
+                                            ● Ripe
+                                        </span>
+                                    {% elif entry.result == 'Unripe' %}
+                                        <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill">
+                                            ● Unripe
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-pill">
+                                            ● Overripe
+                                        </span>
+                                    {% endif %}
+                                </td>
+
+                                <td class="py-3 fw-bold text-dark opacity-75">
+                                    {{ entry.confidence }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5">
+                                    <div class="text-muted opacity-50 display-1 mb-3">
+                                        <i class="fas fa-folder-open"></i>
+                                    </div>
+                                    <h5 class="fw-bold text-muted">No History Found</h5>
+                                    <p class="text-muted small">Your scan results will appear here.</p>
+                                    <a href="/ripeness_detection" class="btn btn-sm btn-outline-success rounded-pill mt-2">
+                                        Start Scanning
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
-            {% else %}
-            <div class="text-center py-5">
-                <div class="display-1 text-muted opacity-25 mb-3">📂</div>
-                <h4 class="fw-bold text-muted">No Records Found</h4>
-                <a href="{{ url_for('ripeness_detection') }}" class="btn btn-primary rounded-pill mt-3">Start First Scan</a>
-            </div>
-            {% endif %}
-
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="fruitModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+      
+      <div class="position-relative bg-dark text-center" style="min-height: 250px;">
+        <img id="modalImage" src="" class="img-fluid w-100" style="max-height: 500px; object-fit: contain;">
+        
+        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 shadow-none" data-bs-dismiss="modal"></button>
+        
+        <div class="position-absolute bottom-0 start-0 m-3">
+            <span class="badge bg-black bg-opacity-50 border border-secondary fw-normal" id="modalTimestamp">--</span>
+        </div>
+      </div>
+
+      <div class="modal-body p-4 text-center bg-white">
+        <h3 class="fw-bold mb-3 text-uppercase" id="modalFruit">Fruit Name</h3>
+        
+        <div class="d-flex justify-content-center gap-3">
+            <div class="px-4 py-2 bg-light rounded-pill border">
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.65rem;">Result</small>
+                <div id="modalResult" class="fw-bold fs-5">--</div>
+            </div>
+            <div class="px-4 py-2 bg-light rounded-pill border">
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.65rem;">Confidence</small>
+                <div id="modalConfidence" class="fw-bold fs-5 text-dark">--</div>
+            </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+    function showDetails(element) {
+        // Get data from attributes
+        const fruit = element.getAttribute('data-fruit');
+        const result = element.getAttribute('data-result');
+        const confidence = element.getAttribute('data-confidence');
+        const timestamp = element.getAttribute('data-timestamp');
+        const imageFile = element.getAttribute('data-image');
+
+        // Update Text
+        document.getElementById('modalFruit').innerText = fruit;
+        document.getElementById('modalTimestamp').innerText = timestamp;
+        document.getElementById('modalConfidence').innerText = confidence;
+        
+        // Update Image
+        document.getElementById('modalImage').src = "/static/uploads/" + imageFile;
+        
+        // Update Color Logic
+        const resultEl = document.getElementById('modalResult');
+        resultEl.innerText = result;
+        resultEl.className = "fw-bold fs-5"; 
+        
+        if (result === 'Ripe') resultEl.classList.add('text-warning');
+        else if (result === 'Unripe') resultEl.classList.add('text-success');
+        else resultEl.classList.add('text-danger');
+    }
+</script>
+
 {% endblock %}

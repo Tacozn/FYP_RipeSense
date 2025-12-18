@@ -264,5 +264,1478 @@
         "fruit": "Tomato",
         "result": "Ripe",
         "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-15 13:28:30",
+        "file": "ot16.jpg",
+        "fruit": "strawberry",
+        "result": "Ripe",
+        "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-15 13:29:29",
+        "file": "b2.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-15 13:31:33",
+        "file": "ob13.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.0%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-15 13:32:26",
+        "file": "m10.jpg",
+        "fruit": "spaghetti_squash",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-15 13:34:32",
+        "file": "um10.jpg",
+        "fruit": "jackfruit",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-15 13:35:58",
+        "file": "um10.jpg",
+        "fruit": "jackfruit",
+        "result": "Unripe",
+        "confidence": "92.0%"
+    },
+    {
+        "timestamp": "2025-12-15 13:36:09",
+        "file": "house.jpg",
+        "fruit": "mobile_home",
+        "result": "Unripe",
+        "confidence": "92.0%"
+    },
+    {
+        "timestamp": "2025-12-15 13:37:42",
+        "file": "um10.jpg",
+        "fruit": "lemon",
+        "result": "Unripe",
+        "confidence": "92.0%"
+    },
+    {
+        "timestamp": "2025-12-15 13:38:00",
+        "file": "ot18.jpg",
+        "fruit": "bell_pepper",
+        "result": "Overripe",
+        "confidence": "89.0%"
+    },
+    {
+        "timestamp": "2025-12-15 13:38:16",
+        "file": "ot10.jpg",
+        "fruit": "bell_pepper",
+        "result": "Unripe",
+        "confidence": "95.0%"
+    },
+    {
+        "timestamp": "2025-12-15 13:38:32",
+        "file": "ut7.jpg",
+        "fruit": "bell_pepper",
+        "result": "Unripe",
+        "confidence": "95.0%"
+    },
+    {
+        "timestamp": "2025-12-15 13:38:42",
+        "file": "ub16.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "95.0%"
+    },
+    {
+        "timestamp": "2025-12-18 02:10:31",
+        "file": "ob14.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.0%"
+    },
+    {
+        "timestamp": "2025-12-18 02:33:03",
+        "file": "green_banana.jpg",
+        "fruit": "unripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:33:27",
+        "file": "ob18.jpg",
+        "fruit": "overripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:34:59",
+        "file": "ob18.jpg",
+        "fruit": "overripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:35:13",
+        "file": "ub13.jpg",
+        "fruit": "unripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:35:29",
+        "file": "green_banana.jpg",
+        "fruit": "unripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:36:02",
+        "file": "green_banana.jpg",
+        "fruit": "unripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:41:19",
+        "file": "green_banana.jpg",
+        "fruit": "unripe_banana",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-18 02:41:34",
+        "file": "ob18.jpg",
+        "fruit": "overripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:41:48",
+        "file": "ob14.jpg",
+        "fruit": "overripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:46:09",
+        "file": "ob14.jpg",
+        "fruit": "overripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:46:19",
+        "file": "ob18.jpg",
+        "fruit": "overripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:46:31",
+        "file": "ub3.jpg",
+        "fruit": "unripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:47:05",
+        "file": "ub15.jpg",
+        "fruit": "unripe_banana",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-18 02:47:16",
+        "file": "ob5.jpg",
+        "fruit": "overripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:47:47",
+        "file": "ob18.jpg",
+        "fruit": "overripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:48:26",
+        "file": "ub16.jpg",
+        "fruit": "unripe_banana",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-18 02:48:35",
+        "file": "ub1.jpg",
+        "fruit": "unripe_banana",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-18 02:48:46",
+        "file": "green_banana.jpg",
+        "fruit": "unripe_banana",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-18 02:49:17",
+        "file": "ub10.jpg",
+        "fruit": "unripe_banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:51:18",
+        "file": "ub10.jpg",
+        "fruit": "unripe_banana",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-18 02:51:26",
+        "file": "ub3.jpg",
+        "fruit": "unripe_banana",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-18 02:51:41",
+        "file": "tomato.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:52:32",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 02:56:36",
+        "file": "overbanan1.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 02:57:10",
+        "file": "download_4.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:03:02",
+        "file": "images_1.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:17:59",
+        "file": "images_1.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:19:43",
+        "file": "images_1.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:20:41",
+        "file": "images_1.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:21:34",
+        "file": "images_1.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:26:05",
+        "file": "images_1.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:30:59",
+        "file": "images_1.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:39:53",
+        "file": "images_2.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:41:02",
+        "file": "images_2.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:44:42",
+        "file": "ob18.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:44:51",
+        "file": "ob6.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:47:55",
+        "file": "images_1.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:48:07",
+        "file": "overbanan1.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:49:34",
+        "file": "green_banana.jpg",
+        "fruit": "unripe_banana",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:50:26",
+        "file": "om15.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:50:43",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 03:50:56",
+        "file": "ut10.jpg",
+        "fruit": "unripe_tomato",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:51:06",
+        "file": "ot18.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:51:14",
+        "file": "ot10.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:52:04",
+        "file": "ot10.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:52:28",
+        "file": "images_1.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:53:21",
+        "file": "Untitled_design_2.png",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-18 03:53:34",
+        "file": "download_4.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:56:02",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 03:59:19",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 04:16:19",
+        "file": "icon4.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.0%"
+    },
+    {
+        "timestamp": "2025-12-18 04:16:46",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-18 04:16:50",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 01:47:12",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 01:47:25",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 01:51:08",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 01:52:32",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 01:52:49",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 01:54:29",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 01:55:25",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 01:56:10",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 01:56:23",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 01:58:13",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 01:59:41",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:01:55",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:05:11",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:05:31",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:05:42",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:07:02",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:08:41",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:09:00",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:11:20",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:11:51",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:12:33",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:18:25",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:18:45",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:19:05",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:19:23",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:20:03",
+        "file": "ub3.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:22:49",
+        "file": "ub3.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:24:14",
+        "file": "ub6.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:26:02",
+        "file": "ub6.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-19 02:26:15",
+        "file": "ob12.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-19 02:26:27",
+        "file": "b16.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-19 02:26:50",
+        "file": "b16.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-19 02:26:59",
+        "file": "ob18.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:27:10",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:27:26",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:27:44",
+        "file": "ub13.jpg",
+        "fruit": "unripe_banana",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:27:54",
+        "file": "ub1.jpg",
+        "fruit": "unripe_banana",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:28:08",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:30:14",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:30:41",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:32:47",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:33:52",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:34:04",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:34:29",
+        "file": "overbanan1.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:34:38",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:34:57",
+        "file": "ub10.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:35:11",
+        "file": "ub14.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:35:22",
+        "file": "ub6.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-19 02:38:55",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:38:59",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:43:27",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:45:23",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-19 02:45:37",
+        "file": "ub10.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-19 02:45:56",
+        "file": "ob9.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:46:37",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:46:48",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:46:59",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:47:11",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:47:23",
+        "file": "om14.jpg",
+        "fruit": "tomato",
+        "result": "Ripe",
+        "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-19 02:49:44",
+        "file": "om16.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:50:12",
+        "file": "om14.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:50:21",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-19 02:51:00",
+        "file": "a99ca1355d867dee19fb4f379c6af02d.jpg",
+        "fruit": "unripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:53:20",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-19 02:53:42",
+        "file": "overtomato.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:54:25",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:54:37",
+        "file": "ot17.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:55:36",
+        "file": "t8.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 02:55:52",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:57:13",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:58:27",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:59:13",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 02:59:31",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:00:10",
+        "file": "overbanan1.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:00:59",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 03:02:10",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 03:03:15",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:06:32",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:06:53",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:10:05",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:11:28",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:14:05",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:14:11",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:14:51",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:18:30",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:19:06",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:42:38",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.9%"
+    },
+    {
+        "timestamp": "2025-12-19 03:43:06",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "95.8%"
+    },
+    {
+        "timestamp": "2025-12-19 03:43:09",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "94.4%"
+    },
+    {
+        "timestamp": "2025-12-19 03:47:24",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "96.1%"
+    },
+    {
+        "timestamp": "2025-12-19 03:48:12",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "89.3%"
+    },
+    {
+        "timestamp": "2025-12-19 03:48:29",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "89.0%"
+    },
+    {
+        "timestamp": "2025-12-19 03:48:38",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "95.9%"
+    },
+    {
+        "timestamp": "2025-12-19 03:59:49",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "93.5%"
+    },
+    {
+        "timestamp": "2025-12-19 04:01:18",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "89.4%"
+    },
+    {
+        "timestamp": "2025-12-19 04:01:35",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "93.4%"
+    },
+    {
+        "timestamp": "2025-12-19 04:03:18",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "87.7%"
+    },
+    {
+        "timestamp": "2025-12-19 04:04:25",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "87.8%"
+    },
+    {
+        "timestamp": "2025-12-19 04:05:39",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "87.2%"
+    },
+    {
+        "timestamp": "2025-12-19 04:05:53",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "96.8%"
+    },
+    {
+        "timestamp": "2025-12-19 04:07:09",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "98.5%"
+    },
+    {
+        "timestamp": "2025-12-19 04:07:55",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "98.2%"
+    },
+    {
+        "timestamp": "2025-12-19 04:09:32",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "96.0%"
+    },
+    {
+        "timestamp": "2025-12-19 04:10:02",
+        "file": "overbanan1.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "92.7%"
+    },
+    {
+        "timestamp": "2025-12-19 04:12:24",
+        "file": "overbanan1.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "94.8%"
+    },
+    {
+        "timestamp": "2025-12-19 04:14:55",
+        "file": "overbanan1.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "95.7%"
+    },
+    {
+        "timestamp": "2025-12-19 04:15:19",
+        "file": "overbanan1.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "92.6%"
+    },
+    {
+        "timestamp": "2025-12-19 04:15:29",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-19 04:16:05",
+        "file": "overbanan1.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "91.1%"
+    },
+    {
+        "timestamp": "2025-12-19 04:16:21",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "93.6%"
+    },
+    {
+        "timestamp": "2025-12-19 04:16:59",
+        "file": "ub5.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "95.9%"
+    },
+    {
+        "timestamp": "2025-12-19 04:17:34",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-19 04:18:33",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "86.9%"
+    },
+    {
+        "timestamp": "2025-12-19 04:18:56",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "90.2%"
+    },
+    {
+        "timestamp": "2025-12-19 04:19:22",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "87.9%"
+    },
+    {
+        "timestamp": "2025-12-19 04:19:35",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "87.9%"
+    },
+    {
+        "timestamp": "2025-12-19 04:20:17",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "96.6%"
+    },
+    {
+        "timestamp": "2025-12-19 04:22:33",
+        "file": "ub5.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "91.7%"
+    },
+    {
+        "timestamp": "2025-12-19 04:23:07",
+        "file": "ub5.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "92.7%"
+    },
+    {
+        "timestamp": "2025-12-19 04:23:11",
+        "file": "ub5.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.3%"
+    },
+    {
+        "timestamp": "2025-12-19 04:26:05",
+        "file": "ub5.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "95.5%"
+    },
+    {
+        "timestamp": "2025-12-19 04:26:54",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "92.2%"
+    },
+    {
+        "timestamp": "2025-12-19 04:30:33",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "93.1%"
+    },
+    {
+        "timestamp": "2025-12-19 04:31:02",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "92.5%"
+    },
+    {
+        "timestamp": "2025-12-19 04:32:26",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "90.3%"
+    },
+    {
+        "timestamp": "2025-12-19 04:32:40",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "90.2%"
+    },
+    {
+        "timestamp": "2025-12-19 04:33:36",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.4%"
+    },
+    {
+        "timestamp": "2025-12-19 04:34:31",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "94.8%"
+    },
+    {
+        "timestamp": "2025-12-19 04:35:27",
+        "file": "ub5.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "96.4%"
+    },
+    {
+        "timestamp": "2025-12-19 04:36:35",
+        "file": "ub5.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "96.0%"
+    },
+    {
+        "timestamp": "2025-12-19 04:39:04",
+        "file": "ub5.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "96.2%"
+    },
+    {
+        "timestamp": "2025-12-19 04:42:13",
+        "file": "ub5.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "96.6%"
+    },
+    {
+        "timestamp": "2025-12-19 04:43:27",
+        "file": "ub5.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "93.0%"
+    },
+    {
+        "timestamp": "2025-12-19 04:43:50",
+        "file": "ub5.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "95.4%"
+    },
+    {
+        "timestamp": "2025-12-19 04:44:00",
+        "file": "ob16.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "94.8%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-19 04:45:22",
+        "file": "ob16.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.1%"
+    },
+    {
+        "timestamp": "2025-12-19 04:45:56",
+        "file": "ob16.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "91.6%"
+    },
+    {
+        "timestamp": "2025-12-19 04:47:09",
+        "file": "ob16.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "87.4%"
+    },
+    {
+        "timestamp": "2025-12-19 04:50:55",
+        "file": "ob16.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "91.6%"
+    },
+    {
+        "timestamp": "2025-12-19 04:52:56",
+        "file": "ob16.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "91.4%"
+    },
+    {
+        "timestamp": "2025-12-19 04:53:11",
+        "file": "ob13.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "97.2%"
+    },
+    {
+        "timestamp": "2025-12-19 04:55:26",
+        "file": "ob6.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "94.9%"
+    },
+    {
+        "timestamp": "2025-12-19 04:56:20",
+        "file": "ob6.jpg",
+        "fruit": "banana",
+        "result": "Ripe",
+        "confidence": "95.6%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-19 05:02:37",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "90.4%"
     }
 ]
