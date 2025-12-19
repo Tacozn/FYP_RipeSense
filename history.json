@@ -1737,5 +1737,746 @@
         "fruit": "overripe_tomato",
         "result": "Overripe",
         "confidence": "90.4%"
+    },
+    {
+        "timestamp": "2025-12-19 14:40:22",
+        "file": "apple11.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "94.9%"
+    },
+    {
+        "timestamp": "2025-12-19 14:40:37",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 14:40:47",
+        "file": "apple1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "92.6%"
+    },
+    {
+        "timestamp": "2025-12-19 14:42:08",
+        "file": "apple11.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "91.3%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-19 14:43:10",
+        "file": "apple11.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "94.0%"
+    },
+    {
+        "timestamp": "2025-12-19 14:44:08",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "97.0%"
+    },
+    {
+        "timestamp": "2025-12-19 14:45:34",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "96.0%"
+    },
+    {
+        "timestamp": "2025-12-19 14:45:59",
+        "file": "house.jpg",
+        "fruit": "mobile_home",
+        "result": "Overripe",
+        "confidence": "93.5%"
+    },
+    {
+        "timestamp": "2025-12-19 14:47:42",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "93.3%"
+    },
+    {
+        "timestamp": "2025-12-19 14:49:27",
+        "file": "ob5.jpg",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "90.1%"
+    },
+    {
+        "timestamp": "2025-12-19 14:52:31",
+        "file": "um5.jpg",
+        "fruit": "unripe_mango",
+        "result": "Unripe",
+        "confidence": "92.5%"
+    },
+    {
+        "timestamp": "2025-12-19 14:52:44",
+        "file": "apple11.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "96.6%"
+    },
+    {
+        "timestamp": "2025-12-19 14:56:46",
+        "file": "overmango.jpg",
+        "fruit": "Unknown",
+        "result": "Unripe",
+        "confidence": "91.1%"
+    },
+    {
+        "timestamp": "2025-12-19 14:58:05",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "94.6%"
+    },
+    {
+        "timestamp": "2025-12-19 14:58:20",
+        "file": "apple11.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "89.3%"
+    },
+    {
+        "timestamp": "2025-12-19 14:59:20",
+        "file": "apple11.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "89.7%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-19 15:02:21",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "93.2%"
+    },
+    {
+        "timestamp": "2025-12-19 15:02:37",
+        "file": "overtomato1.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "95.0%"
+    },
+    {
+        "timestamp": "2025-12-19 15:03:55",
+        "file": "um5.jpg",
+        "fruit": "unripe_mango",
+        "result": "Unripe",
+        "confidence": "93.1%"
+    },
+    {
+        "timestamp": "2025-12-19 15:07:29",
+        "file": "um5.jpg",
+        "fruit": "unripe_mango",
+        "result": "Unripe",
+        "confidence": "90.3%"
+    },
+    {
+        "timestamp": "2025-12-19 15:07:59",
+        "file": "om15.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "90.0%"
+    },
+    {
+        "timestamp": "2025-12-19 15:08:50",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "95.2%"
+    },
+    {
+        "timestamp": "2025-12-19 15:10:30",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.1%"
+    },
+    {
+        "timestamp": "2025-12-19 15:10:59",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "95.4%"
+    },
+    {
+        "timestamp": "2025-12-19 15:13:02",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "90.3%"
+    },
+    {
+        "timestamp": "2025-12-19 15:42:14",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.3%"
+    },
+    {
+        "timestamp": "2025-12-19 15:42:24",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "91.4%"
+    },
+    {
+        "timestamp": "2025-12-19 15:44:03",
+        "file": "overmango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "96.5%"
+    },
+    {
+        "timestamp": "2025-12-19 15:44:26",
+        "file": "overbanan1.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "95.9%"
+    },
+    {
+        "timestamp": "2025-12-19 15:44:54",
+        "file": "tomato1.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "95.7%"
+    },
+    {
+        "timestamp": "2025-12-19 15:45:53",
+        "file": "green_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "87.5%"
+    },
+    {
+        "timestamp": "2025-12-19 15:49:22",
+        "file": "ripe_tomato.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "92.2%"
+    },
+    {
+        "timestamp": "2025-12-19 15:49:30",
+        "file": "ripe_mango.jpg",
+        "fruit": "ripe_mango",
+        "result": "Ripe",
+        "confidence": "95.8%"
+    },
+    {
+        "timestamp": "2025-12-19 15:49:40",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "92.6%"
+    },
+    {
+        "timestamp": "2025-12-19 15:51:20",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "93.1%"
+    },
+    {
+        "timestamp": "2025-12-19 15:51:51",
+        "file": "unripe_mango.jpg",
+        "fruit": "unripe_mango",
+        "result": "Ripe",
+        "confidence": "95.7%"
+    },
+    {
+        "timestamp": "2025-12-19 15:52:23",
+        "file": "unripe_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "93.7%"
+    },
+    {
+        "timestamp": "2025-12-19 15:52:37",
+        "file": "unripe_mango.jpg",
+        "fruit": "unripe_mango",
+        "result": "Ripe",
+        "confidence": "97.2%"
+    },
+    {
+        "timestamp": "2025-12-19 15:53:01",
+        "file": "um2.jpg",
+        "fruit": "unripe_mango",
+        "result": "Unripe",
+        "confidence": "93.1%"
+    },
+    {
+        "timestamp": "2025-12-19 16:00:29",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "87.9%"
+    },
+    {
+        "timestamp": "2025-12-19 16:02:02",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "94.9%"
+    },
+    {
+        "timestamp": "2025-12-19 16:03:35",
+        "file": "overripe_banana.jpg",
+        "fruit": "overripe_banana",
+        "result": "Overripe",
+        "confidence": "96.2%"
+    },
+    {
+        "timestamp": "2025-12-19 16:03:54",
+        "file": "unripe_tomato.jpg",
+        "fruit": "unripe_tomato",
+        "result": "Ripe",
+        "confidence": "93.3%"
+    },
+    {
+        "timestamp": "2025-12-19 16:04:27",
+        "file": "unripe_mango.jpg",
+        "fruit": "unripe_mango",
+        "result": "Ripe",
+        "confidence": "94.6%"
+    },
+    {
+        "timestamp": "2025-12-19 16:04:49",
+        "file": "ripe_mango.jpg",
+        "fruit": "ripe_mango",
+        "result": "Ripe",
+        "confidence": "95.7%"
+    },
+    {
+        "timestamp": "2025-12-19 16:05:17",
+        "file": "overripe_mango.jpg",
+        "fruit": "overripe_mango",
+        "result": "Overripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-19 16:05:30",
+        "file": "unripe_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "87.6%"
+    },
+    {
+        "timestamp": "2025-12-19 16:06:25",
+        "file": "ripe_tomato.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "97.8%"
+    },
+    {
+        "timestamp": "2025-12-19 16:06:45",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "unripe_tomato",
+        "result": "Ripe",
+        "confidence": "92.8%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-19 16:06:58",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "unripe_mango",
+        "result": "Ripe",
+        "confidence": "92.2%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-19 16:10:29",
+        "file": "ripe_mango.jpg",
+        "fruit": "ripe_mango",
+        "result": "Ripe",
+        "confidence": "97.7%"
+    },
+    {
+        "timestamp": "2025-12-19 16:15:58",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "92.5%"
+    },
+    {
+        "timestamp": "2025-12-19 16:17:22",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 16:17:34",
+        "file": "ripe_mango.jpg",
+        "fruit": "ripe_mango",
+        "result": "Ripe",
+        "confidence": "97.7%"
+    },
+    {
+        "timestamp": "2025-12-19 16:18:24",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "88.8%"
+    },
+    {
+        "timestamp": "2025-12-19 16:19:22",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "93.9%"
+    },
+    {
+        "timestamp": "2025-12-19 16:19:28",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "93.1%"
+    },
+    {
+        "timestamp": "2025-12-19 16:19:43",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "91.9%"
+    },
+    {
+        "timestamp": "2025-12-19 16:20:13",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "91.0%"
+    },
+    {
+        "timestamp": "2025-12-19 16:20:21",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "87.1%"
+    },
+    {
+        "timestamp": "2025-12-19 16:21:39",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "93.6%"
+    },
+    {
+        "timestamp": "2025-12-19 16:21:49",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "94.3%"
+    },
+    {
+        "timestamp": "2025-12-19 16:23:57",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.7%"
+    },
+    {
+        "timestamp": "2025-12-19 16:24:08",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "87.6%"
+    },
+    {
+        "timestamp": "2025-12-19 16:25:04",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "93.5%"
+    },
+    {
+        "timestamp": "2025-12-19 16:26:41",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "88.4%"
+    },
+    {
+        "timestamp": "2025-12-19 16:27:03",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.2%"
+    },
+    {
+        "timestamp": "2025-12-19 16:29:18",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "93.1%"
+    },
+    {
+        "timestamp": "2025-12-19 16:29:25",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.6%"
+    },
+    {
+        "timestamp": "2025-12-19 16:29:37",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.2%"
+    },
+    {
+        "timestamp": "2025-12-19 16:29:51",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "88.5%"
+    },
+    {
+        "timestamp": "2025-12-19 16:30:51",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "92.2%"
+    },
+    {
+        "timestamp": "2025-12-19 16:30:57",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "91.6%"
+    },
+    {
+        "timestamp": "2025-12-19 16:32:24",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "94.6%"
+    },
+    {
+        "timestamp": "2025-12-19 16:32:37",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "89.5%"
+    },
+    {
+        "timestamp": "2025-12-19 16:33:40",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "87.4%"
+    },
+    {
+        "timestamp": "2025-12-19 16:34:42",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "92.2%"
+    },
+    {
+        "timestamp": "2025-12-19 16:34:53",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "90.5%"
+    },
+    {
+        "timestamp": "2025-12-19 16:36:45",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "93.5%"
+    },
+    {
+        "timestamp": "2025-12-19 16:36:59",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "90.6%"
+    },
+    {
+        "timestamp": "2025-12-19 16:39:34",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "92.6%"
+    },
+    {
+        "timestamp": "2025-12-19 16:42:02",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "94.6%"
+    },
+    {
+        "timestamp": "2025-12-19 16:42:34",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "93.9%"
+    },
+    {
+        "timestamp": "2025-12-19 16:44:15",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "93.8%"
+    },
+    {
+        "timestamp": "2025-12-19 16:44:29",
+        "file": "overtomato3.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "92.7%"
+    },
+    {
+        "timestamp": "2025-12-19 16:45:55",
+        "file": "fruit.png",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "97.5%"
+    },
+    {
+        "timestamp": "2025-12-19 16:46:32",
+        "file": "overtomato2.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "96.9%"
+    },
+    {
+        "timestamp": "2025-12-19 16:46:56",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "unripe_tomato",
+        "result": "Ripe",
+        "confidence": "96.1%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-19 16:56:07",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "92.5%"
+    },
+    {
+        "timestamp": "2025-12-19 16:57:14",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "92.0%"
+    },
+    {
+        "timestamp": "2025-12-19 17:05:10",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "unripe_tomato",
+        "result": "Ripe",
+        "confidence": "96.8%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-19 17:05:21",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "88.8%"
+    },
+    {
+        "timestamp": "2025-12-19 21:07:26",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "91.9%"
+    },
+    {
+        "timestamp": "2025-12-20 00:12:57",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "unripe_tomato",
+        "result": "Ripe",
+        "confidence": "94.6%"
+    },
+    {
+        "timestamp": "2025-12-20 00:18:17",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "unripe_tomato",
+        "result": "Unripe",
+        "confidence": "91.9%"
+    },
+    {
+        "timestamp": "2025-12-20 00:18:28",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "unripe_mango",
+        "result": "Unripe",
+        "confidence": "94.2%"
+    },
+    {
+        "timestamp": "2025-12-20 00:18:52",
+        "file": "unripe_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "88.2%"
+    },
+    {
+        "timestamp": "2025-12-20 00:19:01",
+        "file": "overripe_tomato.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "94.7%"
+    },
+    {
+        "timestamp": "2025-12-20 00:38:11",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "unripe_tomato",
+        "result": "Unripe",
+        "confidence": "88.7%"
+    },
+    {
+        "timestamp": "2025-12-20 01:27:48",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "94.7%"
+    },
+    {
+        "timestamp": "2025-12-20 01:28:05",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "unripe_tomato",
+        "result": "Unripe",
+        "confidence": "94.9%"
+    },
+    {
+        "timestamp": "2025-12-20 01:28:14",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "unripe_mango",
+        "result": "Unripe",
+        "confidence": "94.7%"
+    },
+    {
+        "timestamp": "2025-12-20 01:28:41",
+        "file": "overripe_tomato.jpg",
+        "fruit": "overripe_tomato",
+        "result": "Overripe",
+        "confidence": "90.0%"
+    },
+    {
+        "timestamp": "2025-12-20 01:29:09",
+        "file": "unripe_banana.jpg",
+        "fruit": "banana",
+        "result": "Unripe",
+        "confidence": "91.6%"
+    },
+    {
+        "timestamp": "2025-12-20 01:40:12",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "unripe_tomato",
+        "result": "Unripe",
+        "confidence": "89.4%"
     }
 ]

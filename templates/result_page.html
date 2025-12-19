@@ -1,200 +1,185 @@
-{% extends "base.html" %}
-{% block title %}Analysis Result - RipeSense{% endblock %}
+{% extends 'base.html' %}
+{% block title %}
+  Analysis Result - RipeSense
+{% endblock %}
 
 {% block content %}
-<div class="container fade-in-up">
-    
+  <div class="container fade-in-up">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class="d-flex gap-3">
-            <a href="/ripeness_detection" class="btn btn-success btn-lg rounded-pill px-4 shadow fw-bold text-white">
-    <i class="fas fa-camera me-2"></i>Scan Another
-</a>
+      <div class="d-flex gap-3">
+        <a href="/ripeness_detection" class="btn btn-success rounded-pill px-4 shadow fw-bold text-white"><i class="fas fa-camera me-2"></i>Scan Another</a>
+        <button type="button" class="btn btn-danger rounded-pill px-3 shadow fw-bold text-white" data-bs-toggle="modal" data-bs-target="#reportModal"><i class="fas fa-flag me-2"></i>Report Error</button>
+      </div>
 
-<button type="button" class="btn btn-danger btn-lg rounded-pill px-3 shadow fw-bold text-white" 
-        data-bs-toggle="modal" data-bs-target="#reportModal">
-    <i class="fas fa-flag me-2"></i>Report Error
-</button>
-        </div>
-        
-        {% if not not_fruit %}
-        <span class="badge bg-white text-dark border px-3 py-2 rounded-pill fw-normal shadow-sm d-none d-md-inline-block">
-            <i class="fas fa-seedling me-2 text-success"></i>AI Analysis Report
-        </span>
-        {% endif %}
+      {% if not not_fruit %}
+        <span class="badge bg-white text-dark border px-3 py-2 rounded-pill fw-normal shadow-sm d-none d-md-inline-block"><i class="fas fa-seedling me-2 text-success"></i>AI Analysis Report</span>
+      {% endif %}
     </div>
 
     {% if not_fruit %}
-    <div class="row justify-content-center" style="margin-top: 50px;">
+      <div class="row justify-content-center" style="margin-top: 50px;">
         <div class="col-md-8 col-lg-6">
-            <div class="card border-0 shadow-lg rounded-4 text-center overflow-hidden">
-                <div class="card-body p-5">
-                    <div class="mb-4"><span class="display-1">⛔</span></div>
-                    <h2 class="fw-bold text-danger mb-3">Detection Failed</h2>
-                    <p class="text-muted lead mb-4">
-                        Our AI detected <strong>"{{ detected_object }}"</strong>, but RipeSense is currently calibrated only for:
-                    </p>
-                    <div class="d-flex justify-content-center gap-2 mb-5">
-                        <span class="badge bg-warning text-dark rounded-pill px-3 py-2">🍌 Banana</span>
-                        <span class="badge bg-danger rounded-pill px-3 py-2">🍅 Tomato</span>
-                        <span class="badge bg-success rounded-pill px-3 py-2">🥭 Mango</span>
-                    </div>
-                    <a href="/ripeness_detection" class="btn btn-danger rounded-pill px-5 py-2 mt-3 shadow-sm">
-                        Try Another Image
-                    </a>
-                </div>
+          <div class="card border-0 shadow-lg rounded-4 text-center overflow-hidden">
+            <div class="card-body p-5">
+              <div class="mb-4">
+                <span class="display-1">⛔</span>
+              </div>
+              <h2 class="fw-bold text-danger mb-3">Detection Failed</h2>
+              <p class="text-muted lead mb-4">
+                Our AI detected <strong>"{{ detected_object }}"</strong>, but RipeSense is currently calibrated only for:
+              </p>
+              <div class="d-flex justify-content-center gap-2 mb-5">
+                <span class="badge bg-warning text-dark rounded-pill px-3 py-2">🍌 Banana</span>
+                <span class="badge bg-danger rounded-pill px-3 py-2">🍅 Tomato</span>
+                <span class="badge bg-success rounded-pill px-3 py-2">🥭 Mango</span>
+              </div>
+              <a href="/ripeness_detection" class="btn btn-danger rounded-pill px-5 py-2 mt-3 shadow-sm">Try Another Image</a>
             </div>
+          </div>
         </div>
-    </div>
-
+      </div>
     {% else %}
-    <div class="row g-4">
+      <div class="row g-4">
         <div class="col-lg-5">
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden h-100">
-                
-                <div class="position-relative text-center p-3" style="min-height: 320px; background: radial-gradient(circle at center, #ffffff 0%, #f8f9fa 100%);">
-                    <img src="data:image/jpeg;base64,{{ img_str }}" class="img-fluid shadow-sm rounded-3" style="object-fit: contain; max-height: 350px; width: auto;">
-                    
-                    <div class="position-absolute bottom-0 start-0 w-100 p-2">
-                        <span class="badge bg-white text-dark border shadow-sm px-3 py-2 rounded-pill text-uppercase fw-bold">
-                            Detected: <span class="text-success">{{ class_names[0] }}</span>
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-body p-4 bg-white text-center">
-                    <div class="bg-light rounded-4 p-4 border border-success border-opacity-25">
-                        <h6 class="text-uppercase text-muted fw-bold small mb-3">
-                            <i class="fas fa-shield-alt me-1 text-success"></i> AI Verification Score
-                        </h6>
-                        
-                        <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
-                            <i class="fas fa-check-circle display-3 text-success"></i>
-                            <div>
-                                <h1 class="display-4 fw-bold text-dark mb-0" style="letter-spacing: -2px; line-height: 1;">
-                                    {{ (ripeness_result.confidence * 100)|round(1) }}<span class="fs-3 text-muted">%</span>
-                                </h1>
-                                <small class="text-success fw-bold text-uppercase letter-spacing-1">Confidence</small>
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
-                            <div class="text-muted small fw-medium d-flex align-items-center">
-                                <i class="far fa-clock me-2"></i> {{ timestamp_now }}
-                            </div>
-                            <span class="badge bg-success text-white rounded-pill px-3">
-                                Model: YOLOv8n
-                            </span>
-                        </div>
-                    </div>
-                </div>
+          <div class="card border-0 shadow-lg rounded-4 overflow-hidden h-100">
+            <div class="position-relative text-center p-3" style="min-height: 320px; background: radial-gradient(circle at center, #ffffff 0%, #f8f9fa 100%);">
+              <img src="data:image/jpeg;base64,{{ img_str }}" class="img-fluid shadow-sm rounded-3" style="object-fit: contain; max-height: 350px; width: auto;" />
+              <div class="position-absolute bottom-0 start-0 w-100 p-2">
+                <span class="badge bg-white text-dark border shadow-sm px-3 py-2 rounded-pill text-uppercase fw-bold">Detected: <span class="text-success">{{ class_names[0] }}</span></span>
+              </div>
             </div>
+
+            <div class="card-body p-4 bg-white text-center">
+              <div class="bg-light rounded-4 p-4 border border-success border-opacity-25">
+                <h6 class="text-uppercase text-muted fw-bold small mb-3"><i class="fas fa-shield-alt me-1 text-success"></i> AI Verification Score</h6>
+                <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
+                  <i class="fas fa-check-circle display-3 text-success"></i>
+                  <div>
+                    <h1 class="display-4 fw-bold text-dark mb-0" style="letter-spacing: -2px; line-height: 1;">{{ (ripeness_result.confidence * 100)|round(1) }}<span class="fs-3 text-muted">%</span></h1>
+                    <small class="text-success fw-bold text-uppercase letter-spacing-1">Confidence</small>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
+                  <div class="text-muted small fw-medium d-flex align-items-center">
+                    <i class="far fa-clock me-2"></i> {{ timestamp_now }}
+                  </div>
+                  <span class="badge bg-success text-white rounded-pill px-3">Model: YOLOv8n</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="col-lg-7">
-            
-            <div class="card border-0 shadow-sm rounded-4 mb-4 bg-white position-relative overflow-hidden">
-                <div class="d-flex flex-column align-items-center justify-content-center py-2">
-    
-    <div class="mb-3">
-        {% if ripeness_result.ripeness_level == 'Ripe' %}
-            <i class="fas fa-check-circle display-1 text-warning" 
-               style="{% if is_red_fruit %}color: #D32F2F !important;{% endif %}"></i>
-        {% elif ripeness_result.ripeness_level == 'Unripe' %}
-            <i class="fas fa-leaf display-1 text-success"></i>
-        {% else %}
-            <i class="fas fa-exclamation-triangle display-1 text-danger"></i>
-        {% endif %}
-    </div>
+          <div class="card border-0 shadow-sm rounded-4 mb-4 bg-white position-relative overflow-hidden">
+            <div class="d-flex flex-column align-items-center justify-content-center py-2">
+              <div class="mb-3">
+                {% if ripeness_result.ripeness_level == 'Ripe' %}
+                  <i class="fas fa-check-circle display-1 text-warning" style="{% if is_red_fruit %}color: #D32F2F !important;{% endif %}"></i>
+                {% elif ripeness_result.ripeness_level == 'Unripe' %}
+                  <i class="fas fa-leaf display-1 text-success"></i>
+                {% else %}
+                  <i class="fas fa-exclamation-triangle display-1 text-danger"></i>
+                {% endif %}
+              </div>
 
-    <h6 class="text-uppercase text-muted fw-bold mb-2" style="letter-spacing: 1px;">Status</h6>
-    
-    {% if ripeness_result.ripeness_level == 'Ripe' %}
-        <h1 class="display-3 fw-bold text-warning mb-0" 
-            style="{% if is_red_fruit %}color: #D32F2F !important;{% endif %}">
-            RIPE
-        </h1>
-        <p class="text-muted fw-bold mt-2"><i class="fas fa-star me-1"></i> Perfect Condition</p>
-        
-    {% elif ripeness_result.ripeness_level == 'Unripe' %}
-        <h1 class="display-3 fw-bold text-success mb-0">UNRIPE</h1>
-        <p class="text-muted fw-bold mt-2"><i class="fas fa-clock me-1"></i> Needs more time</p>
-        
-    {% else %}
-        <h1 class="display-3 fw-bold text-danger mb-0">OVERRIPE</h1>
-        <p class="text-danger fw-bold mt-2"><i class="fas fa-hand-paper me-1"></i> Handle with care</p>
-    {% endif %}
-    
-</div>
+              <h6 class="text-uppercase text-muted fw-bold mb-2" style="letter-spacing: 1px;">Status</h6>
+
+              {% if ripeness_result.ripeness_level == 'Ripe' %}
+                <h1 class="display-3 fw-bold text-warning mb-0" style="{% if is_red_fruit %}color: #D32F2F !important;{% endif %}">RIPE</h1>
+                <p class="text-muted fw-bold mt-2">
+                  <i class="fas fa-star me-1"></i> Perfect Condition
+                </p>
+              {% elif ripeness_result.ripeness_level == 'Unripe' %}
+                <h1 class="display-3 fw-bold text-success mb-0">UNRIPE</h1>
+                <p class="text-muted fw-bold mt-2">
+                  <i class="fas fa-clock me-1"></i> Needs more time
+                </p>
+              {% else %}
+                <h1 class="display-3 fw-bold text-danger mb-0">OVERRIPE</h1>
+                <p class="text-danger fw-bold mt-2">
+                  <i class="fas fa-hand-paper me-1"></i> Handle with care
+                </p>
+              {% endif %}
             </div>
+          </div>
 
-            {% if advice %}
+          {% if advice %}
             <div class="row g-3 mb-4">
-                <div class="col-md-4">
-                    <div class="p-3 border rounded-4 bg-light h-100 text-center hover-effect">
-                        <div class="fs-4 mb-2">🍴</div>
-                        <h6 class="fw-bold small text-uppercase text-success">Best Use</h6>
-                        <small class="text-dark d-block lh-sm fw-bold">{{ advice.usage }}</small>
-                    </div>
+              <div class="col-md-4">
+                <div class="p-3 border rounded-4 bg-light h-100 text-center hover-effect">
+                  <div class="fs-4 mb-2">🍴</div>
+                  <h6 class="fw-bold small text-uppercase text-success">Best Use</h6>
+                  <small class="text-dark d-block lh-sm fw-bold">{{ advice.usage }}</small>
                 </div>
-                <div class="col-md-4">
-                    <div class="p-3 border rounded-4 bg-light h-100 text-center hover-effect">
-                        <div class="fs-4 mb-2">🧊</div>
-                        <h6 class="fw-bold small text-uppercase text-primary">Storage</h6>
-                        <small class="text-dark d-block lh-sm fw-bold">{{ advice.storage }}</small>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="p-3 border rounded-4 bg-light h-100 text-center hover-effect">
+                  <div class="fs-4 mb-2">🧊</div>
+                  <h6 class="fw-bold small text-uppercase text-primary">Storage</h6>
+                  <small class="text-dark d-block lh-sm fw-bold">{{ advice.storage }}</small>
                 </div>
-                <div class="col-md-4">
-                    <div class="p-3 border rounded-4 bg-light h-100 text-center hover-effect">
-                        <div class="fs-4 mb-2">⏳</div>
-                        <h6 class="fw-bold small text-uppercase text-warning">Shelf Life</h6>
-                        <small class="text-dark d-block lh-sm fw-bold">{{ advice.shelf_life }}</small>
-                    </div>
+              </div>
+              <div class="col-md-4">
+                <div class="p-3 border rounded-4 bg-light h-100 text-center hover-effect">
+                  <div class="fs-4 mb-2">⏳</div>
+                  <h6 class="fw-bold small text-uppercase text-warning">Shelf Life</h6>
+                  <small class="text-dark d-block lh-sm fw-bold">{{ advice.shelf_life }}</small>
                 </div>
+              </div>
             </div>
-            {% endif %}
+          {% endif %}
 
-            <div class="row g-4">
-                <div class="col-md-7">
-                    <div class="card border-0 shadow-sm rounded-4 h-100">
-                        <div class="card-header bg-white py-3 border-0">
-                            <h6 class="fw-bold mb-0 text-uppercase small text-muted"><i class="fas fa-chart-pie me-2"></i>Color Analysis</h6>
-                        </div>
-                        <div class="card-body d-flex align-items-center justify-content-center">
-                            <div class="row w-100 align-items-center">
-                                <div class="col-5">
-                                    <canvas id="colorChart"></canvas>
-                                </div>
-                                <div class="col-7">
-                                    <ul class="list-unstyled mb-0 small">
-                                        <li class="mb-2 d-flex justify-content-between"><span><span class="badge bg-success me-1">●</span> Green</span> <strong>{{ ripeness_result.color_analysis.green_percentage }}%</strong></li>
-                                        <li class="mb-2 d-flex justify-content-between"><span><span class="badge me-1" style="background-color: {% if is_red_fruit %}#D32F2F{% else %}#FFC107{% endif %}; color: white;">●</span> {% if is_red_fruit %}Red{% else %}Yellow{% endif %}</span> <strong>{{ ripeness_result.color_analysis.yellow_percentage }}%</strong></li>
-                                        <li class="d-flex justify-content-between"><span><span class="badge me-1" style="background-color: #795548;">●</span> Brown</span> <strong>{{ ripeness_result.color_analysis.brown_percentage }}%</strong></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+          <div class="row g-4">
+            <div class="col-md-7">
+              <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white py-3 border-0">
+                  <h6 class="fw-bold mb-0 text-uppercase small text-muted"><i class="fas fa-chart-pie me-2"></i>Color Analysis</h6>
                 </div>
-
-                <div class="col-md-5">
-                    <div class="card border-0 shadow-sm rounded-4 h-100 text-white" style="background-color: #1B5E20;">
-                        <div class="card-body p-4 d-flex flex-column justify-content-center">
-                            <h6 class="text-uppercase fw-bold text-white-50 mb-3" style="letter-spacing: 1px;"><i class="fas fa-leaf me-2"></i>Nutrition</h6>
-                            <h1 class="fw-bold mb-0 display-5">{{ nutrition.calories }}</h1>
-                            <p class="text-white opacity-75 mb-3 small">per 100g serving</p>
-                            <div class="mt-auto">
-                                <span class="badge bg-white text-success border border-white mb-2 fs-6">{{ nutrition.vitamin }}</span>
-                                <div class="fw-bold mt-1 text-white fs-6"><i class="fas fa-heartbeat me-1"></i> {{ nutrition.benefit }}</div>
-                            </div>
-                        </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                  <div class="row w-100 align-items-center">
+                    <div class="col-5">
+                      <canvas id="colorChart"></canvas>
                     </div>
+                    <div class="col-7">
+                      <ul class="list-unstyled mb-0 small">
+                        <li class="mb-2 d-flex justify-content-between">
+                          <span><span class="badge bg-success me-1">●</span> Green</span> <strong>{{ ripeness_result.color_analysis.green_percentage }}%</strong>
+                        </li>
+                        <li class="mb-2 d-flex justify-content-between">
+                          <span><span class="badge me-1" style="background-color: {% if is_red_fruit %}#D32F2F{% else %}#FFC107{% endif %}; color: white;">●</span> {% if is_red_fruit %}Red{% else %}Yellow{% endif %}</span> 
+                          <strong>{{ ripeness_result.color_analysis.yellow_percentage }}%</strong>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                          <span><span class="badge me-1" style="background-color: #795548;">●</span> Brown</span> <strong>{{ ripeness_result.color_analysis.brown_percentage }}%</strong>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
 
+            <div class="col-md-5">
+              <div class="card border-0 shadow-sm rounded-4 h-100 text-white" style="background-color: #1B5E20;">
+                <div class="card-body p-4 d-flex flex-column justify-content-center">
+                  <h6 class="text-uppercase fw-bold text-white-50 mb-3" style="letter-spacing: 1px;"><i class="fas fa-leaf me-2"></i>Nutrition</h6>
+                  <h1 class="fw-bold mb-0 display-5">{{ nutrition.calories }}</h1>
+                  <p class="text-white opacity-75 mb-3 small">per 100g serving</p>
+                  <div class="mt-auto">
+                    <span class="badge bg-white text-success border border-white mb-2 fs-6">{{ nutrition.vitamin }}</span>
+                    <div class="fw-bold mt-1 text-white fs-6">
+                      <i class="fas fa-heartbeat me-1"></i> {{ nutrition.benefit }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <script>
+      <script>
         const ctx = document.getElementById('colorChart').getContext('2d');
         const isRedFruit = {{ 'true' if is_red_fruit else 'false' }};
         const ripeColor = isRedFruit ? '#D32F2F' : '#FFEB3B';
@@ -225,41 +210,124 @@
         {% endif %}
     </script>
     {% endif %}
-</div>
-<div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-      
-      <div class="modal-header bg-danger text-white border-0">
-        <h5 class="modal-title fw-bold"><i class="fas fa-exclamation-triangle me-2"></i>Report Inaccuracy</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+  </div>
 
-      <div class="modal-body p-4 text-center">
-        <div class="mb-3">
+  <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-danger text-white border-0">
+          <h5 class="modal-title fw-bold"><i class="fas fa-exclamation-triangle me-2"></i>Report Inaccuracy</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4 text-center">
+          <div class="mb-3">
             <span class="fa-stack fa-2x text-danger opacity-75">
               <i class="fas fa-circle fa-stack-2x"></i>
               <i class="fas fa-flag fa-stack-1x fa-inverse"></i>
             </span>
+          </div>
+          <h5 class="fw-bold text-dark">Flag this result?</h5>
+          <p class="text-muted small mb-0">
+            This helps our team retrain the AI model for better accuracy in the future.
+            <br /><strong>Is this result definitely incorrect?</strong>
+          </p>
         </div>
-        <h5 class="fw-bold text-dark">Flag this result?</h5>
-        <p class="text-muted small mb-0">
-            This helps our team retrain the AI model for better accuracy in the future. 
-            <br><strong>Is this result definitely incorrect?</strong>
-        </p>
-      </div>
 
-      <div class="modal-footer border-0 bg-light p-3 justify-content-center gap-2">
-        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-        
-        <form action="{{ url_for('report_error', filename=filename) }}" method="POST">
-            <button type="submit" class="btn btn-danger rounded-pill px-4 shadow-sm fw-bold">
-                Yes, Report It
-            </button>
-        </form>
-      </div>
+        <div class="modal-footer border-0 bg-light p-3 justify-content-center gap-2">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
 
+          <form action="{{ url_for('report_error', filename=filename) }}" method="POST">
+            <button type="submit" class="btn btn-danger rounded-pill px-4 shadow-sm fw-bold">Yes, Report It</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
+
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            
+            <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center" 
+                 style="cursor: pointer;" 
+                 data-bs-toggle="collapse" 
+                 data-bs-target="#timelineCollapse"
+                 aria-expanded="false">
+                <h6 class="mb-0 fw-bold text-uppercase small text-muted" style="letter-spacing: 1px;">
+                    <i class="fas fa-network-wired me-2"></i> Neural Analysis Log
+                </h6>
+                <i class="fas fa-chevron-down text-muted"></i>
+            </div>
+            
+            <div id="timelineCollapse" class="collapse">
+                <div class="card-body bg-light p-4">
+                    <div class="timeline">
+                        {% for log in ai_logs %}
+                            <div class="timeline-item">
+                                <div class="timeline-marker 
+                                    {% if '⛔' in log %}bg-danger
+                                    {% elif '✅' in log %}bg-success
+                                    {% elif '🦸' in log %}bg-primary
+                                    {% else %}bg-secondary{% endif %}">
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="mb-0 small text-dark fw-medium">{{ log }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-success"></div>
+                            <div class="timeline-content">
+                                <p class="mb-0 small text-success fw-bold">Analysis Complete</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .timeline {
+        position: relative;
+        padding-left: 10px;
+    }
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 15px; /* Aligns line with dots */
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #e9ecef;
+    }
+    .timeline-item {
+        position: relative;
+        padding-bottom: 1.5rem;
+        padding-left: 2rem;
+    }
+    .timeline-item:last-child {
+        padding-bottom: 0;
+    }
+    .timeline-marker {
+        position: absolute;
+        left: 11px; /* Center the dot on the line */
+        top: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid white; /* White ring effect */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        z-index: 1;
+    }
+    .timeline-content {
+        background: white;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+</style>
 {% endblock %}

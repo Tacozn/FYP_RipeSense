@@ -8,34 +8,63 @@
             
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold">Live Object Detection</h2>
-                <span class="badge bg-danger rounded-pill px-3 py-2">
-                    <span class="recording-indicator me-2"></span> LIVE FEED
-                </span>
-            </div>
-
-            <div class="camera-container aspect-ratio-16x9 mb-4">
-                
-                <div class="hud-overlay">
-                    <span class="badge bg-black bg-opacity-50 border border-success text-success font-monospace">
-                        YOLOv8 MODEL ACTIVE
+                <div class="d-flex justify-content-center gap-3 mb-3">
+                    <span id="cameraStatus" class="badge bg-danger rounded-pill px-3 py-2">
+                        <i class="fas fa-video-slash me-1"></i> Camera: OFF
+                    </span>
+                    <span id="liveStatus" class="badge bg-secondary rounded-pill px-3 py-2">
+                        <i class="fas fa-microchip me-1"></i> Mode: STANDBY
                     </span>
                 </div>
+            </div>
+
+            <div class="camera-container aspect-ratio-16x9 mb-4 position-relative overflow-hidden">
+                
+                <div class="hud-overlay" style="pointer-events: none;">
+                    <span class="badge bg-black bg-opacity-50 border border-success text-success font-monospace mb-1">
+                        MODEL: YOLOv8-Custom
+                    </span><br>
+                    <span id="latencyTag" class="badge bg-black bg-opacity-50 border border-white text-white font-monospace">
+                        LATENCY: -- ms
+                    </span>
+                </div>
+
                 <div class="scan-grid"></div>
 
-                <video id="video" autoplay playsinline class="w-100" style="display: block;"></video>
-                <canvas id="canvas" class="w-100 h-100" style="position: absolute; top: 0; left: 0;"></canvas>
+                <video id="video" autoplay playsinline class="w-100 h-100" style="object-fit: cover;"></video>
+                
+                <canvas id="canvas" class="w-100 h-100" style="position: absolute; top: 0; left: 0; pointer-events: none;"></canvas>
             
             </div>
 
-            <div class="card glass-card border-0 p-4">
+            <div class="card glass-card border-0 p-4 mb-3">
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <h5 class="fw-bold">Session Controls</h5>
-                        <p class="text-muted small mb-0">Stream runs locally in browser. No data is sent to server.</p>
+                        <p class="text-muted small mb-0">
+                            <strong>Note:</strong> Detection speed depends on server hardware. <br>
+                            Localhost = Fast (~0.2s) | Cloud Free Tier = Slow (~50s).
+                        </p>
                     </div>
                     <div class="col-md-4 text-end">
-                        <a href="/" class="btn btn-outline-danger rounded-pill px-4">Stop Stream</a>
+                        <button id="toggleBtn" onclick="toggleStream()" class="btn btn-success rounded-pill px-4 shadow-sm fw-bold">
+                            Start Camera
+                        </button>
                     </div>
+                </div>
+            </div>
+
+            <div class="card glass-card border-0 p-4">
+                <h5 class="fw-bold mb-3">🧪 Test Mode (No Fruits Needed!)</h5>
+                <p class="text-muted small mb-3">Upload a test image to simulate camera detection:</p>
+                <div class="d-flex gap-2">
+                    <input type="file" id="testImageInput" accept="image/*" class="form-control" style="max-width: 300px;">
+                    <button id="testBtn" onclick="startTestMode()" class="btn btn-primary rounded-pill px-4 shadow-sm fw-bold">
+                        Test with Image
+                    </button>
+                    <button id="stopTestBtn" onclick="stopTestMode()" class="btn btn-outline-secondary rounded-pill px-3 shadow-sm" style="display: none;">
+                        Stop Test
+                    </button>
                 </div>
             </div>
 
@@ -47,61 +76,346 @@
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
+    const statusBadge = document.getElementById('statusBadge');
+    const latencyTag = document.getElementById('latencyTag');
+    const toggleBtn = document.getElementById('toggleBtn');
 
-    // Access Webcam
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    // 👻 Ghost Canvas (Invisible) - Used to capture the image for the AI
+    const ghostCanvas = document.createElement('canvas');
+    const ghostCtx = ghostCanvas.getContext('2d');
+
+    let isRunning = false;
+    let isProcessing = false;
+    let isTestMode = false;
+    let testImage = null; 
+
+    // Ensure the Real Canvas is transparent and on top
+    canvas.style.zIndex = "10"; 
+    canvas.style.position = "absolute";
+
+    async function toggleStream() {
+        if (isRunning) stopStream();
+        else startStream();
+    }
+
+    function startStream() {
+       
+        navigator.mediaDevices.getUserMedia({ 
+            video: { facingMode: 'environment', width: { ideal: 640 }, height: { ideal: 480 } } 
+        })
         .then(stream => {
             video.srcObject = stream;
             video.onloadedmetadata = () => {
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
-                startDetection(); // Start the loop
+                ghostCanvas.width = video.videoWidth;
+                ghostCanvas.height = video.videoHeight;
+                
+                isRunning = true;
+                
+                // 🟢 UPDATE UI STATE
+                toggleBtn.innerText = "Stop Stream";
+                toggleBtn.classList.replace('btn-success', 'btn-outline-danger');
+                
+                // Fix: Access the correct IDs from your HTML
+                const camBadge = document.getElementById('cameraStatus');
+                const liveBadge = document.getElementById('liveStatus');
+
+                camBadge.innerHTML = '<i class="fas fa-video me-1"></i> Camera: ON';
+                camBadge.classList.replace('bg-danger', 'bg-success');
+
+                liveBadge.innerHTML = '<i class="fas fa-broadcast-tower me-1"></i> Mode: LIVE';
+                liveBadge.classList.replace('bg-secondary', 'bg-primary');
+                liveBadge.classList.add('pulse-live');
+                
+                requestAnimationFrame(processFrame);
             };
         })
-        .catch(err => console.error("Camera Error:", err));
+        .catch(err => {
+            console.error("Camera Error:", err);
+            alert("Camera access denied.");
+        });
+    }
 
-    function startDetection() {
-        setInterval(() => {
-            // Draw video to canvas (hidden processing step)
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imageData = canvas.toDataURL('image/jpeg');
+    function stopStream() {
+        isRunning = false;
+        if (video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop());
+        }
+        video.srcObject = null;
 
-            // Send to Backend
-            fetch('/detect_objects', {
+        // 🔴 RESET UI STATE
+        toggleBtn.innerText = "Start Camera";
+        toggleBtn.classList.replace('btn-outline-danger', 'btn-success');
+        
+        const camBadge = document.getElementById('cameraStatus');
+        const liveBadge = document.getElementById('liveStatus');
+
+        camBadge.innerHTML = '<i class="fas fa-video-slash me-1"></i> Camera: OFF';
+        camBadge.classList.replace('bg-success', 'bg-danger');
+
+        liveBadge.innerHTML = '<i class="fas fa-microchip me-1"></i> Mode: STANDBY';
+        liveBadge.classList.replace('bg-primary', 'bg-secondary');
+        liveBadge.classList.remove('pulse-live');
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        latencyTag.innerText = "LATENCY: -- ms";
+    }
+
+    async function processFrame() {
+        if (!isRunning && !isTestMode) return;
+        
+        if (isProcessing) {
+            requestAnimationFrame(processFrame);
+            return;
+        }
+
+        isProcessing = true;
+        const startTime = Date.now();
+
+        try {
+            // 1. Draw video or test image to GHOST canvas (Invisible)
+            if (isTestMode && testImage) {
+                ghostCtx.drawImage(testImage, 0, 0, ghostCanvas.width, ghostCanvas.height);
+            } else {
+                ghostCtx.drawImage(video, 0, 0, ghostCanvas.width, ghostCanvas.height);
+            }
+            
+            // 2. Convert ghost canvas to image data
+            const imageData = ghostCanvas.toDataURL('image/jpeg', 0.5); // 0.5 quality for speed
+
+            // 3. Send to Server
+            const response = await fetch('/detect_objects', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ image_data: imageData })
-            })
-            .then(response => response.json())
-            .then(data => {
-                ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear old boxes
-                
-                data.forEach(obj => {
-                    const [x1, y1, x2, y2] = obj.bbox;
-                    const width = x2 - x1;
-                    const height = y2 - y1;
+            });
 
-                    // Draw Bounding Box
-                    ctx.strokeStyle = '#00E676'; // Bright Green (Material Design)
-                    ctx.lineWidth = 4;
-                    ctx.strokeRect(x1, y1, width, height);
+            const data = await response.json();
 
-                    // Draw Label Background
-                    ctx.fillStyle = '#00E676';
-                    const text = `${obj.class} ${Math.round(obj.confidence * 100)}%`;
-                    const textWidth = ctx.measureText(text).width;
-                    
-                    // Draw label background box
-                    ctx.fillRect(x1, y1 - 25, textWidth + 10, 25);
-                    
-                    // Draw Text
-                    ctx.fillStyle = '#000000'; // Black text for contrast
-                    ctx.font = 'bold 16px Arial';
-                    ctx.fillText(text, x1 + 5, y1 - 7);
+            // 4. Draw Green Boxes on REAL Canvas (Transparent)
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear old boxes ONLY (not the video)
+            
+            // Enhanced logging
+            if (data.length > 0) {
+                console.log(`✅ Detected ${data.length} fruit(s):`, data);
+                data.forEach((obj, idx) => {
+                    console.log(`  ${idx + 1}. ${obj.class} (${Math.round(obj.confidence * 100)}% confidence)`);
                 });
-            })
-            .catch(err => console.log("Detection Error (Is backend running?):", err));
-        }, 500); // Run every 500ms (2 FPS)
+            } else {
+                console.log("❌ No fruits detected in this frame");
+                // Draw a message on canvas if in test mode
+                if (isTestMode) {
+                    ctx.font = 'bold 24px Arial';
+                    ctx.fillStyle = '#ff4444';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('No fruits detected', canvas.width / 2, canvas.height / 2);
+                    ctx.fillText('Try another image', canvas.width / 2, canvas.height / 2 + 30);
+                    ctx.textAlign = 'left';
+                }
+            }
+
+            data.forEach(obj => {
+                let [x1, y1, x2, y2] = obj.bbox;
+                
+                // Scale coordinates if in test mode
+                if (isTestMode && testImage && testImage.scaleX) {
+                    x1 = x1 * testImage.scaleX + testImage.offsetX;
+                    y1 = y1 * testImage.scaleY + testImage.offsetY;
+                    x2 = x2 * testImage.scaleX + testImage.offsetX;
+                    y2 = y2 * testImage.scaleY + testImage.offsetY;
+                }
+                
+                const width = x2 - x1;
+                const height = y2 - y1;
+                
+                // Draw Box
+                ctx.strokeStyle = '#00E676';
+                ctx.lineWidth = 4;
+                ctx.strokeRect(x1, y1, width, height);
+
+                // Draw Label Background
+                const text = `${obj.class} ${Math.round(obj.confidence * 100)}%`;
+                ctx.font = 'bold 18px Arial';
+                const textWidth = ctx.measureText(text).width;
+                
+                ctx.fillStyle = '#00E676';
+                ctx.fillRect(x1, y1 - 30, textWidth + 10, 30);
+                
+                // Draw Text
+                ctx.fillStyle = '#000000';
+                ctx.fillText(text, x1 + 5, y1 - 8);
+            });
+
+            const duration = Date.now() - startTime;
+            latencyTag.innerText = `LATENCY: ${duration} ms`;
+
+        } catch (err) {
+            console.error(err);
+        } finally {
+            isProcessing = false;
+            if (isRunning) {
+                // Continuous processing for live camera
+                requestAnimationFrame(processFrame);
+            } else if (isTestMode) {
+                // Test mode: only process once, don't loop
+                // User can click "Test with Image" again to re-run
+            }
+        }
+    }
+
+    // Test Mode Functions
+    function startTestMode() {
+        const fileInput = document.getElementById('testImageInput');
+        if (!fileInput.files || !fileInput.files[0]) {
+            alert('Please select an image first!');
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            testImage = new Image();
+            testImage.onload = function() {
+                // Stop camera if running
+                if (isRunning) {
+                    stopStream();
+                }
+                
+                // Get container dimensions
+                const container = document.querySelector('.camera-container');
+                let containerWidth = container.offsetWidth;
+                let containerHeight = container.offsetHeight;
+                
+                // Fallback if container has no dimensions (camera was never started)
+                if (containerWidth === 0 || containerHeight === 0) {
+                    containerWidth = container.clientWidth || window.innerWidth * 0.8 || 640;
+                    containerHeight = container.clientHeight || 480;
+                    // Set explicit dimensions
+                    container.style.width = containerWidth + 'px';
+                    container.style.height = containerHeight + 'px';
+                    console.log(`📐 Container dimensions set to: ${containerWidth}x${containerHeight}`);
+                }
+                
+                console.log(`🖼️ Image dimensions: ${testImage.width}x${testImage.height}`);
+                console.log(`📦 Container dimensions: ${containerWidth}x${containerHeight}`);
+                
+                // Calculate scaling to fit container while maintaining aspect ratio
+                const imgAspect = testImage.width / testImage.height;
+                const containerAspect = containerWidth / containerHeight;
+                
+                let displayWidth, displayHeight, offsetX = 0, offsetY = 0;
+                
+                if (imgAspect > containerAspect) {
+                    // Image is wider - fit to width
+                    displayWidth = containerWidth;
+                    displayHeight = containerWidth / imgAspect;
+                    offsetY = (containerHeight - displayHeight) / 2;
+                } else {
+                    // Image is taller - fit to height
+                    displayHeight = containerHeight;
+                    displayWidth = containerHeight * imgAspect;
+                    offsetX = (containerWidth - displayWidth) / 2;
+                }
+                
+                // Set canvas dimensions to match container (for drawing boxes)
+                canvas.width = containerWidth;
+                canvas.height = containerHeight;
+                // Set ghost canvas to actual image size (for detection)
+                ghostCanvas.width = testImage.width;
+                ghostCanvas.height = testImage.height;
+                
+                // Hide video
+                video.style.display = 'none';
+                
+                // Ensure container is visible and has background
+                container.style.minHeight = '400px';
+                container.style.backgroundColor = '#000';
+                
+                // Remove existing test image if any
+                const existingImg = document.getElementById('testImageDisplay');
+                if (existingImg) existingImg.remove();
+                
+                // Create and display the test image
+                const imgElement = document.createElement('img');
+                imgElement.src = e.target.result;
+                imgElement.style.width = displayWidth + 'px';
+                imgElement.style.height = displayHeight + 'px';
+                imgElement.style.objectFit = 'contain';
+                imgElement.style.position = 'absolute';
+                imgElement.style.top = offsetY + 'px';
+                imgElement.style.left = offsetX + 'px';
+                imgElement.style.zIndex = '1';
+                imgElement.id = 'testImageDisplay';
+                imgElement.style.backgroundColor = 'transparent';
+                imgElement.style.display = 'block';
+                
+                // Add image to container
+                container.appendChild(imgElement);
+                
+                // Force a reflow to ensure image is rendered
+                container.offsetHeight;
+                
+                console.log(`✅ Test image added to container. Display size: ${displayWidth}x${displayHeight}, Position: (${offsetX}, ${offsetY})`);
+                
+                // Store scaling info for drawing boxes
+                testImage.scaleX = displayWidth / testImage.width;
+                testImage.scaleY = displayHeight / testImage.height;
+                testImage.offsetX = offsetX;
+                testImage.offsetY = offsetY;
+                
+                isTestMode = true;
+                
+                // Update UI
+                document.getElementById('testBtn').style.display = 'none';
+                document.getElementById('stopTestBtn').style.display = 'inline-block';
+                document.getElementById('toggleBtn').disabled = true;
+                
+                const liveBadge = document.getElementById('liveStatus');
+                liveBadge.innerHTML = '<i class="fas fa-flask me-1"></i> Mode: TEST';
+                liveBadge.classList.replace('bg-secondary', 'bg-warning');
+                
+                // Show processing indicator
+                latencyTag.innerText = "LATENCY: Processing...";
+                console.log("🧪 Test Mode: Image loaded, starting detection...");
+                
+                // Clear any previous boxes
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Start processing
+                setTimeout(() => {
+                    requestAnimationFrame(processFrame);
+                }, 100); // Small delay to ensure image is rendered
+            };
+            testImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function stopTestMode() {
+        isTestMode = false;
+        const testImg = document.getElementById('testImageDisplay');
+        if (testImg) testImg.remove();
+        video.style.display = 'block';
+        
+        // Restore container styling
+        const container = document.querySelector('.camera-container');
+        container.style.minHeight = '';
+        container.style.backgroundColor = '';
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Update UI
+        document.getElementById('testBtn').style.display = 'inline-block';
+        document.getElementById('stopTestBtn').style.display = 'none';
+        document.getElementById('toggleBtn').disabled = false;
+        
+        const liveBadge = document.getElementById('liveStatus');
+        liveBadge.innerHTML = '<i class="fas fa-microchip me-1"></i> Mode: STANDBY';
+        liveBadge.classList.replace('bg-warning', 'bg-secondary');
+        
+        latencyTag.innerText = "LATENCY: -- ms";
     }
 </script>
 {% endblock %}

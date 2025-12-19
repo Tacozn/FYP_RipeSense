@@ -14,7 +14,7 @@
                 
                 <div id="scanOverlay" class="scan-overlay">
                     <div class="scanner-box">
-                        <img id="scanImage" src="" style="width:100%; height:100%; object-fit:cover; opacity:0.6;">
+                        <img id="scanImage" src="" style="width:100%; height:100%; object-fit:cover; opacity:0.8;">
                         <div class="scan-line"></div>
                     </div>
                     <div class="scan-text">Analyzing Neural Patterns...</div>
@@ -46,54 +46,37 @@
                 </form>
                 
                 <script>
-                    function showPreview(event) {
-                        if(event.target.files.length > 0){
-                            var src = URL.createObjectURL(event.target.files[0]);
-                            var preview = document.getElementById("preview");
-                            var text = document.getElementById("uploadText");
-                            var scanImage = document.getElementById("scanImage"); // For the scanner
-                            
-                            preview.src = src;
-                            preview.style.display = "block";
-                            scanImage.src = src; // Set the scanner image too
-                            text.style.display = "none";
-                        }
+                function showPreview(event) {
+                    if(event.target.files.length > 0){
+                        var src = URL.createObjectURL(event.target.files[0]);
+                        var preview = document.getElementById("preview");
+                        var text = document.getElementById("uploadText");
+                        var scanImage = document.getElementById("scanImage"); 
+                        
+                        preview.src = src;
+                        preview.style.display = "block";
+                        scanImage.src = src; 
+                        if(text) text.style.display = "none";
                     }
-                
-                    function startScan() {
-                        const fileInput = document.getElementById('fileInput');
-                        if (fileInput.files.length === 0) {
-                            alert("Please select an image first!");
-                            return;
-                        }
-                
-                        // 1. Show the cool overlay
-                        document.getElementById('scanOverlay').style.display = 'flex';
-                
-                        // 2. Wait 2.5 seconds (Fake "Thinking" Time)
-                        setTimeout(() => {
-                            // 3. Actually submit the form
-                            document.getElementById('uploadForm').submit();
-                        }, 2500); 
+                }
+
+                function startScan() {
+                    const fileInput = document.getElementById('fileInput');
+                    if (fileInput.files.length === 0) {
+                        alert("Please select an image first!");
+                        return;
                     }
+
+                    document.getElementById('scanOverlay').style.display = 'flex';
+
+                    setTimeout(() => {
+                        document.getElementById('uploadForm').submit();
+                    }, 1500); 
+                }
                 </script>
 
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    function showPreview(event) {
-        if(event.target.files.length > 0){
-            var src = URL.createObjectURL(event.target.files[0]);
-            var preview = document.getElementById("preview");
-            var text = document.getElementById("uploadText");
-            
-            preview.src = src;
-            preview.style.display = "block";
-            text.style.display = "none"; // Hide the cloud icon text
-        }
-    }
-</script>
 {% endblock %}

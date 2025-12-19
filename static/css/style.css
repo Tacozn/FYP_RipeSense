@@ -120,48 +120,65 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Scanning Overlay */
+/* --- 5. THE NEW HIGH-TECH SCANNER (REPLACEMENT ONLY) --- */
 .scan-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.98); /* Clean white backdrop */
     display: none;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    color: white;
+    justify-content: center;
+    z-index: 9999;
 }
+
 .scanner-box {
-    width: 300px; height: 300px;
-    border: 2px solid #2E7D32;
     position: relative;
-    box-shadow: 0 0 20px #2E7D32;
-    border-radius: 10px;
+    width: 300px;
+    height: 300px;
+    border: 5px solid #2E7D32; /* Using your Deep Fresh Green */
+    border-radius: 30px;
     overflow: hidden;
+    background: #fff; /* Prevents the black box glitch */
+    box-shadow: 0 0 25px rgba(46, 125, 50, 0.3);
+    margin-bottom: 20px;
 }
+
+#scanImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
 .scan-line {
-    width: 100%; height: 4px;
-    background: #00FF00;
-    box-shadow: 0 0 15px #00FF00;
     position: absolute;
     top: 0;
-    animation: scanMove 2s infinite linear;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #4CAF50;
+    box-shadow: 0 0 15px #4CAF50, 0 0 30px #4CAF50;
+    z-index: 10;
+    animation: scanMove 2s ease-in-out infinite;
 }
-@keyframes scanMove {
-    0% { top: 0%; opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { top: 100%; opacity: 0; }
-}
-.scan-text {
-    margin-top: 20px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.2rem;
-    animation: blink 1s infinite;
-}
-@keyframes blink { 50% { opacity: 0.5; } }
 
+@keyframes scanMove {
+    0% { top: 0%; }
+    50% { top: 100%; }
+    100% { top: 0%; }
+}
+
+.scan-text {
+    font-family: 'Poppins', sans-serif; /* Matching your theme */
+    color: #2E7D32;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
 /* --- 6. UTILITIES --- */
 .upload-zone {
     border: 3px dashed #A5D6A7;
@@ -244,4 +261,88 @@ body {
     .hero-section .btn { width: 80% !important; margin-bottom: 10px; padding-left: 0 !important; padding-right: 0 !important; }
     .hero-section { padding-top: 2rem !important; padding-bottom: 2rem !important; margin-bottom: 2rem !important; }
     .stat-card { margin-bottom: 15px; padding: 1.5rem !important; }
+}
+
+#how-it-works .hover-effect {
+    transition: all 0.3s ease;
+    border-top: 4px solid transparent;
+}
+#how-it-works .hover-effect:hover {
+    border-top: 4px solid var(--primary-color);
+    background-color: #f8fff9 !important;
+}
+
+@keyframes pulse-red {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(13, 110, 253, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(13, 110, 253, 0); }
+}
+
+.pulse-live {
+    animation: pulse-red 2s infinite;
+}
+
+/* 🧪 RipeSense Deep-Scan Animation */
+.scan-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    border: 2px solid rgba(46, 125, 50, 0.3);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    overflow: hidden;
+}
+
+/* The actual image being "scanned" */
+.scan-image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+}
+
+/* The moving laser line */
+.laser {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #4CAF50;
+    box-shadow: 0 0 20px #4CAF50, 0 0 40px #4CAF50;
+    z-index: 10;
+    animation: scanning 2s ease-in-out infinite;
+}
+
+/* The "Pulse" text */
+.scan-text {
+    font-family: 'Monaco', 'Consolas', monospace;
+    color: #2E7D32;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: blink 1s infinite;
+}
+
+@keyframes scanning {
+    0% { top: 0%; }
+    50% { top: 100%; }
+    100% { top: 0%; }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+@keyframes pulse-blue {
+    0% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(13, 110, 253, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0); }
+}
+
+.pulse-blue {
+    animation: pulse-blue 2s infinite;
 }
