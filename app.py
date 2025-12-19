@@ -58,14 +58,14 @@ except Exception as e:
     fruit_detection_model = None
 
 # C. Human Detector (For Privacy/Safety in Live Mode)
-try:
+#try:
     # 🔄 UPDATED PATH
-    model_path = os.path.join(BASE_DIR, 'models', 'yolov8n.pt')
-    print(f"👀 Loading Human Detector ({model_path})...")
-    human_model = YOLO(model_path) 
-except Exception as e:
-    print(f"⚠️ WARNING: Could not load Human Detector. Error: {e}")
-    human_model = None
+    #model_path = os.path.join(BASE_DIR, 'models', 'yolov8n.pt')
+    #print(f"👀 Loading Human Detector ({model_path})...")
+    #human_model = YOLO(model_path) 
+#except Exception as e:
+    #print(f"⚠️ WARNING: Could not load Human Detector. Error: {e}")
+    #human_model = None
 
 # ==========================================
 # 3. HELPER FUNCTIONS
