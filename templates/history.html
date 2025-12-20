@@ -4,105 +4,163 @@
 {% block content %}
 
 <style>
+    /* ✨ Custom Styles for this page */
     .fruit-link {
-        color: #212529; /* Standard dark text */
+        color: #212529;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
         display: inline-flex;
         align-items: center;
     }
-
     .fruit-link:hover {
         color: #2E7D32; /* Turns Green */
-        transform: translateX(5px); /* Slides right */
+        transform: translateX(5px);
     }
+    .fruit-link i { opacity: 0; transition: opacity 0.2s; }
+    .fruit-link:hover i { opacity: 0.5; }
+    
+    .hover-scale { transition: transform 0.2s; }
+    .hover-scale:hover { transform: scale(1.1); background-color: #f8d7da !important; }
 
-    .fruit-link i {
-        opacity: 0;
-        transition: opacity 0.2s;
+    /* Search Bar Styling */
+    .search-box {
+        border-color: #e9ecef;
+        padding-left: 15px;
     }
-
-    .fruit-link:hover i {
-        opacity: 0.5; /* Eye icon appears */
-    }
-    .pulse-blue {
-        animation: pulse-blue-glow 2s infinite;
-    }
-
-    @keyframes pulse-blue-glow {
-        0% {
-            box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.7);
-        }
-        70% {
-            box-shadow: 0 0 0 10px rgba(13, 110, 253, 0);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(13, 110, 253, 0);
-        }
+    .search-box:focus {
+        border-color: #198754;
+        box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
     }
 </style>
 
-<div class="container fade-in-up">
-    
-    <div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h2 class="fw-bold mb-0">Scan History</h2>
-        <p class="text-muted small mb-0">Manage and analyze your past classification records.</p>
+<div class="container mt-4">
+    <div class="row align-items-center mb-4 g-3">
+        <div class="col-lg-5 text-center text-lg-start">
+            <h2 class="fw-bold text-success mb-1">Scan History</h2>
+            <p class="text-muted mb-0">Manage and analyze your past classification records.</p>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="d-flex flex-wrap justify-content-center justify-content-lg-end gap-2">
+                <a href="{{ url_for('ripeness_detection') }}" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm fw-bold">
+                    <i class="fas fa-plus me-2"></i>Scan New
+                </a>
+                <a href="{{ url_for('export_history') }}" class="btn btn-success rounded-pill px-4 py-2 shadow-sm fw-bold">
+                    <i class="fas fa-file-csv me-2"></i>Export CSV
+                </a>
+                <form action="{{ url_for('clear_history') }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete all history?');">
+                    <button type="submit" class="btn btn-danger rounded-pill px-4 py-2 shadow-sm fw-bold">
+                        <i class="fas fa-trash-alt me-2"></i>Clear All
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
-    
-    <div class="d-flex gap-2 align-items-center">
 
-    <a href="/ripeness_detection" class="btn btn-primary pulse-blue rounded-pill px-4 py-2 shadow fw-bold border-0">
-    <i class="fas fa-plus me-2"></i> Scan Another Fruit
-    </a>
-
-    <a href="/export_history" class="btn btn-success rounded-pill px-4 py-2 fw-bold shadow-sm">
-        <i class="fas fa-file-csv me-2"></i> Export CSV
-    </a>
-
-    <form action="/clear_history" method="POST" onsubmit="return confirm('Are you sure you want to delete all history?');" class="m-0">
-        <button type="submit" class="btn btn-danger rounded-pill px-4 py-2 fw-bold shadow-sm">
-            <i class="fas fa-trash-alt me-2"></i> Clear All
-        </button>
-    </form>
-</div>
-</div>
+    <div class="row mb-4 justify-content-center">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm rounded-4 bg-white">
+                <div class="card-body p-2">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-0 ps-3">
+                                    <i class="fas fa-search text-muted"></i>
+                                </span>
+                                <input type="text" id="searchInput" class="form-control border-0 shadow-none search-box" 
+                                       placeholder="Search by fruit name, date, or status..." 
+                                       onkeyup="filterTable()">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <select id="statusFilter" class="form-select border-0 bg-light rounded-pill px-3 fw-bold text-secondary cursor-pointer" 
+                                    onchange="filterTable()" style="cursor: pointer;">
+                                <option value="all">📊 All Statuses</option>
+                                <option value="Ripe">✅ Ripe</option>
+                                <option value="Unripe">🌿 Unripe</option>
+                                <option value="Overripe">⚠️ Overripe</option>
+                                <option value="Rejected">🚫 Rejected</option>
+                                <option value="Flagged">🚩 Flagged Errors</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
+                <table class="table table-hover align-middle mb-0 text-nowrap" id="historyTable">
                     <thead class="bg-light">
                         <tr>
-                            <th class="py-3 ps-4 text-muted text-uppercase small fw-bold">Date</th>
-                            <th class="py-3 text-muted text-uppercase small fw-bold">Fruit Detected</th>
+                            <th class="py-3 ps-4 text-muted text-uppercase small fw-bold d-none d-md-table-cell">Date</th>
+                            <th class="py-3 text-muted text-uppercase small fw-bold ps-3">Fruit Detected</th>
                             <th class="py-3 text-muted text-uppercase small fw-bold">Status</th>
-                            <th class="py-3 text-muted text-uppercase small fw-bold">Confidence</th>
-                        </tr>
+                            <th class="py-3 text-muted text-uppercase small fw-bold d-none d-md-table-cell">Confidence</th>
+                            <th class="py-3 text-end pe-4" style="width: 50px;"></th> </tr>
                     </thead>
                     <tbody>
                         {% if history %}
                             {% for entry in history %}
                             <tr>
-                                <td class="py-3 ps-4 text-muted small">
+                                <td class="py-3 ps-4 text-muted small d-none d-md-table-cell">
                                     <i class="far fa-clock me-2"></i>{{ entry.timestamp }}
                                 </td>
                                 
-                                <td class="py-3">
-                                    <div class="fruit-link fw-bold text-uppercase"
-                                         data-bs-toggle="modal" 
-                                         data-bs-target="#fruitModal"
-                                         data-fruit="{{ entry.fruit }}"
-                                         data-result="{{ entry.result }}"
-                                         data-confidence="{{ entry.confidence }}"
-                                         data-timestamp="{{ entry.timestamp }}"
-                                         data-image="{{ entry.file }}"
-                                         onclick="showDetails(this)">
-                                        
-                                        {{ entry.fruit }}
-                                        <i class="fas fa-eye ms-2 small"></i>
-                                    </div>
-                                </td>
+                               <td class="py-3 ps-3">
+                        <div class="d-flex align-items-center">
+                            
+                            <div class="rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm flex-shrink-0" 
+                                 style="width: 42px; height: 42px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                                <span style="font-size: 1.4rem;">
+                                    {% set f = entry.fruit|lower %}
+                                    
+                                    {# 🍌 Known Fruits #}
+                                    {% if 'banana' in f %}🍌
+                                    {% elif 'mango' in f %}🥭
+                                    {% elif 'tomato' in f %}🍅
+                                    {% elif 'strawberry' in f %}🍓
+                                    {% elif 'orange' in f %}🍊
+                                    {% elif 'apple' in f %}🍎
+                                    {% elif 'lemon' in f %}🍋
+                                    {% elif 'grape' in f %}🍇
+                                    {% elif 'watermelon' in f %}🍉
+                                    {% elif 'pineapple' in f %}🍍
+                                    
+                                    {# 👤 Safety/People (Just in case) #}
+                                    {% elif 'person' in f or 'face' in f %}👤
+                                    
+                                    {# ❓ Everything Else (The Fallback) #}
+                                    {% else %}
+                                        <i class="fas fa-cube text-secondary opacity-50" style="font-size: 1.2rem;"></i>
+                                    {% endif %}
+                                </span>
+                            </div>
+
+                            <div>
+                                <div class="fruit-link fw-bold text-uppercase text-primary"
+                                     style="cursor: pointer;"
+                                     data-bs-toggle="modal" 
+                                     data-bs-target="#fruitModal"
+                                     data-fruit="{{ entry.fruit }}"
+                                     data-result="{{ entry.result }}"
+                                     data-confidence="{{ entry.confidence }}"
+                                     data-timestamp="{{ entry.timestamp }}"
+                                     data-image="{{ entry.file }}"
+                                     onclick="showDetails(this)">
+                                     
+                                    {{ entry.fruit }}
+                                </div>
+                                
+                                <div class="d-md-none text-muted small mt-1">
+                                    {{ entry.timestamp.split('·')[0] }} 
+                                </div>
+                            </div>
+                        </div>
+                    </td>
 
                                 <td class="py-3">
                                     {% if entry.get('flagged') %}
@@ -111,35 +169,42 @@
                                         </span><br>
                                     {% endif %}
 
-                                    {# 🛠️ FIX: Added specific check for Rejected items #}
                                     {% if 'Rejected' in entry.result %}
                                         <span class="badge bg-secondary text-white border border-secondary px-3 py-2 rounded-pill">
                                             <i class="fas fa-ban me-1"></i> Rejected
                                         </span>
-                                    {% elif entry.result == 'Ripe' %}
+                                    {% elif 'Ripe' in entry.result and 'Unripe' not in entry.result %}
                                         <span class="badge bg-warning text-dark bg-opacity-25 border border-warning px-3 py-2 rounded-pill">
                                             ● Ripe
                                         </span>
-                                    {% elif entry.result == 'Unripe' %}
+                                    {% elif 'Unripe' in entry.result %}
                                         <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill">
                                             ● Unripe
                                         </span>
                                     {% else %}
-                                        {# Fallback for Overripe #}
                                         <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-pill">
                                             ● Overripe
                                         </span>
                                     {% endif %}
                                 </td>
 
-                                <td class="py-3 fw-bold text-dark opacity-75">
+                                <td class="py-3 fw-bold text-dark opacity-75 d-none d-md-table-cell">
                                     {{ entry.confidence }}
+                                </td>
+
+                                <td class="py-3 text-end pe-4">
+                                    <button type="button" 
+                                            class="btn btn-sm btn-white text-danger border shadow-sm rounded-circle hover-scale" 
+                                            style="width: 35px; height: 35px;"
+                                            onclick="confirmDelete('{{ url_for('delete_item', filename=entry.file) }}')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 </td>
                             </tr>
                             {% endfor %}
                         {% else %}
-                            <tr>
-                                <td colspan="4" class="text-center py-5">
+                            <tr id="emptyRow">
+                                <td colspan="5" class="text-center py-5">
                                     <div class="text-muted opacity-50 display-1 mb-3">
                                         <i class="fas fa-folder-open"></i>
                                     </div>
@@ -151,6 +216,13 @@
                                 </td>
                             </tr>
                         {% endif %}
+                        
+                        <tr id="noResultsRow" style="display: none;">
+                            <td colspan="5" class="text-center py-5">
+                                <h5 class="fw-bold text-muted">No matches found</h5>
+                                <p class="text-muted small">Try adjusting your filters.</p>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -161,20 +233,15 @@
 <div class="modal fade" id="fruitModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-      
       <div class="position-relative bg-dark text-center" style="min-height: 250px;">
         <img id="modalImage" src="" class="img-fluid w-100" style="max-height: 500px; object-fit: contain;">
-        
         <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 shadow-none" data-bs-dismiss="modal"></button>
-        
         <div class="position-absolute bottom-0 start-0 m-3">
             <span class="badge bg-black bg-opacity-50 border border-secondary fw-normal" id="modalTimestamp">--</span>
         </div>
       </div>
-
       <div class="modal-body p-4 text-center bg-white">
         <h3 class="fw-bold mb-3 text-uppercase" id="modalFruit">Fruit Name</h3>
-        
         <div class="d-flex justify-content-center gap-3">
             <div class="px-4 py-2 bg-light rounded-pill border">
                 <small class="text-muted text-uppercase fw-bold" style="font-size: 0.65rem;">Result</small>
@@ -186,40 +253,104 @@
             </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+      <div class="modal-header border-0 bg-danger text-white">
+        <h5 class="modal-title fw-bold"><i class="fas fa-exclamation-triangle me-2"></i>Delete Record?</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4 text-center">
+        <div class="mb-3">
+            <span class="fa-stack fa-2x text-danger opacity-75">
+              <i class="fas fa-circle fa-stack-2x"></i>
+              <i class="fas fa-trash-alt fa-stack-1x fa-inverse"></i>
+            </span>
+        </div>
+        <h5 class="fw-bold text-dark">Are you sure?</h5>
+        <p class="text-muted small mb-0">This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer border-0 bg-light p-3 justify-content-center gap-2">
+        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+        <form id="deleteForm" method="POST">
+            <button type="submit" class="btn btn-danger rounded-pill px-4 shadow-sm fw-bold">Yes, Delete It</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-    function showDetails(element) {
-        // Get data from attributes
-        const fruit = element.getAttribute('data-fruit');
-        const result = element.getAttribute('data-result');
-        const confidence = element.getAttribute('data-confidence');
-        const timestamp = element.getAttribute('data-timestamp');
-        const imageFile = element.getAttribute('data-image');
+    // 🔍 SEARCH & FILTER LOGIC
+    function filterTable() {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        const statusFilter = document.getElementById("statusFilter").value;
+        const table = document.getElementById("historyTable");
+        const rows = table.getElementsByTagName("tr");
+        let visibleCount = 0;
 
-        // Update Text
-        document.getElementById('modalFruit').innerText = fruit;
-        document.getElementById('modalTimestamp').innerText = timestamp;
-        document.getElementById('modalConfidence').innerText = confidence;
+        for (let i = 1; i < rows.length; i++) { // Start at 1 to skip header
+            let row = rows[i];
+            
+            // Skip the "Empty State" or "No Results" special rows
+            if (row.id === "emptyRow" || row.id === "noResultsRow") continue;
+
+            const dateText = row.cells[0].textContent.toLowerCase();
+            const fruitText = row.cells[1].textContent.toLowerCase();
+            const statusText = row.cells[2].textContent.trim(); 
+
+            // Check Search Text
+            const matchesSearch = dateText.includes(input) || fruitText.includes(input) || statusText.toLowerCase().includes(input);
+            
+            // Check Status Dropdown
+            let matchesStatus = true;
+            if (statusFilter !== 'all') {
+                // We use includes because status might be "● Ripe" or "Forbidden: Apple"
+                matchesStatus = statusText.includes(statusFilter);
+            }
+
+            if (matchesSearch && matchesStatus) {
+                row.style.display = "";
+                visibleCount++;
+            } else {
+                row.style.display = "none";
+            }
+        }
+
+        // Show "No Results" message if everything is hidden
+        const noResultsRow = document.getElementById("noResultsRow");
+        if (noResultsRow) {
+            noResultsRow.style.display = (visibleCount === 0 && rows.length > 2) ? "" : "none";
+        }
+    }
+
+    // 📋 MODAL LOGIC
+    function showDetails(element) {
+        document.getElementById('modalFruit').innerText = element.getAttribute('data-fruit');
+        document.getElementById('modalTimestamp').innerText = element.getAttribute('data-timestamp');
+        document.getElementById('modalConfidence').innerText = element.getAttribute('data-confidence');
+        document.getElementById('modalImage').src = "/static/uploads/" + element.getAttribute('data-image');
         
-        // Update Image
-        document.getElementById('modalImage').src = "/static/uploads/" + imageFile;
-        
-        // Update Color Logic
+        const result = element.getAttribute('data-result');
         const resultEl = document.getElementById('modalResult');
         resultEl.innerText = result;
-        resultEl.className = "fw-bold fs-5"; 
         
-        // Reset classes first
         resultEl.className = "fw-bold fs-5";
-        
         if (result === 'Ripe') resultEl.classList.add('text-warning');
         else if (result === 'Unripe') resultEl.classList.add('text-success');
-        else if (result.includes('Rejected')) resultEl.classList.add('text-secondary'); // Grey for rejected
-        else resultEl.classList.add('text-danger'); // Red for Overripe
+        else if (result.includes('Rejected')) resultEl.classList.add('text-secondary');
+        else resultEl.classList.add('text-danger');
+    }
+
+    function confirmDelete(deleteUrl) {
+        const deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = deleteUrl;
+        const myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        myModal.show();
     }
 </script>
 

@@ -30,7 +30,7 @@ UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'uploads')
 HISTORY_FILE = os.path.join(BASE_DIR, 'history.json')
 
 # 🔄 UPDATED PATH: Pointing to the new 'models' folder
-DETECTION_MODEL_PATH = os.path.join(BASE_DIR, 'models', 'best.onnx')
+DETECTION_MODEL_PATH = os.path.join(BASE_DIR, 'models', 'best.pt')
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
@@ -42,7 +42,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 # A. Gatekeeper (General Classification)
 try:
     # 🔄 UPDATED PATH
-    model_path = os.path.join(BASE_DIR, 'models', 'yolov8n-cls.onnx')
+    model_path = os.path.join(BASE_DIR, 'models', 'yolov8n-cls.pt')
     print(f"🧠 Loading Gatekeeper Model ({model_path})...")
     gatekeeper_model = YOLO(model_path)
 except Exception as e:

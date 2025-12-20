@@ -3087,5 +3087,40 @@
         "fruit": "Ripe Tomato",
         "result": "Ripe",
         "confidence": "54.2%"
+    },
+    {
+        "timestamp": "2025-12-20 21:00:12",
+        "file": "webcam_capture.jpg",
+        "fruit": "Neck_brace",
+        "result": "Rejected (Non-Fruit)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 21:00:47",
+        "file": "webcam_capture.jpg",
+        "fruit": "Unidentified Object",
+        "result": "Rejected (Low Conf)",
+        "confidence": "33.6%"
+    },
+    {
+        "timestamp": "2025-12-20 21:01:14",
+        "file": "webcam_capture.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.5%"
+    },
+    {
+        "timestamp": "2025-12-20 21:02:29",
+        "file": "webcam_capture.jpg",
+        "fruit": "Unidentified Object",
+        "result": "Rejected (Low Conf)",
+        "confidence": "24.6%"
+    },
+    {
+        "timestamp": "2025-12-20 23:17:44",
+        "file": "1766243864_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
     }
 ]

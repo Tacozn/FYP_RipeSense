@@ -2,11 +2,93 @@
 {% block title %}Analyze - RipeSense{% endblock %}
 
 {% block content %}
+<style>
+    /* 🎨 CUSTOM THEME STYLES */
+    
+    /* 1. The Toggle Switch (Segmented Control) */
+    .mode-toggle {
+        background-color: #f1f3f5;
+        border-radius: 50px;
+        padding: 5px;
+        display: inline-flex;
+        position: relative;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .mode-btn {
+        border: none;
+        background: transparent;
+        color: #6c757d;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .mode-btn.active {
+        background-color: #198754; /* RipeSense Green */
+        color: white;
+        box-shadow: 0 4px 6px rgba(25, 135, 84, 0.3);
+    }
+    .mode-btn:hover:not(.active) {
+        color: #198754;
+    }
+
+    /* 2. The Camera Shutter Button */
+    .shutter-btn {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: white;
+        border: 4px solid #e9ecef;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.1s, border-color 0.2s;
+        margin: 0 auto;
+    }
+    .shutter-btn:active {
+        transform: scale(0.95);
+        border-color: #198754;
+    }
+    .shutter-btn i {
+        color: #333;
+        font-size: 24px;
+    }
+    .shutter-label {
+        margin-top: 8px;
+        font-size: 0.9rem;
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    /* 3. Upload Zone Polish */
+    .upload-zone {
+        border: 2px dashed #a3cfbb; /* Softer Green Border */
+        background-color: #f8fdfa; /* Very light green tint */
+        transition: all 0.3s;
+    }
+    .upload-zone:hover {
+        border-color: #198754;
+        background-color: #edf7f2;
+    }
+</style>
+
 <div class="row justify-content-center">
     <div class="col-lg-6 col-md-8">
         <div class="text-center mb-4">
             <h2 class="fw-bold text-success">Analyze Fruit Ripeness</h2>
-            <p class="text-muted">Upload a photo to detect freshness instantly.</p>
+            <p class="text-muted">Upload a photo or use your camera to detect ripeness.</p>
+        </div>
+
+        <div class="d-flex justify-content-center mb-4">
+            <div class="mode-toggle">
+                <button type="button" class="mode-btn active" id="btn-upload-mode" onclick="switchMode('upload')">
+                    <i class="fas fa-cloud-upload-alt me-2"></i>Upload
+                </button>
+                <button type="button" class="mode-btn" id="btn-camera-mode" onclick="switchMode('camera')">
+                    <i class="fas fa-camera me-2"></i>Camera
+                </button>
+            </div>
         </div>
 
         <div class="card shadow-lg p-4 border-0 rounded-4">
@@ -23,29 +105,152 @@
                 
                 <form id="uploadForm" action="{{ url_for('detect_ripeness') }}" method="post" enctype="multipart/form-data">
                     
-                    <label for="fileInput" class="upload-zone w-100 p-5 text-center mb-4 d-block position-relative">
-                        <div id="uploadText">
-                            <div class="display-4 text-success mb-3">☁️</div>
-                            <h5 class="fw-bold">Tap to Select Image</h5>
-                        </div>
-                        
-                        <img id="preview" src="#" alt="Preview" 
-                             style="display: none; max-height: 250px; width: auto; margin: 0 auto; border-radius: 15px;">
-                        
-                        <input type="file" id="fileInput" name="file" accept="image/*" 
-                               style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;"
-                               onchange="showPreview(event)" required>
-                    </label>
-                
-                    <div class="d-grid gap-3">
-                        <button type="button" onclick="startScan()" class="btn btn-success btn-lg rounded-pill shadow-sm">
-                            ✨ Run AI Analysis
-                        </button>
-                        <a href="/" class="btn btn-outline-secondary rounded-pill border-0">Cancel</a>
+                    <div id="upload-section">
+                        <label for="fileInput" class="upload-zone w-100 p-5 text-center mb-4 d-block position-relative rounded-4">
+                            <div id="uploadText">
+                                <div class="mb-3">
+                                    <i class="fas fa-image fa-3x text-success opacity-50"></i>
+                                </div>
+                                <h5 class="fw-bold text-dark">Tap to Select Image</h5>
+                                <small class="text-muted">Supports JPG, PNG, JPEG</small>
+                            </div>
+                            
+                            <img id="preview" src="#" alt="Preview" 
+                                 style="display: none; max-height: 250px; width: auto; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                            
+                            <input type="file" id="fileInput" name="file" accept="image/*" 
+                                   style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;"
+                                   onchange="showPreview(event)" required>
+                        </label>
                     </div>
+
+                    <div id="camera-section" class="text-center mb-4" style="display: none;">
+                        <div class="position-relative d-inline-block rounded-4 overflow-hidden shadow-sm border bg-black" style="min-height: 300px; width: 100%;">
+                            
+                            <video id="video" autoplay playsinline style="width: 100%; height: 100%; object-fit: cover; display: none;"></video>
+                            
+                            <img id="camera-preview" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                            
+                            <canvas id="canvas" style="display:none;"></canvas>
+
+                            <div id="camera-placeholder" class="d-flex align-items-center justify-content-center h-100 text-white flex-column" style="padding-top: 80px;">
+                                <i class="fas fa-camera fa-3x mb-3 opacity-50"></i>
+                                <p class="opacity-75">Camera is currently off</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="button" class="btn btn-success rounded-pill px-4 py-2 shadow-sm" id="start-camera-btn" onclick="startCamera()">
+                                <i class="fas fa-power-off me-2"></i>Activate Camera
+                            </button>
+
+                            <div id="capture-group" style="display: none;">
+                                <button type="button" class="shutter-btn" onclick="capturePhoto()" title="Take Photo">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                                <div class="shutter-label">Capture Photo</div>
+                            </div>
+
+                            <button type="button" class="btn btn-outline-warning rounded-pill px-4 mt-2" id="retake-btn" onclick="retakePhoto()" style="display: none;">
+                                <i class="fas fa-redo me-2"></i>Retake Photo
+                            </button>
+                        </div>
+                    </div>
+                
+                    <div class="text-center mt-4 d-flex flex-column align-items-center gap-3">
+    
+    <button type="button" onclick="startScan()" class="btn btn-success btn-lg rounded-pill px-5 py-3 shadow-lg position-relative overflow-hidden hover-lift" style="min-width: 250px;">
+        <span class="position-relative z-1 fw-bold text-uppercase" style="letter-spacing: 1px;">
+            <i class="fas fa-search-plus me-2"></i>Analyze Ripeness
+        </span>
+        <div class="shine"></div>
+    </button>
+    
+    <a href="/" class="btn btn-white text-muted border shadow-sm rounded-pill px-4 py-2 fw-bold hover-cancel transition-all" style="min-width: 200px;">
+        <i class="fas fa-times me-2"></i>Cancel & Return
+    </a>
+
+</div>
+
+<style>
+    /* 🖱️ Interaction Effects */
+    .hover-lift {
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .hover-lift:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(25, 135, 84, 0.4) !important;
+    }
+    
+    /* 🔴 Cancel Button Hover */
+    .hover-cancel {
+        transition: all 0.2s ease-in-out;
+        background-color: #fff;
+    }
+    .hover-cancel:hover {
+        background-color: #fff5f5; 
+        color: #dc3545 !important; 
+        border-color: #dc3545 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(220, 53, 69, 0.15) !important;
+    }
+
+    /* 🌟 Continuous Shine Animation */
+    .shine {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+        transform: skewX(-25deg);
+        animation: shine-move 4s infinite;
+    }
+    
+    @keyframes shine-move {
+        0% { left: -100%; }
+        20% { left: 200%; }
+        100% { left: 200%; }
+    }
+    
+    .btn-white { background-color: white; }
+</style>
                 </form>
                 
                 <script>
+                // ... (Logic is exactly the same as before, no changes needed here!) ...
+                const uploadSection = document.getElementById('upload-section');
+                const cameraSection = document.getElementById('camera-section');
+                const btnUpload = document.getElementById('btn-upload-mode');
+                const btnCamera = document.getElementById('btn-camera-mode');
+                const fileInput = document.getElementById('fileInput');
+
+                const video = document.getElementById('video');
+                const canvas = document.getElementById('canvas');
+                const cameraPreview = document.getElementById('camera-preview');
+                const cameraPlaceholder = document.getElementById('camera-placeholder');
+
+                const startBtn = document.getElementById('start-camera-btn');
+                const captureGroup = document.getElementById('capture-group'); // Changed to group
+                const retakeBtn = document.getElementById('retake-btn');
+
+                let stream = null;
+
+                function switchMode(mode) {
+                    if (mode === 'upload') {
+                        uploadSection.style.display = 'block';
+                        cameraSection.style.display = 'none';
+                        btnUpload.classList.add('active');
+                        btnCamera.classList.remove('active');
+                        stopCamera(); 
+                    } else {
+                        uploadSection.style.display = 'none';
+                        cameraSection.style.display = 'block';
+                        btnUpload.classList.remove('active');
+                        btnCamera.classList.add('active');
+                    }
+                }
+
                 function showPreview(event) {
                     if(event.target.files.length > 0){
                         var src = URL.createObjectURL(event.target.files[0]);
@@ -60,15 +265,82 @@
                     }
                 }
 
+                async function startCamera() {
+                    try {
+                        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                        video.srcObject = stream;
+                        
+                        // Show Video
+                        video.style.display = 'block';
+                        
+                        // 🛠️ FIX: Remove 'd-flex' class so the placeholder can actually hide!
+                        cameraPlaceholder.classList.remove('d-flex');
+                        cameraPlaceholder.style.display = 'none';
+                        
+                        cameraPreview.style.display = 'none';
+                        
+                        startBtn.style.display = 'none';
+                        captureGroup.style.display = 'block';
+                        retakeBtn.style.display = 'none';
+                    } catch (err) {
+                        alert("⛔ Error accessing camera: " + err);
+                    }
+                }
+
+                function stopCamera() {
+                    if (stream) {
+                        stream.getTracks().forEach(track => track.stop());
+                        video.style.display = 'none';
+                        
+                        // 🛠️ FIX: Add 'd-flex' back so it centers nicely again
+                        cameraPlaceholder.classList.add('d-flex');
+                        cameraPlaceholder.style.display = 'flex'; // Ensure it's visible
+                        
+                        startBtn.style.display = 'inline-block';
+                        captureGroup.style.display = 'none';
+                    }
+                }
+
+                function capturePhoto() {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    canvas.getContext('2d').drawImage(video, 0, 0);
+
+                    const dataUrl = canvas.toDataURL('image/jpeg');
+                    cameraPreview.src = dataUrl;
+                    
+                    video.style.display = 'none';
+                    cameraPreview.style.display = 'block';
+                    captureGroup.style.display = 'none';
+                    retakeBtn.style.display = 'inline-block';
+                    
+                    document.getElementById("scanImage").src = dataUrl;
+
+                    canvas.toBlob(function(blob) {
+                        // Use a fixed name prefix + random ID in JS, 
+                        // BUT the backend timestamp fix we added earlier handles the real uniqueness!
+                        const file = new File([blob], "webcam_capture.jpg", { type: "image/jpeg" });
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        fileInput.files = dataTransfer.files;
+                    }, 'image/jpeg');
+                }
+
+                function retakePhoto() {
+                    cameraPreview.style.display = 'none';
+                    video.style.display = 'block';
+                    captureGroup.style.display = 'block';
+                    retakeBtn.style.display = 'none';
+                    fileInput.value = ""; 
+                }
+
                 function startScan() {
                     const fileInput = document.getElementById('fileInput');
                     if (fileInput.files.length === 0) {
-                        alert("Please select an image first!");
+                        alert("Please select or capture an image first!");
                         return;
                     }
-
                     document.getElementById('scanOverlay').style.display = 'flex';
-
                     setTimeout(() => {
                         document.getElementById('uploadForm').submit();
                     }, 1500); 
