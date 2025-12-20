@@ -6,6 +6,7 @@ import numpy as np
 import cv2
 import random
 import csv
+import time
 from datetime import datetime
 from PIL import Image
 from flask import Flask, render_template, request, redirect, url_for, Response, jsonify, flash
@@ -29,7 +30,7 @@ UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'uploads')
 HISTORY_FILE = os.path.join(BASE_DIR, 'history.json')
 
 # 🔄 UPDATED PATH: Pointing to the new 'models' folder
-DETECTION_MODEL_PATH = os.path.join(BASE_DIR, 'models', 'best.pt')
+DETECTION_MODEL_PATH = os.path.join(BASE_DIR, 'models', 'best.onnx')
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
@@ -41,7 +42,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 # A. Gatekeeper (General Classification)
 try:
     # 🔄 UPDATED PATH
-    model_path = os.path.join(BASE_DIR, 'models', 'yolov8n-cls.pt')
+    model_path = os.path.join(BASE_DIR, 'models', 'yolov8n-cls.onnx')
     print(f"🧠 Loading Gatekeeper Model ({model_path})...")
     gatekeeper_model = YOLO(model_path)
 except Exception as e:
@@ -258,7 +259,17 @@ def analyze_ripeness_mock_tuned(image_cv2, fruit_type="unknown"):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    # 📊 Calculate Real Stats for the Dashboard
+    total_scans = 0
+    if os.path.exists(HISTORY_FILE):
+        with open(HISTORY_FILE, 'r') as f:
+            try:
+                data = json.load(f)
+                total_scans = len(data)
+            except:
+                total_scans = 0
+    
+    return render_template('index.html', total_scans=total_scans)
 
 @app.route('/ripeness_detection')
 def ripeness_detection():
@@ -276,7 +287,10 @@ def detect_ripeness():
     if file.filename == '': return redirect(url_for('ripeness_detection'))
 
     # 2. Save & Process
-    filename = secure_filename(file.filename)
+    original_name = secure_filename(file.filename)
+    timestamp = int(time.time()) # Current time in seconds
+    filename = f"{timestamp}_{original_name}" # Result: "17099230_webcam_capture.jpg"
+    
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(filepath)
     
@@ -517,6 +531,29 @@ def detect_objects():
                     detected_class = r.names[int(box.cls[0])].lower()
                     confidence = float(box.conf[0])
                     print(f"  → Specialist saw: '{detected_class}' ({confidence*100:.1f}% confidence)")
+                    # 1. Get Coordinates
+                    x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
+                    
+                    # ---------------------------------------------------------
+                    # 🧠 SMART GEOMETRY CHECK (The Fix for Mango/Banana confusion)
+                    # ---------------------------------------------------------
+                    w = x2 - x1
+                    h = y2 - y1
+                    # Avoid division by zero
+                    if min(w, h) > 0:
+                        aspect_ratio = max(w, h) / min(w, h)
+                        
+                        if 'banana' in detected_class:
+                            # If AI says "Banana" but box is SQUARE (ratio < 1.5), it's likely a Mango
+                            if aspect_ratio < 1.5: 
+                                print(f"    🔄 LOGIC FIX: Detected 'Banana' is too round (Ratio: {aspect_ratio:.2f}). Auto-correcting to 'Mango'.")
+                                detected_class = detected_class.replace('banana', 'mango')
+                                
+                        elif 'mango' in detected_class:
+                            # If AI says "Mango" but box is LONG (ratio > 2.2), it's likely a Banana
+                            if aspect_ratio > 2.2:
+                                print(f"    🔄 LOGIC FIX: Detected 'Mango' is too long (Ratio: {aspect_ratio:.2f}). Auto-correcting to 'Banana'.")
+                                detected_class = detected_class.replace('mango', 'banana')
                     
                     # Quick FACE OVERLAP REJECTION
                     x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
@@ -606,7 +643,7 @@ def detect_objects():
                     
                     if is_valid:
                         detected_objects.append({
-                            'class': r.names[int(box.cls[0])],
+                            'class': detected_class.title(),
                             'confidence': confidence,
                             'bbox': box.xyxy[0].tolist() 
                         })
@@ -650,7 +687,39 @@ def report_error(filename):
             
     return redirect(url_for('show_history'))
 
-# Error Handlers
+@app.route('/delete_item/<filename>', methods=['POST'])
+def delete_item(filename):
+    # 1. Load existing history
+    if os.path.exists(HISTORY_FILE):
+        with open(HISTORY_FILE, 'r') as f:
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError:
+                data = []
+        
+        # 2. Filter out the item (Keep everything EXCEPT the matching file)
+        # We use 'file' because that matches your history.json key
+        new_data = [entry for entry in data if entry.get('file') != filename]
+        
+        # 3. Save updates if something changed
+        if len(new_data) < len(data):
+            with open(HISTORY_FILE, 'w') as f:
+                json.dump(new_data, f, indent=4)
+            
+            # 4. Optional: Delete the actual image to save space
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            if os.path.exists(file_path):
+                try:
+                    os.remove(file_path)
+                except Exception as e:
+                    print(f"⚠️ Error deleting file: {e}")
+            
+            flash('Scan deleted successfully.', 'success')
+        else:
+            flash('Item not found.', 'warning')
+            
+    return redirect(url_for('show_history'))
+
 @app.errorhandler(404)
 def page_not_found(e): return render_template('404.html'), 404
 @app.errorhandler(500)
