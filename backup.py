@@ -304,7 +304,8 @@ def detect_ripeness():
             ai_logs.append(f"    - Face {i+1}: Occupies {face_ratio*100:.1f}% of image area.")
             if face_ratio > 0.1: # If face is >10% of image
                 ai_logs.append("⛔ [DENY] Face is too dominant (>10%). Rejecting image as non-fruit.")
-                save_history(filename, "Human Face", "Rejected (Face)", "0.0")
+                # 👇 ADD THIS LINE!
+                save_history(filename, "Human Face", "Rejected", "0.0")
                 return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object="Human Face detected", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={})
         ai_logs.append("  → Faces found but are background/small. Proceeding.")
     else:
@@ -315,7 +316,8 @@ def detect_ripeness():
     # ==========================================================
     ai_logs.append("🧠 [LAYER 2: GATEKEEPER] Running general object classification...")
     VALID_FRUITS = ['banana', 'mango', 'tomato']
-    # ✂️ REMOVED 'orange' from forbidden list
+    
+    # ❌ REMOVED 'orange' from here
     FORBIDDEN = ['apple', 'strawberry', 'lemon', 'grape', 'hamster', 'cat', 'dog', 'face']
     
     gatekeeper_valid = False
@@ -324,6 +326,7 @@ def detect_ripeness():
     if gatekeeper_model:
         res = gatekeeper_model(img_pil)
         top3_indices = res[0].probs.top5[:3]
+        
         for i, idx in enumerate(top3_indices):
              lbl = res[0].names[idx].lower()
              cnf = float(res[0].probs.data[idx])
@@ -331,50 +334,62 @@ def detect_ripeness():
         
         gatekeeper_label = res[0].names[res[0].probs.top1].lower()
         
-        # LOGIC:
+        # --- NEW LOGIC: THE "ORANGE" EXCEPTION ---
         if 'orange' in gatekeeper_label:
-            ai_logs.append(f"⚠️ [GATEKEEPER] Detected '{gatekeeper_label}'. Allowing pass for verification.")
-            gatekeeper_valid = False # Allow it, but don't endorse it (Specialist decides)
+            ai_logs.append(f"⚠️ [GATEKEEPER] Detected '{gatekeeper_label}'. This might be an actual Orange OR a turning Tomato. Passing to Specialist for verification.")
+            gatekeeper_valid = False # Treat as "Unsure" so Specialist needs high confidence
         
         elif any(f in gatekeeper_label for f in FORBIDDEN):
             ai_logs.append(f"⛔ [DENY] Gatekeeper identified forbidden item: '{gatekeeper_label}'.")
-            save_history(filename, f"Forbidden: {gatekeeper_label}", "Rejected (Forbidden)", "0.0")
+            # 👇 ADD THIS LINE!
+            save_history(filename, f"Forbidden: {gatekeeper_label}", "Rejected", "0.0")
             return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=gatekeeper_label.capitalize(), ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={})
         
         elif any(v in gatekeeper_label for v in VALID_FRUITS):
             gatekeeper_valid = True
             ai_logs.append(f"✅ [LAYER 2] Gatekeeper confirms '{gatekeeper_label}' is a valid target.")
+        
         else:
             ai_logs.append(f"⚠️ [LAYER 2] Gatekeeper is unsure ('{gatekeeper_label}'). Passing to Specialist.")
 
     # ==========================================================
     # 🦸 LAYER 3: THE SPECIALIST (Custom YOLOv8)
     # ==========================================================
-    ai_logs.append("🦸 [LAYER 3: SPECIALIST] Running custom RipeSense model...")
+    ai_logs.append("🦸 [LAYER 3: SPECIALIST] Running custom RipeSense model to find and classify fruit...")
     detected_object = "Unknown"
     ripeness_level = "Unknown"
     confidence = 0.0
     
     if fruit_detection_model:
+        # Run with lower confidence just to log what it *might* see
         results = fruit_detection_model(img_pil, conf=0.20, verbose=False) 
         num_detections = len(results[0].boxes)
         ai_logs.append(f"  → Raw Output: Saw {num_detections} potential object(s) >20% confidence.")
 
         if num_detections > 0:
+            # Log all candidates
+            for i, box in enumerate(results[0].boxes):
+                 lbl = results[0].names[int(box.cls[0])]
+                 cnf = float(box.conf[0])
+                 ai_logs.append(f"    - Candidate {i+1}: '{lbl}' ({cnf*100:.1f}%)")
+
+            # Pick the best one
             best_box = max(results[0].boxes, key=lambda x: x.conf[0])
             label = results[0].names[int(best_box.cls[0])].lower()
             confidence = float(best_box.conf[0])
             
             ai_logs.append(f"  → Selected best candidate: '{label}' ({confidence*100:.1f}%)")
 
-            # 🛠️ FIXED THRESHOLD: 50% for everyone. Simple and stable.
-            threshold = 0.50
-            
+            # Apply Strict Thresholds based on Gatekeeper
+            threshold = 0.40 if gatekeeper_valid else 0.50
             if confidence < threshold:
-                 ai_logs.append(f"⛔ [DENY] Confidence {confidence*100:.1f}% is too low (Threshold: {threshold*100:.0f}%).")
+                 reason = "Gatekeeper didn't confirm" if not gatekeeper_valid else "standard threshold"
+                 ai_logs.append(f"⛔ [DENY] Confidence {confidence*100:.1f}% is below required threshold of {threshold*100:.0f}% (Reason: {reason}). Rejecting.")
+                 # 👇 ADD THIS LINE!
                  save_history(filename, "Unidentified Object", "Rejected (Low Conf)", f"{confidence*100:.1f}")
                  return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object="Unidentified Object (Low Confidence)", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={})
 
+            # Parse label
             if '_' in label:
                 parts = label.split('_')
                 ripeness_level = parts[0].capitalize()
@@ -382,47 +397,76 @@ def detect_ripeness():
             else:
                 detected_object = label.capitalize()
                 ripeness_level = "Ripe"
-            
-            # 🛡️ THE ORANGE VS TOMATO CHECK
+                
+            # 🛡️ NEW: THE "ORANGE vs MANGO" TRAP
+            # If Gatekeeper saw 'orange' (citrus), we ONLY allow it if Specialist confirms it's a 'tomato'.
+            # If Specialist thinks it's a 'mango' (or banana), it's definitely a confused AI looking at a real orange.
             if 'orange' in gatekeeper_label and 'tomato' not in detected_object.lower():
-                 ai_logs.append(f"⛔ [DENY] Gatekeeper saw 'orange' and Specialist saw '{detected_object}'. Rejecting as Real Orange.")
-                 save_history(filename, "Real Orange", "Rejected (False Positive)", "0.0")
+                 ai_logs.append(f"⛔ [DENY] Gatekeeper saw 'orange' and Specialist saw '{detected_object}'. This is likely a real Orange fruit (false positive). Rejecting.")
+                 # 👇 ADD THIS LINE!
+                 save_history(filename, f"Real Orange (False Positive)", "Rejected", "0.0")
                  return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=f"Real Orange (confused with {detected_object})", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={})
                 
-            ai_logs.append(f"✅ [LAYER 3] Confirmed detection: {ripeness_level} {detected_object}.")
+            bbox_str = f"[{int(best_box.xyxy[0][0])}, {int(best_box.xyxy[0][1])}, {int(best_box.xyxy[0][2])}, {int(best_box.xyxy[0][3])}]"
+            ai_logs.append(f"✅ [LAYER 3] Confirmed detection: {ripeness_level} {detected_object} at bounding box {bbox_str}.")
             full_label = f"{ripeness_level} {detected_object}"
 
-            # 🛠️ RELAXED COLOR CHECK:
-            # We measure hue, but we DO NOT BLOCK based on it anymore for Tomatoes.
-            # We only log a warning. This prevents the "Hue 16" rejection cycle.
+            # Color Sanity Check (Fist vs Tomato)
             if 'tomato' in detected_object.lower():
+                ai_logs.append("  → Performing Color Sanity Check for Tomato...")
                 x1, y1, x2, y2 = map(int, best_box.xyxy[0].tolist())
                 crop = img_cv2[y1:y2, x1:x2]
+                
                 if crop.size > 0:
                     hsv_crop = cv2.cvtColor(crop, cv2.COLOR_BGR2HSV)
                     avg_hue = np.median(hsv_crop[:,:,0])
-                    ai_logs.append(f"    - Color Check: Median Hue is {avg_hue:.1f}")
+                    ai_logs.append(f"    - Measured median Hue: {avg_hue:.1f}")
                     
-                    if 15 < avg_hue < 30:
-                        # Just a warning, no rejection!
-                        ai_logs.append(f"    ⚠️ [NOTE] Hue {avg_hue:.1f} is in skin-tone range. Assuming valid fruit for demo.")
+                    if 20 < avg_hue < 28: # Skin tone
+                        ai_logs.append(f"⛔ [DENY] Hue {avg_hue:.1f} is in skin-tone range (20-28). Likely a hand/fist. Rejecting.")
+                        # 👇 ADD THIS LINE!
+                        save_history(filename, "Hand/Fist", "Rejected (Skin Tone)", "0.0")
+                        return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object="Hand/Fist disguised as Tomato", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={})
+                    
                     else:
-                        ai_logs.append("    - Color looks safe.")
-
+                        ai_logs.append("    - Color check passed (consistent with tomato varieties).")
         else:
-            # Specialist saw nothing. Fallback to Gatekeeper.
+            # Specialist saw nothing. Fall back to Gatekeeper's best guess (e.g., "Mobile Home")
             fallback_obj = gatekeeper_label.capitalize() if gatekeeper_label != "unknown" else "Nothing Detected"
-            ai_logs.append(f"⛔ [LAYER 3] Specialist found no fruit. Falling back to Gatekeeper: '{fallback_obj}'.")
+            
+            ai_logs.append(f"⛔ [LAYER 3] Specialist found no fruit. Falling back to Gatekeeper's guess: '{fallback_obj}'.")
+            
+            # 👇 SAVE HISTORY (Fixes your missing log!)
             save_history(filename, fallback_obj, "Rejected (Non-Fruit)", "0.0")
-            return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=fallback_obj, ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={})
-
+            
+            # 👇 USE FALLBACK NAME (Fixes the "Nothing Detected" label!)
+            return render_template('result_page.html', 
+                                   img_str=image_to_base64(img_pil), 
+                                   not_fruit=True, 
+                                   detected_object=fallback_obj, # <--- Shows "Mobile_home" now
+                                   ai_logs=ai_logs, 
+                                   advice={}, 
+                                   ripeness_result={'confidence': 0}, 
+                                   nutrition={})
     # ==========================================================
-    # 🎨 LAYER 4: TUNED COLOR ANALYSIS
+    # 🎨 LAYER 4: TUNED COLOR ANALYSIS (Visuals)
     # ==========================================================
     ai_logs.append(f"🎨 [LAYER 4: COLOR TUNING] Generating visual graph data guided by AI conclusion: '{full_label}'.")
+    
+    logic_applied = "Unknown"
+    if 'unripe' in ripeness_level.lower(): logic_applied = "Force HIGH Green dominant."
+    elif 'overripe' in ripeness_level.lower(): logic_applied = "Force HIGH Red/Brown dominant."
+    elif 'ripe' in ripeness_level.lower():
+         if 'tomato' in detected_object.lower(): logic_applied = "Force HIGH Red dominant."
+         else: logic_applied = "Force HIGH Yellow dominant."
+         
+    ai_logs.append(f"  → Logic applied: {logic_applied}")
+    
+    # ⚠️ NOTE: This uses the 'Smart' Function (analyze_ripeness_tuned)
     colors = analyze_ripeness_tuned(img_cv2, full_label)
-    ai_logs.append(f"✅ [FINAL] Stats: Green {colors['green_percentage']}%, Yellow {colors['yellow_percentage']}%, Brown {colors['brown_percentage']}%.")
+    ai_logs.append(f"✅ [FINAL] Graph Stats Generated: Green: {colors['green_percentage']}%, Yellow: {colors['yellow_percentage']}%, Brown/Red: {colors['brown_percentage']}%.")
 
+    # 6. Final Data Prep & Render
     save_history(filename, full_label, ripeness_level, f"{confidence*100:.1f}")
     advice = get_expert_advice(detected_object, ripeness_level)
     
@@ -443,7 +487,6 @@ def detect_ripeness():
                          filename=filename,
                          timestamp_now=timestamp_now,
                          ai_logs=ai_logs)
-    
 @app.route('/history')
 def show_history():
     if os.path.exists(HISTORY_FILE):

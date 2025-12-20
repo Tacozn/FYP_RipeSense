@@ -2478,5 +2478,614 @@
         "fruit": "unripe_tomato",
         "result": "Unripe",
         "confidence": "89.4%"
+    },
+    {
+        "timestamp": "2025-12-20 16:32:51",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "94.8%"
+    },
+    {
+        "timestamp": "2025-12-20 16:34:23",
+        "file": "ripe_tomato.jpg",
+        "fruit": "ripe_tomato",
+        "result": "Ripe",
+        "confidence": "96.1%"
+    },
+    {
+        "timestamp": "2025-12-20 16:34:32",
+        "file": "ripe_mango.jpg",
+        "fruit": "ripe_mango",
+        "result": "Ripe",
+        "confidence": "97.3%"
+    },
+    {
+        "timestamp": "2025-12-20 16:36:33",
+        "file": "ripe_banana.png",
+        "fruit": "banana",
+        "result": "Overripe",
+        "confidence": "88.6%"
+    },
+    {
+        "timestamp": "2025-12-20 16:38:31",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "98.4%"
+    },
+    {
+        "timestamp": "2025-12-20 16:38:39",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "98.4%"
+    },
+    {
+        "timestamp": "2025-12-20 16:38:46",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "Unripe Mango",
+        "result": "Unripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 16:39:18",
+        "file": "apple_strawberry.jpg",
+        "fruit": "Overripe Mango",
+        "result": "Overripe",
+        "confidence": "92.5%"
+    },
+    {
+        "timestamp": "2025-12-20 16:39:31",
+        "file": "overripe_banana.jpg",
+        "fruit": "Overripe Banana",
+        "result": "Overripe",
+        "confidence": "88.8%"
+    },
+    {
+        "timestamp": "2025-12-20 16:39:38",
+        "file": "glorp.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "35.9%"
+    },
+    {
+        "timestamp": "2025-12-20 16:42:51",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "98.4%"
+    },
+    {
+        "timestamp": "2025-12-20 16:43:19",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "Unripe Mango",
+        "result": "Unripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 16:43:40",
+        "file": "overripe_mango.jpg",
+        "fruit": "Overripe Mango",
+        "result": "Overripe",
+        "confidence": "99.0%"
+    },
+    {
+        "timestamp": "2025-12-20 16:43:56",
+        "file": "unripe_banana.jpg",
+        "fruit": "Unripe Banana",
+        "result": "Unripe",
+        "confidence": "92.9%"
+    },
+    {
+        "timestamp": "2025-12-20 16:44:16",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "98.4%"
+    },
+    {
+        "timestamp": "2025-12-20 16:47:34",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "98.4%"
+    },
+    {
+        "timestamp": "2025-12-20 16:47:45",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "Unripe Mango",
+        "result": "Unripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 16:48:35",
+        "file": "overripe_mango.jpg",
+        "fruit": "Overripe Mango",
+        "result": "Overripe",
+        "confidence": "99.0%"
+    },
+    {
+        "timestamp": "2025-12-20 16:48:44",
+        "file": "ripe_mango.jpg",
+        "fruit": "Ripe Mango",
+        "result": "Ripe",
+        "confidence": "97.7%"
+    },
+    {
+        "timestamp": "2025-12-20 16:48:53",
+        "file": "unripe_banana.jpg",
+        "fruit": "Unripe Banana",
+        "result": "Unripe",
+        "confidence": "92.9%"
+    },
+    {
+        "timestamp": "2025-12-20 16:49:06",
+        "file": "overripe_tomato.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "99.3%"
+    },
+    {
+        "timestamp": "2025-12-20 16:53:13",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "98.4%"
+    },
+    {
+        "timestamp": "2025-12-20 16:55:50",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "Unripe Mango",
+        "result": "Unripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 19:46:06",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "Unripe Mango",
+        "result": "Unripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 19:52:20",
+        "file": "WhatsApp_Image_2025-12-20_at_7.52.00_PM.jpeg",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "92.4%"
+    },
+    {
+        "timestamp": "2025-12-20 20:04:17",
+        "file": "ripe_banana.png",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 20:04:30",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "Unripe Mango",
+        "result": "Unripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 20:04:38",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "98.4%"
+    },
+    {
+        "timestamp": "2025-12-20 20:08:23",
+        "file": "WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "60.5%"
+    },
+    {
+        "timestamp": "2025-12-20 20:11:54",
+        "file": "orange.jpg",
+        "fruit": "Ripe Mango",
+        "result": "Ripe",
+        "confidence": "73.8%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:28",
+        "file": "orange.jpg",
+        "fruit": "Ripe Mango",
+        "result": "Ripe",
+        "confidence": "73.8%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:29",
+        "file": "overripe_banana.jpg",
+        "fruit": "Overripe Banana",
+        "result": "Overripe",
+        "confidence": "88.8%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:29",
+        "file": "overripe_mango.jpg",
+        "fruit": "Overripe Mango",
+        "result": "Overripe",
+        "confidence": "99.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:29",
+        "file": "overripe_tomato.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "99.3%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:29",
+        "file": "ripe_banana.png",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:29",
+        "file": "ripe_mango.jpg",
+        "fruit": "Ripe Mango",
+        "result": "Ripe",
+        "confidence": "97.7%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:30",
+        "file": "ripe_tomato.jpg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "99.2%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:30",
+        "file": "rl_banana.jpeg",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "92.4%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:30",
+        "file": "rltomato.jpeg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "54.2%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:30",
+        "file": "unripe_banana.jpg",
+        "fruit": "Unripe Banana",
+        "result": "Unripe",
+        "confidence": "92.9%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:30",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "Unripe Mango",
+        "result": "Unripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 20:14:31",
+        "file": "WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "60.5%"
+    },
+    {
+        "timestamp": "2025-12-20 20:17:25",
+        "file": "rltomato.jpeg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "54.2%"
+    },
+    {
+        "timestamp": "2025-12-20 20:17:32",
+        "file": "WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "60.5%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:01",
+        "file": "apple_strawberry.jpg",
+        "fruit": "Forbidden: strawberry",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:01",
+        "file": "glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:01",
+        "file": "orange.jpg",
+        "fruit": "Real Orange (False Positive)",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:01",
+        "file": "overripe_banana.jpg",
+        "fruit": "Overripe Banana",
+        "result": "Overripe",
+        "confidence": "88.8%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:02",
+        "file": "overripe_mango.jpg",
+        "fruit": "Overripe Mango",
+        "result": "Overripe",
+        "confidence": "99.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:02",
+        "file": "overripe_tomato.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "99.3%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:02",
+        "file": "ripe_banana.png",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:02",
+        "file": "ripe_mango.jpg",
+        "fruit": "Ripe Mango",
+        "result": "Ripe",
+        "confidence": "97.7%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:02",
+        "file": "ripe_tomato.jpg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "99.2%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:02",
+        "file": "rl_banana.jpeg",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "92.4%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:03",
+        "file": "rltomato.jpeg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "54.2%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:03",
+        "file": "unripe_banana.jpg",
+        "fruit": "Unripe Banana",
+        "result": "Unripe",
+        "confidence": "92.9%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:03",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "Unripe Mango",
+        "result": "Unripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:03",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "Hand/Fist",
+        "result": "Rejected (Skin Tone)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:25:03",
+        "file": "WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "60.5%"
+    },
+    {
+        "timestamp": "2025-12-20 20:26:47",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "Hand/Fist",
+        "result": "Rejected (Skin Tone)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:30:07",
+        "file": "glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:33:37",
+        "file": "orange.jpg",
+        "fruit": "Real Orange (False Positive)",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:33:45",
+        "file": "WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "60.5%"
+    },
+    {
+        "timestamp": "2025-12-20 20:33:51",
+        "file": "rltomato.jpeg",
+        "fruit": "Hand/Fist",
+        "result": "Rejected (Skin Tone)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:35:13",
+        "file": "rltomato.jpeg",
+        "fruit": "Hand/Fist",
+        "result": "Rejected (Skin Tone)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:35:29",
+        "file": "rltomato.jpeg",
+        "fruit": "Hand/Fist",
+        "result": "Rejected (Skin Tone)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:35:38",
+        "file": "rltomato.jpeg",
+        "fruit": "Hand/Fist",
+        "result": "Rejected (Skin Tone)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:36:45",
+        "file": "rltomato.jpeg",
+        "fruit": "Hand/Fist",
+        "result": "Rejected (Skin Tone)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:38:11",
+        "file": "rltomato.jpeg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "54.2%"
+    },
+    {
+        "timestamp": "2025-12-20 20:41:54",
+        "file": "rltomato.jpeg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "54.2%"
+    },
+    {
+        "timestamp": "2025-12-20 20:43:02",
+        "file": "ripe_tomato.jpg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "99.2%"
+    },
+    {
+        "timestamp": "2025-12-20 20:43:55",
+        "file": "ripe_tomato.jpg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "99.2%"
+    },
+    {
+        "timestamp": "2025-12-20 20:44:03",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "98.4%"
+    },
+    {
+        "timestamp": "2025-12-20 20:44:10",
+        "file": "unripe_mango_error.jpg",
+        "fruit": "Unripe Mango",
+        "result": "Unripe",
+        "confidence": "98.1%"
+    },
+    {
+        "timestamp": "2025-12-20 20:44:20",
+        "file": "WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "60.5%"
+    },
+    {
+        "timestamp": "2025-12-20 20:44:31",
+        "file": "ripe_mango.jpg",
+        "fruit": "Ripe Mango",
+        "result": "Ripe",
+        "confidence": "97.7%"
+    },
+    {
+        "timestamp": "2025-12-20 20:44:39",
+        "file": "apple_strawberry.jpg",
+        "fruit": "Forbidden: strawberry",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:44:50",
+        "file": "rl_banana.jpeg",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "92.4%"
+    },
+    {
+        "timestamp": "2025-12-20 20:49:55",
+        "file": "unripe_tomato_error.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "98.4%"
+    },
+    {
+        "timestamp": "2025-12-20 20:50:04",
+        "file": "ripe_tomato.jpg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "99.2%"
+    },
+    {
+        "timestamp": "2025-12-20 20:50:12",
+        "file": "rltomato.jpeg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "54.2%"
+    },
+    {
+        "timestamp": "2025-12-20 20:50:23",
+        "file": "WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "60.5%"
+    },
+    {
+        "timestamp": "2025-12-20 20:50:41",
+        "file": "ripe_mango.jpg",
+        "fruit": "Ripe Mango",
+        "result": "Ripe",
+        "confidence": "97.7%"
+    },
+    {
+        "timestamp": "2025-12-20 20:50:49",
+        "file": "apple_strawberry.jpg",
+        "fruit": "Forbidden: strawberry",
+        "result": "Rejected (Forbidden)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:50:57",
+        "file": "house.jpg",
+        "fruit": "Mobile_home",
+        "result": "Rejected (Non-Fruit)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:51:04",
+        "file": "orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-20 20:54:09",
+        "file": "rltomato.jpeg",
+        "fruit": "Ripe Tomato",
+        "result": "Ripe",
+        "confidence": "54.2%"
     }
 ]

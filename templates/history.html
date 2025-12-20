@@ -111,7 +111,12 @@
                                         </span><br>
                                     {% endif %}
 
-                                    {% if entry.result == 'Ripe' %}
+                                    {# 🛠️ FIX: Added specific check for Rejected items #}
+                                    {% if 'Rejected' in entry.result %}
+                                        <span class="badge bg-secondary text-white border border-secondary px-3 py-2 rounded-pill">
+                                            <i class="fas fa-ban me-1"></i> Rejected
+                                        </span>
+                                    {% elif entry.result == 'Ripe' %}
                                         <span class="badge bg-warning text-dark bg-opacity-25 border border-warning px-3 py-2 rounded-pill">
                                             ● Ripe
                                         </span>
@@ -120,6 +125,7 @@
                                             ● Unripe
                                         </span>
                                     {% else %}
+                                        {# Fallback for Overripe #}
                                         <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-pill">
                                             ● Overripe
                                         </span>
@@ -207,9 +213,13 @@
         resultEl.innerText = result;
         resultEl.className = "fw-bold fs-5"; 
         
+        // Reset classes first
+        resultEl.className = "fw-bold fs-5";
+        
         if (result === 'Ripe') resultEl.classList.add('text-warning');
         else if (result === 'Unripe') resultEl.classList.add('text-success');
-        else resultEl.classList.add('text-danger');
+        else if (result.includes('Rejected')) resultEl.classList.add('text-secondary'); // Grey for rejected
+        else resultEl.classList.add('text-danger'); // Red for Overripe
     }
 </script>
 
