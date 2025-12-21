@@ -3122,5 +3122,363 @@
         "fruit": "Real Orange",
         "result": "Rejected (False Positive)",
         "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 18:42:53",
+        "file": "1766313771_rltomato.jpeg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "97.9%"
+    },
+    {
+        "timestamp": "2025-12-21 18:43:12",
+        "file": "1766313791_ripe_banana.png",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "98.3%"
+    },
+    {
+        "timestamp": "2025-12-21 18:44:14",
+        "file": "1766313853_webcam_capture.jpg",
+        "fruit": "Unidentified Object",
+        "result": "Rejected (Low Conf)",
+        "confidence": "48.1%"
+    },
+    {
+        "timestamp": "2025-12-21 18:44:25",
+        "file": "1766313864_rl_banana.jpeg",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "85.4%"
+    },
+    {
+        "timestamp": "2025-12-21 18:46:35",
+        "file": "1766313994_Screenshot_2025-12-21_184558.png",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "84.3%"
+    },
+    {
+        "timestamp": "2025-12-21 18:48:54",
+        "file": "1766314134_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 18:49:21",
+        "file": "1766314160_WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Orange",
+        "result": "Rejected (Non-Fruit)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 18:49:33",
+        "file": "1766314172_rltomato.jpeg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "97.9%"
+    },
+    {
+        "timestamp": "2025-12-21 18:50:22",
+        "file": "1766314219_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 18:50:46",
+        "file": "1766314245_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 18:51:03",
+        "file": "1766314262_WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Orange",
+        "result": "Rejected (Non-Fruit)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 18:51:54",
+        "file": "1766314313_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 18:53:25",
+        "file": "1766314403_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 18:57:13",
+        "file": "1766314630_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 18:58:24",
+        "file": "1766314703_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 18:58:52",
+        "file": "1766314732_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 18:59:05",
+        "file": "1766314745_WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "60.5%"
+    },
+    {
+        "timestamp": "2025-12-21 18:59:21",
+        "file": "1766314761_Screenshot_2025-12-21_184558.png",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "57.2%"
+    },
+    {
+        "timestamp": "2025-12-21 18:59:53",
+        "file": "1766314792_webcam_capture.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "64.2%"
+    },
+    {
+        "timestamp": "2025-12-21 19:01:25",
+        "file": "1766314885_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 19:01:59",
+        "file": "1766314918_Screenshot_2025-12-21_184558.png",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "84.3%"
+    },
+    {
+        "timestamp": "2025-12-21 19:04:09",
+        "file": "1766315048_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 19:07:52",
+        "file": "1766315272_WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "60.5%"
+    },
+    {
+        "timestamp": "2025-12-21 19:11:14",
+        "file": "1766315474_Screenshot_2025-12-21_184558.png",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "57.2%"
+    },
+    {
+        "timestamp": "2025-12-21 19:13:46",
+        "file": "1766315625_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 19:14:25",
+        "file": "1766315664_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 19:14:36",
+        "file": "1766315676_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 19:15:08",
+        "file": "1766315707_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 19:15:15",
+        "file": "1766315714_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 19:15:29",
+        "file": "1766315729_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 19:15:52",
+        "file": "1766315751_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 19:16:03",
+        "file": "1766315761_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 19:16:26",
+        "file": "1766315786_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 19:17:19",
+        "file": "1766315837_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 19:17:43",
+        "file": "1766315862_WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Orange",
+        "result": "Rejected (Non-Fruit)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 19:18:04",
+        "file": "1766315884_WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "60.5%"
+    },
+    {
+        "timestamp": "2025-12-21 19:18:49",
+        "file": "1766315928_rltomato.jpeg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "97.9%"
+    },
+    {
+        "timestamp": "2025-12-21 19:19:05",
+        "file": "1766315944_unripe_tomato_error.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-21 19:19:21",
+        "file": "1766315960_WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Orange",
+        "result": "Rejected (Non-Fruit)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 21:10:54",
+        "file": "1766322654_webcam_capture.jpg",
+        "fruit": "Human Face",
+        "result": "Rejected (Face)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 21:19:55",
+        "file": "1766323194_rl_banana.jpeg",
+        "fruit": "Ripe Banana",
+        "result": "Ripe",
+        "confidence": "85.4%"
+    },
+    {
+        "timestamp": "2025-12-21 21:20:03",
+        "file": "1766323202_unripe_tomato_error.jpg",
+        "fruit": "Unripe Tomato",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-21 21:20:57",
+        "file": "1766323256_webcam_capture.jpg",
+        "fruit": "Unidentified Object",
+        "result": "Rejected (Low Conf)",
+        "confidence": "21.9%"
+    },
+    {
+        "timestamp": "2025-12-21 21:27:20",
+        "file": "1766323640_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 21:30:30",
+        "file": "1766323827_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 21:31:03",
+        "file": "1766323862_orange.jpg",
+        "fruit": "Overripe Tomato",
+        "result": "Overripe",
+        "confidence": "60.8%"
+    },
+    {
+        "timestamp": "2025-12-21 21:31:55",
+        "file": "1766323913_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 21:35:08",
+        "file": "1766324106_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 21:42:22",
+        "file": "1766324539_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-21 21:46:48",
+        "file": "1766324805_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-21 21:48:46",
+        "file": "1766324924_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
     }
 ]

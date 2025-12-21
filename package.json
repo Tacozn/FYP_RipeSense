@@ -1,0 +1,25 @@
+{
+  "name": "fruit-ripeness-and-disease-detection---copy-(2)",
+  "version": "1.0.0",
+  "description": "**Student Name:** Gerald Tan Hock Soon  \r **Matric Number:** 294879  \r **Supervisor:** Suwannit Chareen Chit  \r **Project:** STTZK3993 Final Year Project (Academic Project 1)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tacozn/FYP_RipeSense.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tacozn/FYP_RipeSense/issues"
+  },
+  "homepage": "https://github.com/Tacozn/FYP_RipeSense#readme",
+  "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/cli": "^8.0.0",
+    "@capacitor/core": "^8.0.0"
+  }
+}

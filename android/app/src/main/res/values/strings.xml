@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">RipeSense</string>
+    <string name="title_activity_main">RipeSense</string>
+    <string name="package_name">com.ripesense.app</string>
+    <string name="custom_url_scheme">com.ripesense.app</string>
+</resources>
