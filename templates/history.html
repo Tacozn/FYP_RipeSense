@@ -6,21 +6,50 @@
 <style>
     /* ✨ Custom Styles for this page */
     .fruit-link {
-        color: #212529;
+        color: #212529; /* Standard Dark Grey */
         cursor: pointer;
         transition: all 0.2s ease-in-out;
         display: inline-flex;
         align-items: center;
+        text-decoration: none;
     }
     .fruit-link:hover {
-        color: #2E7D32; /* Turns Green */
+        color: #198754; /* Green on Hover */
         transform: translateX(5px);
     }
-    .fruit-link i { opacity: 0; transition: opacity 0.2s; }
-    .fruit-link:hover i { opacity: 0.5; }
     
     .hover-scale { transition: transform 0.2s; }
     .hover-scale:hover { transform: scale(1.1); background-color: #f8d7da !important; }
+
+    /* 🔎 Image Zoom Effect (Desktop) */
+    .img-zoom {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: zoom-in;
+    }
+    .img-zoom:hover {
+        transform: scale(1.5); /* Grows 1.5x bigger */
+        z-index: 10;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+    }
+
+    /* 📏 PILL BADGE STYLING */
+    .badge-fixed {
+        min-width: 100px; /* Slightly wider for the pill shape */
+        text-align: center;
+        padding: 0.5em 1em !important; /* More padding for rounded edges */
+        font-weight: 800 !important; /* Extra Bold */
+        letter-spacing: 0.5px;
+        border: 0 !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Pop effect */
+    }
+
+    /* Custom Purple Color */
+    .bg-purple {
+        background-color: #6f42c1 !important;
+    }
+    .border-purple {
+        border-color: #6f42c1 !important;
+    }
 
     /* Search Bar Styling */
     .search-box {
@@ -90,147 +119,204 @@
         </div>
     </div>
 
-    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0 text-nowrap" id="historyTable">
-                    <thead class="bg-light">
-                        <tr>
-                            <th class="py-3 ps-4 text-muted text-uppercase small fw-bold d-none d-md-table-cell">Date</th>
-                            <th class="py-3 text-muted text-uppercase small fw-bold ps-3">Fruit Detected</th>
-                            <th class="py-3 text-muted text-uppercase small fw-bold">Status</th>
-                            <th class="py-3 text-muted text-uppercase small fw-bold d-none d-md-table-cell">Confidence</th>
-                            <th class="py-3 text-end pe-4" style="width: 50px;"></th> </tr>
-                    </thead>
-                    <tbody>
-                        {% if history %}
-                            {% for entry in history %}
+    <div class="d-none d-md-block">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 text-nowrap" id="historyTable">
+                        <thead class="bg-light">
                             <tr>
-                                <td class="py-3 ps-4 text-muted small d-none d-md-table-cell">
-                                    <i class="far fa-clock me-2"></i>{{ entry.timestamp }}
-                                </td>
-                                
-                               <td class="py-3 ps-3">
-                        <div class="d-flex align-items-center">
-                            
-                            <div class="rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm flex-shrink-0" 
-                                 style="width: 42px; height: 42px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
-                                <span style="font-size: 1.4rem;">
-                                    {% set f = entry.fruit|lower %}
-                                    
-                                    {# 🍌 Known Fruits #}
-                                    {% if 'banana' in f %}🍌
-                                    {% elif 'mango' in f %}🥭
-                                    {% elif 'tomato' in f %}🍅
-                                    {% elif 'strawberry' in f %}🍓
-                                    {% elif 'orange' in f %}🍊
-                                    {% elif 'apple' in f %}🍎
-                                    {% elif 'lemon' in f %}🍋
-                                    {% elif 'grape' in f %}🍇
-                                    {% elif 'watermelon' in f %}🍉
-                                    {% elif 'pineapple' in f %}🍍
-                                    
-                                    {# 👤 Safety/People (Just in case) #}
-                                    {% elif 'person' in f or 'face' in f %}👤
-                                    
-                                    {# ❓ Everything Else (The Fallback) #}
-                                    {% else %}
-                                        <i class="fas fa-cube text-secondary opacity-50" style="font-size: 1.2rem;"></i>
-                                    {% endif %}
-                                </span>
-                            </div>
-
-                            <div>
-                                <div class="fruit-link fw-bold text-uppercase text-primary"
-                                     style="cursor: pointer;"
-                                     data-bs-toggle="modal" 
-                                     data-bs-target="#fruitModal"
-                                     data-fruit="{{ entry.fruit }}"
-                                     data-result="{{ entry.result }}"
-                                     data-confidence="{{ entry.confidence }}"
-                                     data-timestamp="{{ entry.timestamp }}"
-                                     data-image="{{ entry.file }}"
-                                     onclick="showDetails(this)">
-                                     
-                                    {{ entry.fruit }}
-                                </div>
-                                
-                                <div class="d-md-none text-muted small mt-1">
-                                    {{ entry.timestamp.split('·')[0] }} 
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-
-                                <td class="py-3">
-                                    {% if entry.get('flagged') %}
-                                        <span class="badge bg-danger text-white border border-danger px-3 py-2 rounded-pill mb-1">
-                                            <i class="fas fa-flag me-1"></i> Flagged
-                                        </span><br>
-                                    {% endif %}
-
-                                    {% if 'Rejected' in entry.result %}
-                                        <span class="badge bg-secondary text-white border border-secondary px-3 py-2 rounded-pill">
-                                            <i class="fas fa-ban me-1"></i> Rejected
-                                        </span>
-                                    {% elif 'Ripe' in entry.result and 'Unripe' not in entry.result %}
-                                        <span class="badge bg-warning text-dark bg-opacity-25 border border-warning px-3 py-2 rounded-pill">
-                                            ● Ripe
-                                        </span>
-                                    {% elif 'Unripe' in entry.result %}
-                                        <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill">
-                                            ● Unripe
-                                        </span>
-                                    {% else %}
-                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-pill">
-                                            ● Overripe
-                                        </span>
-                                    {% endif %}
-                                </td>
-
-                                <td class="py-3 fw-bold text-dark opacity-75 d-none d-md-table-cell">
-                                    {{ entry.confidence }}
-                                </td>
-
-                                <td class="py-3 text-end pe-4">
-                                    <button type="button" 
-                                            class="btn btn-sm btn-white text-danger border shadow-sm rounded-circle hover-scale" 
-                                            style="width: 35px; height: 35px;"
-                                            onclick="confirmDelete('{{ url_for('delete_item', filename=entry.file) }}')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </td>
+                                <th class="py-3 ps-4 text-muted text-uppercase small fw-bold">Date</th>
+                                <th class="py-3 ps-3 text-muted text-uppercase small fw-bold">Fruit Detected</th>
+                                <th class="py-3 text-muted text-uppercase small fw-bold">Status</th>
+                                <th class="py-3 text-muted text-uppercase small fw-bold">Confidence</th>
+                                <th class="py-3 text-end pe-4">Actions</th>
                             </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr id="emptyRow">
+                        </thead>
+                        <tbody>
+                            {% if history %}
+                                {% for entry in history %}
+                                <tr class="desktop-row">
+                                    <td class="py-3 ps-4 text-muted small">
+                                        <i class="far fa-clock me-2"></i>{{ entry.timestamp }}
+                                    </td>
+                                    <td class="py-3 ps-3">
+                                        <div class="d-flex align-items-center">
+                                            <div style="width: 80px; height: 80px;" class="me-3">
+                                                <img src="{{ url_for('static', filename='uploads/' + entry.file) }}" 
+                                                     class="rounded-3 shadow-sm border img-zoom" 
+                                                     style="width: 100%; height: 100%; object-fit: cover; background-color: #f8f9fa;"
+                                                     alt="Scan"
+                                                     data-bs-toggle="modal" data-bs-target="#fruitModal"
+                                                     onclick="showDetails(this)"
+                                                     data-fruit="{{ entry.fruit }}"
+                                                     data-result="{{ entry.result }}"
+                                                     data-confidence="{{ entry.confidence }}"
+                                                     data-timestamp="{{ entry.timestamp }}"
+                                                     data-image="{{ entry.file }}"
+                                                     onerror="this.src='https://placehold.co/80x80?text=?'">
+                                            </div>
+
+                                            <div class="fruit-link fw-bold text-capitalize text-dark fs-5"
+                                                 style="cursor: pointer;"
+                                                 onclick="showDetails(this)"
+                                                 data-fruit="{{ entry.fruit }}"
+                                                 data-result="{{ entry.result }}"
+                                                 data-confidence="{{ entry.confidence }}"
+                                                 data-timestamp="{{ entry.timestamp }}"
+                                                 data-image="{{ entry.file }}"
+                                                 data-bs-toggle="modal" data-bs-target="#fruitModal">
+                                                {{ entry.fruit }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    
+                                    <td class="py-3">
+                                        <div class="d-flex flex-column gap-2 align-items-start">
+                                            {% if 'Rejected' in entry.result %}
+                                                <span class="badge badge-fixed rounded-pill bg-secondary text-white">
+                                                    REJECTED
+                                                </span>
+                                            {% elif 'Ripe' in entry.result and 'Unripe' not in entry.result %}
+                                                <span class="badge badge-fixed rounded-pill bg-warning text-dark">
+                                                    RIPE
+                                                </span>
+                                            {% elif 'Unripe' in entry.result %}
+                                                <span class="badge badge-fixed rounded-pill bg-success text-white">
+                                                    UNRIPE
+                                                </span>
+                                            {% else %}
+                                                <span class="badge badge-fixed rounded-pill bg-danger text-white">
+                                                    OVERRIPE
+                                                </span>
+                                            {% endif %}
+
+                                            {% if entry.get('flagged') %}
+                                                <span class="badge badge-fixed rounded-pill bg-purple text-white shadow-sm">
+                                                    <i class="fas fa-flag me-1"></i> FLAGGED
+                                                </span>
+                                            {% endif %}
+                                            </div>
+                                    </td>
+                                    
+                                    <td class="py-3 fw-bold text-dark opacity-75">{{ entry.confidence }}</td>
+                                    <td class="py-3 text-end pe-4">
+                                        {% if not entry.get('flagged') %}
+                                            <button type="button" class="btn btn-sm btn-white text-warning border shadow-sm rounded-circle hover-scale me-1" 
+                                                    style="width: 35px; height: 35px;" onclick="confirmFlag('{{ entry.file }}')" data-bs-toggle="tooltip" title="Report Error">
+                                                <i class="far fa-flag"></i>
+                                            </button>
+                                        {% else %}
+                                            <button class="btn btn-sm btn-light text-muted border rounded-circle me-1" style="width: 35px; height: 35px;" disabled><i class="fas fa-check"></i></button>
+                                        {% endif %}
+                                        <button type="button" class="btn btn-sm btn-white text-danger border shadow-sm rounded-circle hover-scale" 
+                                                style="width: 35px; height: 35px;" onclick="confirmDelete('{{ url_for('delete_item', filename=entry.file) }}')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr id="emptyRow">
+                                    <td colspan="5" class="text-center py-5">
+                                        <div class="text-muted opacity-50 display-1 mb-3">
+                                            <i class="fas fa-folder-open"></i>
+                                        </div>
+                                        <h5 class="fw-bold text-muted">No History Found</h5>
+                                        <p class="text-muted small">Your scan results will appear here.</p>
+                                        <a href="/ripeness_detection" class="btn btn-sm btn-outline-success rounded-pill mt-2">
+                                            Start Scanning
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                             <tr id="noResultsDesktop" style="display: none;">
                                 <td colspan="5" class="text-center py-5">
-                                    <div class="text-muted opacity-50 display-1 mb-3">
-                                        <i class="fas fa-folder-open"></i>
-                                    </div>
-                                    <h5 class="fw-bold text-muted">No History Found</h5>
-                                    <p class="text-muted small">Your scan results will appear here.</p>
-                                    <a href="/ripeness_detection" class="btn btn-sm btn-outline-success rounded-pill mt-2">
-                                        Start Scanning
-                                    </a>
+                                    <h5 class="fw-bold text-muted">No matches found</h5>
+                                    <p class="text-muted small">Try adjusting your filters.</p>
                                 </td>
                             </tr>
-                        {% endif %}
-                        
-                        <tr id="noResultsRow" style="display: none;">
-                            <td colspan="5" class="text-center py-5">
-                                <h5 class="fw-bold text-muted">No matches found</h5>
-                                <p class="text-muted small">Try adjusting your filters.</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="fruitModal" tabindex="-1" aria-hidden="true">
+    <div class="d-md-none" id="mobileHistoryContainer">
+        {% if history %}
+            {% for entry in history %}
+            <div class="card border-0 shadow-sm rounded-4 mb-3 overflow-hidden mobile-card">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ url_for('static', filename='uploads/' + entry.file) }}" 
+                             class="rounded-3 shadow-sm" 
+                             style="width: 70px; height: 70px; object-fit: cover; background: #f0f0f0;">
+                        
+                        <div class="ms-3 flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="fw-bold text-dark text-capitalize mb-1">{{ entry.fruit }}</h6>
+                                    
+                                    <div class="d-flex flex-wrap gap-1">
+                                        {% if 'Rejected' in entry.result %}
+                                            <span class="badge rounded-pill bg-secondary text-white border border-secondary py-1 px-2" style="font-size: 0.7rem;">REJECTED</span>
+                                        {% elif 'Ripe' in entry.result and 'Unripe' not in entry.result %}
+                                            <span class="badge rounded-pill bg-warning text-dark border border-warning py-1 px-2" style="font-size: 0.7rem;">RIPE</span>
+                                        {% elif 'Unripe' in entry.result %}
+                                            <span class="badge rounded-pill bg-success text-white border border-success py-1 px-2" style="font-size: 0.7rem;">UNRIPE</span>
+                                        {% else %}
+                                            <span class="badge rounded-pill bg-danger text-white border border-danger py-1 px-2" style="font-size: 0.7rem;">OVERRIPE</span>
+                                        {% endif %}
+
+                                        {% if entry.get('flagged') %}
+                                            <span class="badge rounded-pill bg-purple text-white border border-purple py-1 px-2 shadow-sm" style="font-size: 0.7rem;">
+                                                <i class="fas fa-flag"></i> FLAGGED
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex gap-1">
+                                    {% if not entry.get('flagged') %}
+                                        <button class="btn btn-sm btn-light text-warning border rounded-circle" style="width: 32px; height: 32px;" onclick="confirmFlag('{{ entry.file }}')">
+                                            <i class="far fa-flag"></i>
+                                        </button>
+                                    {% else %}
+                                        <button class="btn btn-sm btn-light text-success border rounded-circle" style="width: 32px; height: 32px;" disabled>
+                                            <i class="fas fa-check-circle"></i>
+                                        </button>
+                                    {% endif %}
+                                    <button class="btn btn-sm btn-light text-danger border rounded-circle" style="width: 32px; height: 32px;" onclick="confirmDelete('{{ url_for('delete_item', filename=entry.file) }}')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <small class="text-muted" style="font-size: 0.75rem;"><i class="far fa-clock me-1"></i>{{ entry.timestamp.split('·')[0] }}</small>
+                                <small class="fw-bold text-primary" style="font-size: 0.75rem;">{{ entry.confidence }}%</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <div id="noResultsMobile" class="text-center py-5" style="display: none;">
+                <h5 class="fw-bold text-muted">No matches found</h5>
+                <p class="text-muted small">Try adjusting your filters.</p>
+            </div>
+
+        {% else %}
+            <div class="text-center py-5">
+                <div class="text-muted opacity-50 display-1 mb-3"><i class="fas fa-folder-open"></i></div>
+                <h5 class="fw-bold text-muted">No History Found</h5>
+            </div>
+        {% endif %}
+    </div>
+
+</div> <div class="modal fade" id="fruitModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
       <div class="position-relative bg-dark text-center" style="min-height: 250px;">
@@ -284,47 +370,104 @@
   </div>
 </div>
 
+<div class="modal fade" id="flagModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-warning text-dark border-0">
+                <h5 class="modal-title fw-bold"><i class="fas fa-exclamation-triangle me-2"></i>Report Issue</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 text-center">
+                <div class="mb-3">
+                    <span class="fa-stack fa-2x text-warning">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fas fa-flag fa-stack-1x fa-inverse"></i>
+                    </span>
+                </div>
+                <h5 class="fw-bold text-dark">Flag this scan?</h5>
+                <p class="text-muted small mb-0">
+                    This marks the result as incorrect so we can improve the AI.
+                    <br><strong>Are you sure?</strong>
+                </p>
+            </div>
+            <div class="modal-footer border-0 bg-light p-3 justify-content-center gap-2">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                <form id="flagForm" action="" method="POST">
+                    <button type="submit" class="btn btn-warning rounded-pill px-4 shadow-sm fw-bold">Yes, Flag It</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    // 🔍 SEARCH & FILTER LOGIC
+    // 🔍 FIXED SEARCH & FILTER LOGIC (WORKS FOR DESKTOP AND MOBILE)
     function filterTable() {
         const input = document.getElementById("searchInput").value.toLowerCase();
         const statusFilter = document.getElementById("statusFilter").value;
-        const table = document.getElementById("historyTable");
-        const rows = table.getElementsByTagName("tr");
-        let visibleCount = 0;
 
-        for (let i = 1; i < rows.length; i++) { // Start at 1 to skip header
-            let row = rows[i];
-            
-            // Skip the "Empty State" or "No Results" special rows
-            if (row.id === "emptyRow" || row.id === "noResultsRow") continue;
+        // --- 1. DESKTOP FILTERING ---
+        const desktopRows = document.getElementsByClassName("desktop-row");
+        const noResultsDesktop = document.getElementById("noResultsDesktop");
+        let desktopVisibleCount = 0;
 
-            const dateText = row.cells[0].textContent.toLowerCase();
-            const fruitText = row.cells[1].textContent.toLowerCase();
-            const statusText = row.cells[2].textContent.trim(); 
+        for (let row of desktopRows) {
+            // Get all text content from the row for simple searching
+            const rowText = row.textContent.toLowerCase();
+            const statusCell = row.cells[2].textContent.trim(); // Column 2 is Status
 
-            // Check Search Text
-            const matchesSearch = dateText.includes(input) || fruitText.includes(input) || statusText.toLowerCase().includes(input);
-            
-            // Check Status Dropdown
+            const matchesSearch = rowText.includes(input);
             let matchesStatus = true;
             if (statusFilter !== 'all') {
-                // We use includes because status might be "● Ripe" or "Forbidden: Apple"
-                matchesStatus = statusText.includes(statusFilter);
+                // If filter is "Flagged", look for the error badge
+                if (statusFilter === 'Flagged') {
+                    matchesStatus = statusCell.includes("FLAGGED");
+                } else {
+                    matchesStatus = statusCell.includes(statusFilter.toUpperCase());
+                }
             }
 
             if (matchesSearch && matchesStatus) {
                 row.style.display = "";
-                visibleCount++;
+                desktopVisibleCount++;
             } else {
                 row.style.display = "none";
             }
         }
+        // Toggle Desktop No Results
+        if (noResultsDesktop) {
+            noResultsDesktop.style.display = (desktopVisibleCount === 0 && desktopRows.length > 0) ? "" : "none";
+        }
 
-        // Show "No Results" message if everything is hidden
-        const noResultsRow = document.getElementById("noResultsRow");
-        if (noResultsRow) {
-            noResultsRow.style.display = (visibleCount === 0 && rows.length > 2) ? "" : "none";
+        // --- 2. MOBILE FILTERING ---
+        const mobileCards = document.getElementsByClassName("mobile-card");
+        const noResultsMobile = document.getElementById("noResultsMobile");
+        let mobileVisibleCount = 0;
+
+        for (let card of mobileCards) {
+            const cardText = card.textContent.toLowerCase();
+            
+            const matchesSearch = cardText.includes(input);
+            let matchesStatus = true;
+            
+            if (statusFilter !== 'all') {
+                 // Check if the card text contains the specific status keyword
+                 matchesStatus = cardText.toUpperCase().includes(statusFilter.toUpperCase());
+                 if (statusFilter === 'Flagged') {
+                     matchesStatus = cardText.toUpperCase().includes("FLAGGED");
+                 }
+            }
+
+            if (matchesSearch && matchesStatus) {
+                card.style.display = "";
+                mobileVisibleCount++;
+            } else {
+                card.style.display = "none";
+            }
+        }
+        // Toggle Mobile No Results
+        if (noResultsMobile) {
+            noResultsMobile.style.display = (mobileVisibleCount === 0 && mobileCards.length > 0) ? "" : "none";
         }
     }
 
@@ -350,6 +493,13 @@
         const deleteForm = document.getElementById('deleteForm');
         deleteForm.action = deleteUrl;
         const myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        myModal.show();
+    }
+    
+    function confirmFlag(filename) {
+        const form = document.getElementById('flagForm');
+        form.action = '/report_error/' + filename;
+        const myModal = new bootstrap.Modal(document.getElementById('flagModal'));
         myModal.show();
     }
 </script>

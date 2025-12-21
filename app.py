@@ -55,6 +55,8 @@ def image_to_base64(image):
     return base64.b64encode(buffered.getvalue()).decode()
 
 def save_history(filename, fruit, ripeness, confidence):
+  
+    
     entry = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "file": filename,
@@ -213,7 +215,6 @@ def detect_ripeness():
             if face_ratio > 0.1: 
                 ai_logs.append("⛔ [DENY] Face is too dominant (>10%). Rejecting image as non-fruit.")
                 save_history(filename, "Human Face", "Rejected (Face)", "0.0")
-                # 👇 FIX 1: Added filename=filename
                 return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object="Human Face detected", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
         ai_logs.append("  → Faces found but are background/small. Proceeding.")
     else:
@@ -246,7 +247,6 @@ def detect_ripeness():
         elif any(f in gatekeeper_label for f in FORBIDDEN):
             ai_logs.append(f"⛔ [DENY] Gatekeeper identified forbidden item: '{gatekeeper_label}'.")
             save_history(filename, f"Forbidden: {gatekeeper_label}", "Rejected (Forbidden)", "0.0")
-            # 👇 FIX 2: Added filename=filename
             return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=gatekeeper_label.capitalize(), ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
         elif any(v in gatekeeper_label for v in VALID_FRUITS):
             gatekeeper_valid = True
@@ -280,13 +280,13 @@ def detect_ripeness():
             label = results[0].names[int(best_box.cls[0])].lower()
             confidence = float(best_box.conf[0])
             
+        
             ai_logs.append(f"   → Selected best candidate: '{label}' ({confidence*100:.1f}%)")
 
             threshold = 0.50
             if confidence < threshold:
                  ai_logs.append(f"⛔ [DENY] Confidence {confidence*100:.1f}% is too low.")
                  save_history(filename, "Unidentified Object", "Rejected (Low Conf)", f"{confidence*100:.1f}")
-                 # 👇 FIX 3: Added filename=filename
                  return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object="Unidentified Object (Low Confidence)", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
 
             if '_' in label:
@@ -302,35 +302,39 @@ def detect_ripeness():
                  if gatekeeper_conf > 0.60:
                      ai_logs.append(f"⛔ [DENY] Gatekeeper is confident enough ({gatekeeper_conf*100:.1f}%) it's an Orange. Blocking.")
                      save_history(filename, "Real Orange", "Rejected (False Positive)", "0.0")
-                     # 👇 FIX 4: Added filename=filename
                      return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=f"Real Orange", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
                  else:
                      ai_logs.append(f"⚠️ [PASS] Gatekeeper said 'Orange' but confidence ({gatekeeper_conf*100:.1f}%) is below 60%. Allowing as Unripe Tomato.")
                 
             ai_logs.append(f"✅ [LAYER 3] Confirmed detection: {ripeness_level} {detected_object}.")
-            full_label = f"{ripeness_level} {detected_object}"
+            
+            # 🧪 GENERATE ID HERE
+            sample_id = random.randint(1000, 9999)
+            display_name = f"{detected_object} #{sample_id}"
 
         else:
             # Specialist saw nothing. Fallback to Gatekeeper.
             fallback_obj = gatekeeper_label.capitalize() if gatekeeper_label != "unknown" else "Nothing Detected"
             ai_logs.append(f"⛔ [LAYER 3] Specialist found no fruit. Falling back to Gatekeeper: '{fallback_obj}'.")
             save_history(filename, fallback_obj, "Rejected (Non-Fruit)", "0.0")
-            # 👇 FIX 5: Added filename=filename
             return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=fallback_obj, ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
 
     except Exception as e:
         ai_logs.append(f"⚠️ [ERROR] Specialist failed: {e}")
         cleanup_memory()
         return redirect(url_for('ripeness_detection'))
-
+    
     # ==========================================================
     # 🎨 LAYER 4: TUNED COLOR ANALYSIS
     # ==========================================================
-    ai_logs.append(f"🎨 [LAYER 4: COLOR TUNING] Generating visual graph data guided by AI conclusion: '{full_label}'.")
-    colors = analyze_ripeness_tuned(img_cv2, full_label)
+    # Pass clean name (without ID) to color tuner
+    ai_logs.append(f"🎨 [LAYER 4: COLOR TUNING] Generating visual graph data guided by AI conclusion: '{ripeness_level} {detected_object}'.")
+    colors = analyze_ripeness_tuned(img_cv2, f"{ripeness_level} {detected_object}")
     ai_logs.append(f"✅ [FINAL] Stats: Green {colors['green_percentage']}%, Yellow {colors['yellow_percentage']}%, Brown {colors['brown_percentage']}%.")
 
-    save_history(filename, full_label, ripeness_level, f"{confidence*100:.1f}")
+    # Save to history with ID
+    save_history(filename, display_name, ripeness_level, f"{confidence*100:.1f}")
+    
     advice = get_expert_advice(detected_object, ripeness_level)
     
     nutrition_data = {}
@@ -343,13 +347,17 @@ def detect_ripeness():
     return render_template('result_page.html', 
                           img_str=image_to_base64(img_pil), 
                           ripeness_result={'ripeness_level': ripeness_level, 'confidence': confidence, 'color_analysis': colors},
-                          class_names=[full_label],
+                          
+                          # 👇 NOW we send the clean ID name to the screen!
+                          class_names=[display_name],
+                          
                           is_red_fruit=('tomato' in detected_object.lower()),
                           nutrition=nutrition_data,
                           advice=advice,
-                          filename=filename, # <--- This one was already here, but the error cases missed it!
+                          filename=filename,
                           timestamp_now=timestamp_now,
                           ai_logs=ai_logs)
+    
 @app.route('/history')
 def show_history():
     if os.path.exists(HISTORY_FILE):
@@ -389,7 +397,6 @@ def fruit_detection():
 
 @app.route('/detect_objects', methods=['POST'])
 def detect_objects():
-    # ⚠️ LIVE MODE: LAZY LOADING IMPLEMENTED
     data = request.json
     try:
         image_data = data['image_data'].split(',')[1]
@@ -398,90 +405,105 @@ def detect_objects():
     except: return jsonify([])
 
     detected_objects = []
-    VALID_FRUITS = ['banana', 'mango', 'tomato']
-    FORBIDDEN = ['apple', 'orange', 'strawberry', 'lemon', 'grape', 'watermelon', 'pineapple']
     
-    # --- FACE DETECTION (Live Camera Safety) ---
-    face_bboxes = []
+    # ---------------------------------------------------------
+    # STEP 1: Run Specialist (Find Fruit)
+    # ---------------------------------------------------------
+    specialist_results = []
     try:
-        # Uses Global Cascade (Fast)
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3, minSize=(30,30))
-        for (fx,fy,fw,fh) in faces:
-            face_bboxes.append([fx, fy, fx+fw, fy+fh])
-        print(f"    🔍 Detected {len(face_bboxes)} face(s) in frame")
-    except Exception as e:
-        print(f"    ⚠️ Face detector error: {e}")
-        
-    # --- SPECIALIST MODEL (Lazy Loaded) ---
-    try:
-        # 👇 LAZY LOAD
         fruit_detection_model = YOLO(SPECIALIST_PATH)
-        results = fruit_detection_model(img, conf=0.55, imgsz=320, verbose=False) # RAM Saving settings
+        results = fruit_detection_model(img, conf=0.40, imgsz=320, verbose=False)
+        if results[0].boxes:
+            specialist_results = results[0].boxes
         
-        # Cleanup
         del fruit_detection_model
         cleanup_memory()
-        # 👆 LAZY END
-
-        print(f"🔍 [LIVE] Specialist detected {len(results[0].boxes) if results[0].boxes else 0} potential objects")
-        
-        for r in results:
-            if r.boxes:
-                for box in r.boxes:
-                    detected_class = r.names[int(box.cls[0])].lower()
-                    confidence = float(box.conf[0])
-                    print(f"  → Specialist saw: '{detected_class}' ({confidence*100:.1f}% confidence)")
-                    x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
-                    
-                    # ---------------------------------------------------------
-                    # 🧠 YOUR CUSTOM GEOMETRY CHECK (Preserved!)
-                    # ---------------------------------------------------------
-                    w = x2 - x1
-                    h = y2 - y1
-                    if min(w, h) > 0:
-                        aspect_ratio = max(w, h) / min(w, h)
-                        if 'banana' in detected_class and aspect_ratio < 1.5: 
-                            print(f"    🔄 LOGIC FIX: 'Banana' too round. Auto-correcting to 'Mango'.")
-                            detected_class = detected_class.replace('banana', 'mango')
-                        elif 'mango' in detected_class and aspect_ratio > 2.2:
-                            print(f"    🔄 LOGIC FIX: 'Mango' too long. Auto-correcting to 'Banana'.")
-                            detected_class = detected_class.replace('mango', 'banana')
-                    
-                    # FACE OVERLAP CHECK
-                    def overlap_fraction(a,b):
-                        xA = max(a[0], b[0]); yA = max(a[1], b[1])
-                        xB = min(a[2], b[2]); yB = min(a[3], b[3])
-                        interArea = max(0, xB - xA) * max(0, yB - yA)
-                        areaA = max(0, a[2]-a[0]) * max(0, a[3]-a[1])
-                        return interArea / areaA if areaA > 0 else 0
-                    
-                    if any(overlap_fraction([x1,y1,x2,y2], f) > 0.15 for f in face_bboxes):
-                        print(f"    ❌ REJECTED: Overlaps with a face")
-                        continue 
-                    
-                    # FORBIDDEN CHECK
-                    if any(f in detected_class for f in FORBIDDEN):
-                        print(f"    ❌ REJECTED: Forbidden '{detected_class}'")
-                        continue
-
-                    # ----------------------------------------------------
-                    # NOTE: I removed the "Nested Gatekeeper" inside Live Mode
-                    # because loading TWO models per frame will definitely crash 1GB RAM.
-                    # This single-model + geometry check is safe.
-                    # ----------------------------------------------------
-                    
-                    detected_objects.append({
-                        'class': detected_class.title(),
-                        'confidence': confidence,
-                        'bbox': box.xyxy[0].tolist() 
-                    })
-
     except Exception as e:
-        print(f"⚠️ [LIVE] Error: {e}")
+        print(f"⚠️ Specialist Error: {e}")
+        return jsonify([])
+
+    if len(specialist_results) == 0: return jsonify([])
+
+    # ---------------------------------------------------------
+    # STEP 2: Verify & Color Correct
+    # ---------------------------------------------------------
+    try:
+        gatekeeper_model = YOLO(GATEKEEPER_PATH)
+        
+        for box in specialist_results:
+            detected_class = results[0].names[int(box.cls[0])].lower()
+            confidence = float(box.conf[0])
+            x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
+            
+            # --- A. GATEKEEPER CHECK (Block Trash) ---
+            try:
+                crop_pil = img_pil.crop((x1, y1, x2, y2))
+                gk_res = gatekeeper_model(crop_pil, verbose=False)
+                
+                top3 = gk_res[0].probs.top5[:3]
+                gk_labels = [gk_res[0].names[i].lower() for i in top3]
+                
+                FORBIDDEN = ['person', 'face', 'human', 'orange', 'apple', 'lemon', 'strawberry', 'man', 'woman', 'dog', 'cat', 'hamster']
+                is_forbidden = False
+                for lbl in gk_labels:
+                    if any(f in lbl for f in FORBIDDEN):
+                        is_forbidden = True
+                        break
+                if is_forbidden: continue 
+            except: pass
+
+            # --- B. SMART COLOR CORRECTION 🎨 ---
+            try:
+                crop_cv = img[y1:y2, x1:x2]
+                if crop_cv.size > 0:
+                    hsv = cv2.cvtColor(crop_cv, cv2.COLOR_BGR2HSV)
+                    avg_hue = np.median(hsv[:, :, 0])
+                    
+                    fruit_type = ""
+                    if "banana" in detected_class: fruit_type = "Banana"
+                    elif "mango" in detected_class: fruit_type = "Mango"
+                    elif "tomato" in detected_class: fruit_type = "Tomato"
+                    
+                    if fruit_type == "Tomato":
+                        # 🍅 TOMATO LOGIC: Check for RED
+                        # Red is at both ends of the spectrum (0-20 AND 160-180)
+                        is_red = (avg_hue < 20) or (avg_hue > 160)
+                        
+                        if is_red:
+                            detected_class = "Ripe Tomato"
+                        else:
+                            # If it's NOT red, it's Unripe (covers Green, Pale, Yellow-Green)
+                            detected_class = "Unripe Tomato"
+
+                    elif fruit_type in ["Banana", "Mango"]:
+                        # 🍌🥭 BANANA/MANGO LOGIC: Check for GREEN
+                        # Green is approx 35 to 90
+                        is_green = 35 < avg_hue < 90
+                        
+                        if is_green:
+                            detected_class = f"Unripe {fruit_type}"
+                        else:
+                            if "overripe" in detected_class:
+                                detected_class = f"Overripe {fruit_type}"
+                            else:
+                                detected_class = f"Ripe {fruit_type}"
+
+            except Exception as e:
+                pass
+
+            detected_objects.append({
+                'class': detected_class.title(),
+                'confidence': confidence,
+                'bbox': box.xyxy[0].tolist() 
+            })
+
+        del gatekeeper_model
         cleanup_memory()
 
-    print(f"📊 [LIVE] Returning {len(detected_objects)} validated detection(s)")
+    except Exception as e:
+        print(f"⚠️ Gatekeeper Loop Error: {e}")
+        cleanup_memory()
+
     return jsonify(detected_objects)
 
 @app.route('/model_stats')

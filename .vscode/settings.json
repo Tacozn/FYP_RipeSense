@@ -1,0 +1,9 @@
+{
+    "java.import.exclusions": [
+        "**/android/**",
+        "**/capacitor-android/**"
+    ],
+    "files.watcherExclude": {
+        "**/android/**": true
+    }
+}

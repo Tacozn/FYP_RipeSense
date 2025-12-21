@@ -1,0 +1,20 @@
+# 🐍 Python
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+# 🖼️ Media & Uploads
+static/uploads/*
+!static/uploads/.gitkeep
+# BUT keep the clean demo images!
+!static/demo_samples/
+
+# 📦 Node & System Files (THE IMPORTANT PART!)
+node_modules/
+dist/
+.DS_Store
+
+# 🧪 Datasets
+data/
+test_dataset/
