@@ -346,3 +346,69 @@ body {
 .pulse-blue {
     animation: pulse-blue 2s infinite;
 }
+/* =========================================
+   RIPESENSE NAVBAR STYLING (FINAL v2)
+   ========================================= */
+
+/* --- 1. MOBILE FIRST (Default View) --- */
+/* These rules make it big and chunky for phones */
+.navbar-nav .nav-item {
+    width: 100%;        /* Full width */
+    margin: 2px 0;      
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.navbar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    width: 100%;        /* Stretch to fill screen */
+    padding: 15px 20px; /* Big padding for fingers */
+    border-radius: 12px;
+    font-weight: 500;
+    color: #555;
+    transition: all 0.2s ease-in-out;
+}
+
+/* --- 2. ACTIVE STATE (Green Pill) --- */
+.navbar-nav .nav-link.active {
+    background-color: #198754; 
+    color: white !important;   
+    font-weight: 600;          
+    box-shadow: 0 4px 10px rgba(25, 135, 84, 0.3); 
+}
+
+/* --- 3. PC / LAPTOP VIEW (The "Slim" Fix) --- */
+/* This only runs on screens wider than 992px (Laptops/Desktops) */
+@media (min-width: 992px) {
+    
+    /* 1. Stop the buttons from stretching */
+    .navbar-nav .nav-item {
+        width: auto !important;     /* Force it to shrink to text size */
+        margin: 0 5px !important;   /* Small gap between buttons */
+        border-bottom: none !important; /* No lines on PC */
+    }
+
+    /* 2. Slim down the padding and link size */
+    .navbar-nav .nav-link {
+        width: auto !important;     /* CRITICAL: Stops the 100% width */
+        padding: 8px 16px !important; /* Much smaller padding */
+        font-size: 0.95rem;         /* Elegant text size */
+        display: inline-flex;       /* Sit side-by-side */
+        justify-content: center;
+    }
+
+    /* 3. Adjust the "Active" pill for PC */
+    .navbar-nav .nav-link.active {
+        border-radius: 50px;        /* Perfect rounded pill */
+        padding-left: 20px !important; 
+        padding-right: 20px !important;
+        transform: translateY(-1px); /* Subtle lift */
+    }
+
+    /* 4. Hover effect for PC */
+    .navbar-nav .nav-link:not(.active):hover {
+        background-color: #e8f5e9;
+        color: #198754;
+        transform: translateY(-1px);
+    }
+}

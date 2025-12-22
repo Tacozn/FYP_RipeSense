@@ -40,6 +40,7 @@ The content is organized as follows:
 </file_summary>
 
 <directory_structure>
+.gitignore
 android/.gitignore
 android/.idea/.gitignore
 android/.idea/compiler.xml
@@ -141,7 +142,6 @@ static/images/icon3.png
 static/images/icon4.png
 static/js/sw.js
 static/manifest.json
-static/monster_image.jpg
 static/uploads/1000122838.jpg
 static/uploads/1000123348.jpg
 static/uploads/1766243864_orange.jpg
@@ -358,159 +358,114 @@ templates/index.html
 templates/model_stats.html
 templates/result_page.html
 templates/ripeness_detection.html
-test_dataset/overripe_banana/ob1.jpg
-test_dataset/overripe_banana/ob10.jpg
-test_dataset/overripe_banana/ob11.jpg
-test_dataset/overripe_banana/ob12.jpg
-test_dataset/overripe_banana/ob13.jpg
-test_dataset/overripe_banana/ob14.jpg
-test_dataset/overripe_banana/ob15.jpg
-test_dataset/overripe_banana/ob16.jpg
-test_dataset/overripe_banana/ob17.jpg
-test_dataset/overripe_banana/ob18.jpg
-test_dataset/overripe_banana/ob2.jpg
-test_dataset/overripe_banana/ob3.jpg
-test_dataset/overripe_banana/ob4.jpg
-test_dataset/overripe_banana/ob5.jpg
-test_dataset/overripe_banana/ob6.jpg
-test_dataset/overripe_banana/ob7.jpg
-test_dataset/overripe_banana/ob8.jpg
-test_dataset/overripe_banana/ob9.jpg
-test_dataset/overripe_mango/om1.jpg
-test_dataset/overripe_mango/om10.jpg
-test_dataset/overripe_mango/om11.jpg
-test_dataset/overripe_mango/om12.jpg
-test_dataset/overripe_mango/om13.jpg
-test_dataset/overripe_mango/om14.jpg
-test_dataset/overripe_mango/om15.jpg
-test_dataset/overripe_mango/om16.jpg
-test_dataset/overripe_mango/om17.jpg
-test_dataset/overripe_mango/om2.jpg
-test_dataset/overripe_mango/om3.jpg
-test_dataset/overripe_mango/om4.jpg
-test_dataset/overripe_mango/om5.jpg
-test_dataset/overripe_mango/om6.jpg
-test_dataset/overripe_mango/om7.jpg
-test_dataset/overripe_mango/om8.jpg
-test_dataset/overripe_mango/om9.jpg
-test_dataset/overripe_tomato/ot1.jpg
-test_dataset/overripe_tomato/ot10.jpg
-test_dataset/overripe_tomato/ot11.jpg
-test_dataset/overripe_tomato/ot12.jpg
-test_dataset/overripe_tomato/ot13.jpg
-test_dataset/overripe_tomato/ot14.jpg
-test_dataset/overripe_tomato/ot15.jpg
-test_dataset/overripe_tomato/ot16.jpg
-test_dataset/overripe_tomato/ot17.jpg
-test_dataset/overripe_tomato/ot18.jpg
-test_dataset/overripe_tomato/ot2.jpg
-test_dataset/overripe_tomato/ot3.jpg
-test_dataset/overripe_tomato/ot4.jpg
-test_dataset/overripe_tomato/ot5.jpg
-test_dataset/overripe_tomato/ot6.jpg
-test_dataset/overripe_tomato/ot7.jpg
-test_dataset/overripe_tomato/ot8.jpg
-test_dataset/overripe_tomato/ot9.jpg
-test_dataset/ripe_banana/b1.jpg
-test_dataset/ripe_banana/b10.jpg
-test_dataset/ripe_banana/b11.jpg
-test_dataset/ripe_banana/b12.jpg
-test_dataset/ripe_banana/b13.jpg
-test_dataset/ripe_banana/b14.jpg
-test_dataset/ripe_banana/b15.jpg
-test_dataset/ripe_banana/b16.jpg
-test_dataset/ripe_banana/b2.jpg
-test_dataset/ripe_banana/b3.jpg
-test_dataset/ripe_banana/b4.jpg
-test_dataset/ripe_banana/b5.jpg
-test_dataset/ripe_banana/b6.jpg
-test_dataset/ripe_banana/b7.jpg
-test_dataset/ripe_banana/b8.jpg
-test_dataset/ripe_banana/b9.jpg
-test_dataset/ripe_mango/m1.jpg
-test_dataset/ripe_mango/m10.jpg
-test_dataset/ripe_mango/m11.jpg
-test_dataset/ripe_mango/m12.jpg
-test_dataset/ripe_mango/m13.jpg
-test_dataset/ripe_mango/m14.jpg
-test_dataset/ripe_mango/m15.jpg
-test_dataset/ripe_mango/m16.jpg
-test_dataset/ripe_mango/m2.jpg
-test_dataset/ripe_mango/m3.jpg
-test_dataset/ripe_mango/m4.jpg
-test_dataset/ripe_mango/m5.jpg
-test_dataset/ripe_mango/m6.jpg
-test_dataset/ripe_mango/m7.jpg
-test_dataset/ripe_mango/m8.jpg
-test_dataset/ripe_mango/m9.jpg
-test_dataset/ripe_tomato/t1.jpg
-test_dataset/ripe_tomato/t10.jpg
-test_dataset/ripe_tomato/t11.jpg
-test_dataset/ripe_tomato/t12.jpg
-test_dataset/ripe_tomato/t13.jpg
-test_dataset/ripe_tomato/t14.jpg
-test_dataset/ripe_tomato/t15.jpg
-test_dataset/ripe_tomato/t16.jpg
-test_dataset/ripe_tomato/t2.jpg
-test_dataset/ripe_tomato/t3.jpg
-test_dataset/ripe_tomato/t4.jpg
-test_dataset/ripe_tomato/t5.jpg
-test_dataset/ripe_tomato/t6.jpg
-test_dataset/ripe_tomato/t7.jpg
-test_dataset/ripe_tomato/t8.jpg
-test_dataset/ripe_tomato/t9.jpg
-test_dataset/unripe_banana/ub1.jpg
-test_dataset/unripe_banana/ub10.jpg
-test_dataset/unripe_banana/ub11.jpg
-test_dataset/unripe_banana/ub12.jpg
-test_dataset/unripe_banana/ub13.jpg
-test_dataset/unripe_banana/ub14.jpg
-test_dataset/unripe_banana/ub15.jpg
-test_dataset/unripe_banana/ub16.jpg
-test_dataset/unripe_banana/ub2.jpg
-test_dataset/unripe_banana/ub3.jpg
-test_dataset/unripe_banana/ub4.jpg
-test_dataset/unripe_banana/ub5.jpg
-test_dataset/unripe_banana/ub6.jpg
-test_dataset/unripe_banana/ub7.jpg
-test_dataset/unripe_banana/ub8.jpg
-test_dataset/unripe_banana/ub9.jpg
-test_dataset/unripe_mango/um1.jpg
-test_dataset/unripe_mango/um10.jpg
-test_dataset/unripe_mango/um11.jpg
-test_dataset/unripe_mango/um12.jpg
-test_dataset/unripe_mango/um13.jpg
-test_dataset/unripe_mango/um14.jpg
-test_dataset/unripe_mango/um15.jpg
-test_dataset/unripe_mango/um16.jpg
-test_dataset/unripe_mango/um2.jpg
-test_dataset/unripe_mango/um3.jpg
-test_dataset/unripe_mango/um4.jpg
-test_dataset/unripe_mango/um5.jpg
-test_dataset/unripe_mango/um6.jpg
-test_dataset/unripe_mango/um7.jpg
-test_dataset/unripe_mango/um8.jpg
-test_dataset/unripe_mango/um9.jpg
-test_dataset/unripe_tomato/ut1.jpg
-test_dataset/unripe_tomato/ut10.jpg
-test_dataset/unripe_tomato/ut11.jpg
-test_dataset/unripe_tomato/ut12.jpg
-test_dataset/unripe_tomato/ut13.jpg
-test_dataset/unripe_tomato/ut14.jpg
-test_dataset/unripe_tomato/ut15.jpg
-test_dataset/unripe_tomato/ut16.jpg
-test_dataset/unripe_tomato/ut2.jpg
-test_dataset/unripe_tomato/ut3.jpg
-test_dataset/unripe_tomato/ut4.jpg
-test_dataset/unripe_tomato/ut5.jpg
-test_dataset/unripe_tomato/ut6.jpg
-test_dataset/unripe_tomato/ut7.jpg
-test_dataset/unripe_tomato/ut8.jpg
-test_dataset/unripe_tomato/ut9.jpg
 </directory_structure>
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path="android/.gitignore">
+# Using Android gitignore template: https://github.com/github/gitignore/blob/HEAD/Android.gitignore
+
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+#  Uncomment the following line in case you need and you don't have the release build type files in your app
+# release/
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Proguard folder generated by Eclipse
+proguard/
+
+# Log Files
+*.log
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
+
+# IntelliJ
+*.iml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries
+.idea/libraries
+# Android Studio 3 in .gitignore file.
+.idea/caches
+.idea/modules.xml
+# Comment next line if keeping position of elements in Navigation Editor is relevant for you
+.idea/navEditor.xml
+
+# Keystore files
+# Uncomment the following lines if you do not want to check your keystore files in.
+#*.jks
+#*.keystore
+
+# External native build folder generated in Android Studio 2.2 and later
+.externalNativeBuild
+.cxx/
+
+# Google Services (e.g. APIs or Firebase)
+# google-services.json
+
+# Freeline
+freeline.py
+freeline/
+freeline_project_description.json
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/readme.md
+
+# Version control
+vcs.xml
+
+# lint
+lint/intermediates/
+lint/generated/
+lint/outputs/
+lint/tmp/
+# lint/reports/
+
+# Android Profiling
+*.hprof
+
+# Cordova plugins for Capacitor
+capacitor-cordova-android-plugins
+
+# Copied web assets
+app/src/main/assets/public
+
+# Generated Config files
+app/src/main/assets/capacitor.config.json
+app/src/main/assets/capacitor.plugins.json
+app/src/main/res/xml/config.xml
+</file>
 
 <file path="android/.idea/.gitignore">
 # Default ignored files
@@ -1654,188 +1609,9 @@ This section contains the contents of the repository's files.
 </project>
 </file>
 
-<file path="android/.gitignore">
-# Using Android gitignore template: https://github.com/github/gitignore/blob/HEAD/Android.gitignore
-
-# Built application files
-*.apk
-*.aar
-*.ap_
-*.aab
-
-# Files for the ART/Dalvik VM
-*.dex
-
-# Java class files
-*.class
-
-# Generated files
-bin/
-gen/
-out/
-#  Uncomment the following line in case you need and you don't have the release build type files in your app
-# release/
-
-# Gradle files
-.gradle/
-build/
-
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Proguard folder generated by Eclipse
-proguard/
-
-# Log Files
-*.log
-
-# Android Studio Navigation editor temp files
-.navigation/
-
-# Android Studio captures folder
-captures/
-
-# IntelliJ
-*.iml
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/gradle.xml
-.idea/assetWizardSettings.xml
-.idea/dictionaries
-.idea/libraries
-# Android Studio 3 in .gitignore file.
-.idea/caches
-.idea/modules.xml
-# Comment next line if keeping position of elements in Navigation Editor is relevant for you
-.idea/navEditor.xml
-
-# Keystore files
-# Uncomment the following lines if you do not want to check your keystore files in.
-#*.jks
-#*.keystore
-
-# External native build folder generated in Android Studio 2.2 and later
-.externalNativeBuild
-.cxx/
-
-# Google Services (e.g. APIs or Firebase)
-# google-services.json
-
-# Freeline
-freeline.py
-freeline/
-freeline_project_description.json
-
-# fastlane
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots
-fastlane/test_output
-fastlane/readme.md
-
-# Version control
-vcs.xml
-
-# lint
-lint/intermediates/
-lint/generated/
-lint/outputs/
-lint/tmp/
-# lint/reports/
-
-# Android Profiling
-*.hprof
-
-# Cordova plugins for Capacitor
-capacitor-cordova-android-plugins
-
-# Copied web assets
-app/src/main/assets/public
-
-# Generated Config files
-app/src/main/assets/capacitor.config.json
-app/src/main/assets/capacitor.plugins.json
-app/src/main/res/xml/config.xml
-</file>
-
 <file path="android/app/.gitignore">
 /build/*
 !/build/.npmkeep
-</file>
-
-<file path="android/app/build.gradle">
-apply plugin: 'com.android.application'
-
-android {
-    namespace = "com.ripesense.app"
-    compileSdk = rootProject.ext.compileSdkVersion
-    defaultConfig {
-        applicationId "com.ripesense.app"
-        minSdkVersion = rootProject.ext.minSdkVersion
-        targetSdkVersion = rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        aaptOptions {
-             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
-             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
-            ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
-        }
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    
-    // 👇 THIS WAS MISSING! This connects to the "javaVersion = 17" we set earlier!
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-    subprojects {
-    afterEvaluate { project ->
-        if (project.plugins.hasPlugin("com.android.library") || project.plugins.hasPlugin("com.android.application")) {
-            android {
-                compileOptions {
-                    sourceCompatibility JavaVersion.VERSION_17
-                    targetCompatibility JavaVersion.VERSION_17
-                }
-            }
-        }
-    }
-}
-}
-
-repositories {
-    flatDir{
-        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
-    }
-}
-
-dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
-    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
-    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
-    implementation project(':capacitor-android')
-    testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
-    implementation project(':capacitor-cordova-android-plugins')
-}
-
-apply from: 'capacitor.build.gradle'
-
-try {
-    def servicesJSON = file('google-services.json')
-    if (servicesJSON.text) {
-        apply plugin: 'com.google.gms.google-services'
-    }
-} catch(Exception e) {
-    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
-}
 </file>
 
 <file path="android/app/capacitor.build.gradle">
@@ -1913,86 +1689,6 @@ public class ExampleInstrumentedTest {
 }
 </file>
 
-<file path="android/app/src/main/AndroidManifest.xml">
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-<uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
-        <activity
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation|density"
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBarLaunch"
-            android:launchMode="singleTask"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
-        </provider>
-    </application>
-
-    <!-- Permissions -->
-
-    <uses-permission android:name="android.permission.INTERNET" />
-</manifest>
-</file>
-
-<file path="android/app/src/main/java/com/ripesense/app/MainActivity.java">
-package com.ripesense.app;
-
-import com.getcapacitor.BridgeActivity;
-import android.os.Bundle;
-
-public class MainActivity extends BridgeActivity {
-
-    @Override
-    public void onBackPressed() {
-        // [DETECTIVE] Lee Wonhee's "Back Button" Logic
-
-        // 1. Get the current URL the user is looking at
-        String currentUrl = bridge.getWebView().getUrl();
-
-        // 2. Define your Home URL (UPDATE THIS!)
-        String homeUrl = "https://ripesense-production.up.railway.app/";
-
-        // 3. The Logic:
-        if (currentUrl != null && !currentUrl.equals(homeUrl)) {
-            // If we are NOT on the home page, force the browser to go Home
-            bridge.getWebView().loadUrl(homeUrl);
-        } else {
-            // If we ARE on the home page, behave normally (close the app)
-            super.onBackPressed();
-        }
-    }
-}
-</file>
-
 <file path="android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml">
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
@@ -2030,83 +1726,6 @@ public class MainActivity extends BridgeActivity {
 </vector>
 </file>
 
-<file path="android/app/src/main/res/drawable/ic_launcher_background.xml">
-<?xml version="1.0" encoding="utf-8"?>
-<vector
-    android:height="108dp"
-    android:width="108dp"
-    android:viewportHeight="108"
-    android:viewportWidth="108"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="#3DDC84"
-          android:pathData="M0,0h108v108h-108z"/>
-    <path android:fillColor="#00000000" android:pathData="M9,0L9,108"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M19,0L19,108"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M29,0L29,108"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M39,0L39,108"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M49,0L49,108"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M59,0L59,108"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M69,0L69,108"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M79,0L79,108"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M89,0L89,108"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M99,0L99,108"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M0,9L108,9"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M0,19L108,19"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M0,29L108,29"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M0,39L108,39"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M0,49L108,49"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M0,59L108,59"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M0,69L108,69"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M0,79L108,79"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M0,89L108,89"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M0,99L108,99"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M19,29L89,29"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M19,39L89,39"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M19,49L89,49"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M19,59L89,59"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M19,69L89,69"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M19,79L89,79"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M29,19L29,89"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M39,19L39,89"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M49,19L49,89"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M59,19L59,89"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M69,19L69,89"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-    <path android:fillColor="#00000000" android:pathData="M79,19L79,89"
-          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
-</vector>
-</file>
-
 <file path="android/app/src/main/res/layout/activity_main.xml">
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -2120,22 +1739,6 @@ public class MainActivity extends BridgeActivity {
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</file>
-
-<file path="android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml">
-<?xml version="1.0" encoding="utf-8"?>
-<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@drawable/ic_launcher_background"/>
-    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
-</adaptive-icon>
-</file>
-
-<file path="android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml">
-<?xml version="1.0" encoding="utf-8"?>
-<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@drawable/ic_launcher_background"/>
-    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
-</adaptive-icon>
 </file>
 
 <file path="android/app/src/main/res/values/ic_launcher_background.xml">
@@ -2209,62 +1812,6 @@ public class ExampleUnitTest {
 }
 </file>
 
-<file path="android/build.gradle">
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript {
-    
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.1'
-        classpath 'com.google.gms:google-services:4.4.4'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
-
-apply from: "variables.gradle"
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
-subprojects {
-    // 1. Force Java 17
-    afterEvaluate { project ->
-        if (project.plugins.hasPlugin("com.android.library") || project.plugins.hasPlugin("com.android.application")) {
-            android {
-                compileOptions {
-                    sourceCompatibility JavaVersion.VERSION_17
-                    targetCompatibility JavaVersion.VERSION_17
-                }
-            }
-        }
-    }
-
-    // 2. Force Kotlin Alignment ONLY (Removed androidx.core)
-    configurations.all {
-        resolutionStrategy.eachDependency { details ->
-            if (details.requested.group == 'org.jetbrains.kotlin') {
-                details.useVersion '1.9.10'
-            }
-            // ❌ I REMOVED THE ANDROIDX.CORE BLOCK HERE. IT WAS THE PROBLEM.
-        }
-    }
-}
-</file>
-
 <file path="android/capacitor.settings.gradle">
 // DO NOT EDIT THIS FILE! IT IS GENERATED EACH TIME "capacitor update" IS RUN
 include ':capacitor-android'
@@ -2294,16 +1841,6 @@ org.gradle.jvmargs=-Xmx1536m
 # Android operating system, and which are packaged with your app's APK
 # https://developer.android.com/topic/libraries/support-library/androidx-rn
 android.useAndroidX=true
-</file>
-
-<file path="android/gradle/wrapper/gradle-wrapper.properties">
-distributionBase=GRADLE_USER_HOME
-distributionPath=wrapper/dists
-distributionUrl=https\://services.gradle.org/distributions/gradle-8.7-all.zip
-networkTimeout=10000
-validateDistributionUrl=true
-zipStoreBase=GRADLE_USER_HOME
-zipStorePath=wrapper/dists
 </file>
 
 <file path="android/gradlew">
@@ -2665,29 +2202,6 @@ project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor
 apply from: 'capacitor.settings.gradle'
 </file>
 
-<file path="android/variables.gradle">
-ext {
-    minSdkVersion = 24
-    compileSdkVersion = 35
-    targetSdkVersion = 35
-    javaVersion = 17
-
-    androidxActivityVersion = '1.9.3'       // 👈 Bump to latest
-    androidxAppCompatVersion = '1.7.0'
-    androidxCoordinatorLayoutVersion = '1.2.0'
-    androidxCoreVersion = '1.15.0'          // 👈 Bump to latest (Supports SDK 35)
-    androidxFragmentVersion = '1.8.5'       // 👈 Bump to latest
-    coreSplashScreenVersion = '1.0.1'       // Keep this one, it works.
-    androidxWebkitVersion = '1.12.1'        // 👈 Bump
-    
-    // ... leave the rest as they were ...
-    junitVersion = '4.13.2'
-    androidxJunitVersion = '1.2.1'
-    androidxEspressoCoreVersion = '3.6.1'
-    cordovaAndroidVersion = '10.1.1'
-}
-</file>
-
 <file path="Aptfile">
 libgl1
 libglib2.0-0
@@ -2734,34 +2248,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-</file>
-
-<file path="package.json">
-{
-  "name": "fruit-ripeness-and-disease-detection---copy-(2)",
-  "version": "1.0.0",
-  "description": "**Student Name:** Gerald Tan Hock Soon  \r **Matric Number:** 294879  \r **Supervisor:** Suwannit Chareen Chit  \r **Project:** STTZK3993 Final Year Project (Academic Project 1)",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Tacozn/FYP_RipeSense.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Tacozn/FYP_RipeSense/issues"
-  },
-  "homepage": "https://github.com/Tacozn/FYP_RipeSense#readme",
-  "dependencies": {
-    "@capacitor/android": "^8.0.0",
-    "@capacitor/cli": "^8.0.0",
-    "@capacitor/core": "^8.0.0"
-  }
-}
 </file>
 
 <file path="Procfile">
@@ -3816,6 +3302,394 @@ self.addEventListener('fetch', (event) => {
     </div>
 </div>
 {% endblock %}
+</file>
+
+<file path=".gitignore">
+# 🐍 Python
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+# # 🖼️ Media & Uploads
+# static/uploads/*
+# !static/uploads/.gitkeep
+# # BUT keep the clean demo images!
+# !static/demo_samples/
+
+# 📦 Node & System Files (THE IMPORTANT PART!)
+node_modules/
+dist/
+.DS_Store
+
+# 🧪 Datasets
+data/
+test_dataset/
+</file>
+
+<file path="android/app/build.gradle">
+apply plugin: 'com.android.application'
+
+android {
+    namespace = "com.ripesense.app"
+    compileSdk = rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.ripesense.app"
+        minSdkVersion = rootProject.ext.minSdkVersion
+        targetSdkVersion = rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        aaptOptions {
+             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+            ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    
+    // 👇 THIS WAS MISSING! This connects to the "javaVersion = 17" we set earlier!
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    subprojects {
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin("com.android.library") || project.plugins.hasPlugin("com.android.application")) {
+            android {
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
+            }
+        }
+    }
+}
+}
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    implementation project(':capacitor-cordova-android-plugins')
+}
+
+apply from: 'capacitor.build.gradle'
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}
+</file>
+
+<file path="android/app/src/main/AndroidManifest.xml">
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation|density"
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBarLaunch"
+            android:launchMode="singleTask"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+    </application>
+
+    <!-- Permissions -->
+
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>
+</file>
+
+<file path="android/app/src/main/java/com/ripesense/app/MainActivity.java">
+package com.ripesense.app;
+
+import com.getcapacitor.BridgeActivity;
+import android.os.Bundle;
+
+public class MainActivity extends BridgeActivity {
+
+    @Override
+    public void onBackPressed() {
+        // [DETECTIVE] Lee Wonhee's "Back Button" Logic
+
+        // 1. Get the current URL the user is looking at
+        String currentUrl = bridge.getWebView().getUrl();
+
+        // 2. Define your Home URL (UPDATE THIS!)
+        String homeUrl = "https://ripesense-production.up.railway.app/";
+
+        // 3. The Logic:
+        if (currentUrl != null && !currentUrl.equals(homeUrl)) {
+            // If we are NOT on the home page, force the browser to go Home
+            bridge.getWebView().loadUrl(homeUrl);
+        } else {
+            // If we ARE on the home page, behave normally (close the app)
+            super.onBackPressed();
+        }
+    }
+}
+</file>
+
+<file path="android/app/src/main/res/drawable/ic_launcher_background.xml">
+<?xml version="1.0" encoding="utf-8"?>
+<vector
+    android:height="108dp"
+    android:width="108dp"
+    android:viewportHeight="108"
+    android:viewportWidth="108"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#3DDC84"
+          android:pathData="M0,0h108v108h-108z"/>
+    <path android:fillColor="#00000000" android:pathData="M9,0L9,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,0L19,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M29,0L29,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M39,0L39,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M49,0L49,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M59,0L59,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M69,0L69,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M79,0L79,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M89,0L89,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M99,0L99,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,9L108,9"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,19L108,19"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,29L108,29"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,39L108,39"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,49L108,49"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,59L108,59"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,69L108,69"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,79L108,79"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,89L108,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,99L108,99"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,29L89,29"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,39L89,39"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,49L89,49"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,59L89,59"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,69L89,69"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,79L89,79"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M29,19L29,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M39,19L39,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M49,19L49,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M59,19L59,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M69,19L69,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M79,19L79,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+</vector>
+</file>
+
+<file path="android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml">
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+</adaptive-icon>
+</file>
+
+<file path="android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml">
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+</adaptive-icon>
+</file>
+
+<file path="android/build.gradle">
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.5.1'
+        classpath 'com.google.gms:google-services:4.4.4'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+apply from: "variables.gradle"
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+subprojects {
+    // 1. Force Java 17
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin("com.android.library") || project.plugins.hasPlugin("com.android.application")) {
+            android {
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
+            }
+        }
+    }
+
+    // 2. Force Kotlin Alignment ONLY (Removed androidx.core)
+    configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'org.jetbrains.kotlin') {
+                details.useVersion '1.9.10'
+            }
+            // ❌ I REMOVED THE ANDROIDX.CORE BLOCK HERE. IT WAS THE PROBLEM.
+        }
+    }
+}
+</file>
+
+<file path="android/gradle/wrapper/gradle-wrapper.properties">
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.7-all.zip
+networkTimeout=10000
+validateDistributionUrl=true
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+</file>
+
+<file path="android/variables.gradle">
+ext {
+    minSdkVersion = 24
+    compileSdkVersion = 35
+    targetSdkVersion = 35
+    javaVersion = 17
+
+    androidxActivityVersion = '1.9.3'       // 👈 Bump to latest
+    androidxAppCompatVersion = '1.7.0'
+    androidxCoordinatorLayoutVersion = '1.2.0'
+    androidxCoreVersion = '1.15.0'          // 👈 Bump to latest (Supports SDK 35)
+    androidxFragmentVersion = '1.8.5'       // 👈 Bump to latest
+    coreSplashScreenVersion = '1.0.1'       // Keep this one, it works.
+    androidxWebkitVersion = '1.12.1'        // 👈 Bump
+    
+    // ... leave the rest as they were ...
+    junitVersion = '4.13.2'
+    androidxJunitVersion = '1.2.1'
+    androidxEspressoCoreVersion = '3.6.1'
+    cordovaAndroidVersion = '10.1.1'
+}
+</file>
+
+<file path="package.json">
+{
+  "name": "ripesense-web-app",
+  "version": "1.0.0",
+  "description": "**Student Name:** Gerald Tan Hock Soon  \r **Matric Number:** 294879  \r **Supervisor:** Suwannit Chareen Chit  \r **Project:** STTZK3993 Final Year Project (Academic Project 1)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tacozn/FYP_RipeSense.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tacozn/FYP_RipeSense/issues"
+  },
+  "homepage": "https://github.com/Tacozn/FYP_RipeSense#readme",
+  "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/cli": "^8.0.0",
+    "@capacitor/core": "^8.0.0"
+  }
+}
 </file>
 
 <file path="static/manifest.json">
@@ -4885,178 +4759,72 @@ body {
 .pulse-blue {
     animation: pulse-blue 2s infinite;
 }
-</file>
+/* =========================================
+   RIPESENSE NAVBAR STYLING (FINAL v2)
+   ========================================= */
 
-<file path="templates/base.html">
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"> 
-    <title>{% block title %}RipeSense | AI Fruit Detection{% endblock %}</title>
+/* --- 1. MOBILE FIRST (Default View) --- */
+/* These rules make it big and chunky for phones */
+.navbar-nav .nav-item {
+    width: 100%;        /* Full width */
+    margin: 2px 0;      
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.navbar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    width: 100%;        /* Stretch to fill screen */
+    padding: 15px 20px; /* Big padding for fingers */
+    border-radius: 12px;
+    font-weight: 500;
+    color: #555;
+    transition: all 0.2s ease-in-out;
+}
+
+/* --- 2. ACTIVE STATE (Green Pill) --- */
+.navbar-nav .nav-link.active {
+    background-color: #198754; 
+    color: white !important;   
+    font-weight: 600;          
+    box-shadow: 0 4px 10px rgba(25, 135, 84, 0.3); 
+}
+
+/* --- 3. PC / LAPTOP VIEW (The "Slim" Fix) --- */
+/* This only runs on screens wider than 992px (Laptops/Desktops) */
+@media (min-width: 992px) {
     
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/icon.png') }}">
-    <meta name="theme-color" content="#2E7D32">
+    /* 1. Stop the buttons from stretching */
+    .navbar-nav .nav-item {
+        width: auto !important;     /* Force it to shrink to text size */
+        margin: 0 5px !important;   /* Small gap between buttons */
+        border-bottom: none !important; /* No lines on PC */
+    }
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-</head>
-<body>
-    
-    <nav class="navbar navbar-expand-lg fixed-top">
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="/">
-            <img src="{{ url_for('static', filename='/images/icon.png') }}" 
-                 alt="Logo" 
-                 class="rounded-circle me-2"
-                 style="width: 40px; height: 40px; object-fit: cover;">
-            RipeSense
-        </a>
-        
-        <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-sm btn-outline-light rounded-circle p-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#helpModal"
-        style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-    <i class="fas fa-question"></i>
-</button>
+    /* 2. Slim down the padding and link size */
+    .navbar-nav .nav-link {
+        width: auto !important;     /* CRITICAL: Stops the 100% width */
+        padding: 8px 16px !important; /* Much smaller padding */
+        font-size: 0.95rem;         /* Elegant text size */
+        display: inline-flex;       /* Sit side-by-side */
+        justify-content: center;
+    }
 
-            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
+    /* 3. Adjust the "Active" pill for PC */
+    .navbar-nav .nav-link.active {
+        border-radius: 50px;        /* Perfect rounded pill */
+        padding-left: 20px !important; 
+        padding-right: 20px !important;
+        transform: translateY(-1px); /* Subtle lift */
+    }
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto p-2 p-lg-0">
-                <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/ripeness_detection"><i class="fas fa-expand"></i> Analyze Fruit</a></li>
-                <li class="nav-item"><a class="nav-link" href="/fruit_detection"><i class="fas fa-video"></i> Live Mode</a></li>
-                <li class="nav-item"><a class="nav-link" href="/history"><i class="fas fa-history"></i> Scan History</a></li>
-            </ul>
-        </div>
-      </div>
-    </nav>
-
-    <div style="height: 100px;"></div>
-
-    <main>
-        <div class="container">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm rounded-4" role="alert">
-                            {% if category == 'danger' %}
-                                <i class="fas fa-exclamation-circle me-2"></i>
-                            {% elif category == 'success' %}
-                                <i class="fas fa-check-circle me-2"></i>
-                            {% else %}
-                                <i class="fas fa-info-circle me-2"></i>
-                            {% endif %}
-                            <strong>{{ message }}</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </div>
-
-        {% block content %}{% endblock %}
-    </main>
-
-    <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg rounded-4">
-                <div class="modal-header bg-success text-white border-0">
-                    <h5 class="modal-title fw-bold"><i class="fas fa-book-open me-2"></i>User Guide</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <h6 class="fw-bold text-success mb-3">How to get 97% Accuracy:</h6>
-                    
-                    <div class="d-flex align-items-start mb-3">
-                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">1</div>
-                        <div>
-                            <span class="fw-bold d-block">Clean Background</span>
-                            <small class="text-muted">Place the fruit on a white or plain surface (paper, table).</small>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-start mb-3">
-                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">2</div>
-                        <div>
-                            <span class="fw-bold d-block">Good Lighting</span>
-                            <small class="text-muted">Avoid heavy shadows. Natural light works best.</small>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-start mb-3">
-                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">3</div>
-                        <div>
-                            <span class="fw-bold d-block">One at a Time</span>
-                            <small class="text-muted">For best results, scan one fruit (Banana, Mango, or Tomato) at a time.</small>
-                        </div>
-                    </div>
-                    
-                    <hr>
-                    <div class="text-center">
-                        <small class="text-muted">Developed by <strong>Gerald Tan (294879)</strong></small>
-                    </div>
-                </div>
-                <div class="modal-footer border-0 p-0 pb-3 pe-3">
-                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Got it!</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="bg-white pt-5 pb-4 mt-5 border-top">
-        <div class="container text-center text-md-start">
-            <div class="row text-center text-md-start">
-                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 fw-bold text-success"><i class="fas fa-leaf me-2"></i>RipeSense AI</h5>
-                    <p class="text-muted small">Advancing sustainable agriculture through computer vision and deep learning technologies.</p>
-                </div>
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-                    <h6 class="text-uppercase mb-4 fw-bold">Tech Stack</h6>
-                    <p><span class="text-muted small">Python Flask</span></p>
-                    <p><span class="text-muted small">YOLOv8</span></p>
-                    <p><span class="text-muted small">OpenCV</span></p>
-                </div>
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-                    <h6 class="text-uppercase mb-4 fw-bold">Project</h6>
-                    <p><a href="/history" class="text-muted text-decoration-none small">Scan History</a></p>
-                    <p><a href="/ripeness_detection" class="text-muted text-decoration-none small">Analyze Fruit</a></p>
-                    <p><a href="/model_stats" class="text-muted text-decoration-none small fw-bold text-success">Model Performance</a></p>
-                </div>
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h6 class="text-uppercase mb-4 fw-bold">Contact</h6>
-                    <p class="small text-muted"><i class="fas fa-university me-2"></i> Universiti Utara Malaysia </p>
-                    <p class="small text-muted"><i class="fas fa-envelope me-2"></i> geraldtanhocksoon@gmail.com</p>
-                </div>
-            </div>
-            <hr class="my-3">
-            <div class="text-center p-3 small text-muted">© 2025 RipeSense Project. All rights reserved.</div>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}");
-        });
-      }
-    </script>
-</body>
-</html>
+    /* 4. Hover effect for PC */
+    .navbar-nav .nav-link:not(.active):hover {
+        background-color: #e8f5e9;
+        color: #198754;
+        transform: translateY(-1px);
+    }
+}
 </file>
 
 <file path="requirements.txt">
@@ -5475,6 +5243,216 @@ onnxruntime
 {% endblock %}
 </file>
 
+<file path="templates/index.html">
+{% extends "base.html" %}
+{% block title %}Home - RipeSense AI{% endblock %}
+
+{% block content %}
+
+<header class="hero-section text-center py-5 mb-5 fade-in-up" 
+        style="background: radial-gradient(circle at top right, #43A047, #1B5E20); color: white;">
+    
+    <div class="hero-overlay"></div>
+    
+    <div class="container position-relative py-5 z-2">
+        
+        <h1 class="display-3 fw-bold mb-3 text-white">Precision Agriculture <br>in Your Pocket</h1>
+        <p class="lead mb-4 text-white-75 mx-auto" style="max-width: 650px;">
+            Utilizing Convolutional Neural Networks (CNN) and YOLOv8 to reduce food waste and optimize harvest timing with 97% accuracy.
+        </p>
+        
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('ripeness_detection') }}" class="btn btn-success btn-lg rounded-pill px-5 shadow-lg">
+                🚀 Launch App
+            </a>
+            <a href="#how-it-works" class="btn btn-outline-light btn-lg rounded-pill px-4">
+                How it Works
+            </a>
+        </div>
+    </div>
+</header>
+
+<div class="container mb-5 fade-in-up" style="animation-delay: 0.2s;">
+    <div class="row g-4 text-center">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-number" data-target="97.3">0%</div>
+                <p class="text-muted fw-bold text-uppercase small mb-0">Model Accuracy</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card" style="border-bottom-color: #FFC107;">
+                <div class="stat-number" data-target="{{ total_scans }}">0</div>
+                <p class="text-muted fw-bold text-uppercase small mb-0">Total Scans Performed</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card" style="border-bottom-color: #2196F3;">
+                <div class="stat-number" data-target="3">0</div>
+                <p class="text-muted fw-bold text-uppercase small mb-0">Supported Fruits</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 justify-content-center mb-5 fade-in-up" style="animation-delay: 0.4s;">
+    <div class="col-lg-10">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 glass-card hover-effect p-4 border-0">
+                    <div class="card-body d-flex flex-column align-items-center text-center">
+                        <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 mb-3 display-6">
+                            📁
+                        </div>
+                        <h3 class="fw-bold">Static Analysis</h3>
+                        <p class="text-muted">Upload high-res images for a detailed breakdown of ripeness, color composition, and nutritional data.</p>
+                        <a href="{{ url_for('ripeness_detection') }}" class="btn btn-outline-success rounded-pill w-100 mt-auto">Upload Image</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card h-100 glass-card hover-effect p-4 border-0">
+                    <div class="card-body d-flex flex-column align-items-center text-center">
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 mb-3 display-6">
+                            📷
+                        </div>
+                        <h3 class="fw-bold">Real-Time Detection</h3>
+                        <p class="text-muted">Activate the YOLOv8-Live stream to detect and classify fruits instantly in the field environment.</p>
+                        <a href="{{ url_for('fruit_detection') }}" class="btn btn-outline-primary rounded-pill w-100 mt-auto">Start Camera</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="how-it-works" class="py-5 mb-5 fade-in-up" style="animation-delay: 0.6s;">
+    <div class="text-center mb-5">
+        <h6 class="text-uppercase text-success fw-bold" style="letter-spacing: 2px;">The Technology</h6>
+        <h2 class="fw-bold">How RipeSense Analyzes Your Fruit</h2>
+        <p class="text-muted">A 3-step hybrid approach combining Deep Learning and Color Science.</p>
+    </div>
+    
+    <div class="row g-4 justify-content-center text-center">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white">
+                <div class="display-5 mb-3 text-success">
+                    <i class="fas fa-camera-retro"></i>
+                </div>
+                <h5 class="fw-bold">1. Digital Capture</h5>
+                <p class="small text-muted mb-0">The system captures an RGB image and uses <strong>OpenCV</strong> to normalize lighting and reduce background noise for a clean scan.</p>
+                <div class="mt-3 badge bg-light text-success border">Pre-processing</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white" style="border-top: 4px solid #2E7D32 !important;">
+                <div class="display-5 mb-3 text-primary">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h5 class="fw-bold">2. Neural Inference</h5>
+                <p class="small text-muted mb-0">Our <strong>YOLOv8</strong> engine identifies the fruit and runs a specialized classification to determine its physical ripeness stage.</p>
+                <div class="mt-3 badge bg-light text-primary border">Deep Learning</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white">
+                <div class="display-5 mb-3 text-warning">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h5 class="fw-bold">3. Color Validation</h5>
+                <p class="small text-muted mb-0">The <strong>HSV Color Histogram</strong> verifies the AI's guess by measuring exact pixel values to ensure a 97% accuracy rate.</p>
+                <div class="mt-3 badge bg-light text-warning border">Data Analytics</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mb-5 fade-in-up" style="animation-delay: 0.8s;">
+    <h5 class="fw-bold text-muted mb-4">Currently Calibrated For</h5>
+    <div>
+        <span class="fruit-badge">🍌 Banana</span>
+        <span class="fruit-badge">🍅 Tomato</span>
+        <span class="fruit-badge">🥭 Mango</span>
+        <span class="fruit-badge text-muted bg-light border-0">...more coming soon</span>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const counters = document.querySelectorAll('.stat-number');
+        
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText.replace('%', ''); // Handle the % sign
+                
+                const inc = target / 50; 
+
+                if (count < target) {
+                    if(counter.getAttribute('data-target').includes('.')) {
+                        counter.innerText = (count + inc).toFixed(1) + (target === 96.5 ? '%' : '');
+                    } else {
+                        counter.innerText = Math.ceil(count + inc);
+                    }
+                    setTimeout(updateCount, 30);
+                } else {
+                    counter.innerText = target + (target === 96.5 ? '%' : '');
+                }
+            };
+            updateCount();
+        });
+    });
+</script>
+
+{% endblock %}
+</file>
+
+<file path="README.md">
+# 🍌 RipeSense: Precision Fruit Ripeness Detection
+
+**Student Name:** Gerald Tan Hock Soon  
+**Matric Number:** 294879  
+**Supervisor:** Suwannit Chareen Chit  
+**Project:** STTZK3993 Final Year Project (Academic Project 1)
+
+---
+
+## 📖 Introduction
+**RipeSense** is an AI-powered web application designed to reduce food waste and assist farmers, vendors, and consumers in making better harvesting and purchasing decisions. 
+
+Using **YOLOv8** (You Only Look Once) and **OpenCV**, the system analyzes RGB images of fruits to classify their ripeness stages (Unripe, Ripe, Overripe) with high precision. It currently supports **Bananas, Mangoes, and Tomatoes**.
+
+## 🚀 Key Features
+* **Precision Ripeness Detection:** Instantly classifies fruit into three stages: Unripe, Ripe, or Overripe.
+* **Expert Advice Engine:** Provides tailored tips on **Usage** (e.g., "Good for baking"), **Storage**, and **Shelf Life** based on the specific ripeness level.
+* **Continuous Learning Loop:** Includes a "Report Error" feature allowing users to flag incorrect predictions, creating a feedback loop for future model retraining.
+* **Safety First:** Automatically detects overripe fruits and warns users to check for mold/spoilage before consumption.
+* **Digital Scan History:** Locally saves scan results for later reference and export.
+* **Live Mode:** Real-time object detection using the device webcam.
+
+## 🛠️ Tech Stack
+* **Backend:** Python 3.10+, Flask
+* **AI/ML:** Ultralytics YOLOv8 (Classification & Detection), OpenCV, NumPy
+* **Frontend:** HTML5, Bootstrap 5, Jinja2 Templates
+* **Data:** JSON-based local history tracking
+
+## 📂 Project Structure
+```text
+RipeSense/
+├── models/              # AI Models (YOLOv8 weights)
+├── static/              # CSS, Images, Uploads
+├── templates/           # HTML Frontend Pages
+├── scripts/             # Testing & Evaluation scripts
+├── archive/             # Old backups (Non-functional)
+├── app.py               # Main Application Controller
+├── history.json         # Scan Database
+├── requirements.txt     # Python Dependencies
+└── README.md            # Project Documentation
+</file>
+
 <file path="templates/history.html">
 {% extends "base.html" %}
 {% block title %}Scan History - RipeSense{% endblock %}
@@ -5773,7 +5751,7 @@ onnxruntime
                             
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <small class="text-muted" style="font-size: 0.75rem;"><i class="far fa-clock me-1"></i>{{ entry.timestamp.split('·')[0] }}</small>
-                                <small class="fw-bold text-primary" style="font-size: 0.75rem;">{{ entry.confidence }}%</small>
+                                <small class="fw-bold text-primary" style="font-size: 0.75rem;">{{ entry.confidence }}</small>
                             </div>
                         </div>
                     </div>
@@ -5980,173 +5958,6 @@ onnxruntime
         const myModal = new bootstrap.Modal(document.getElementById('flagModal'));
         myModal.show();
     }
-</script>
-
-{% endblock %}
-</file>
-
-<file path="templates/index.html">
-{% extends "base.html" %}
-{% block title %}Home - RipeSense AI{% endblock %}
-
-{% block content %}
-
-<header class="hero-section text-center py-5 mb-5 fade-in-up" 
-        style="background: radial-gradient(circle at top right, #43A047, #1B5E20); color: white;">
-    
-    <div class="hero-overlay"></div>
-    
-    <div class="container position-relative py-5 z-2">
-        
-        <h1 class="display-3 fw-bold mb-3 text-white">Precision Agriculture <br>in Your Pocket</h1>
-        <p class="lead mb-4 text-white-75 mx-auto" style="max-width: 650px;">
-            Utilizing Convolutional Neural Networks (CNN) and YOLOv8 to reduce food waste and optimize harvest timing with 97% accuracy.
-        </p>
-        
-        <div class="d-flex justify-content-center gap-3">
-            <a href="{{ url_for('ripeness_detection') }}" class="btn btn-success btn-lg rounded-pill px-5 shadow-lg">
-                🚀 Launch App
-            </a>
-            <a href="#how-it-works" class="btn btn-outline-light btn-lg rounded-pill px-4">
-                How it Works
-            </a>
-        </div>
-    </div>
-</header>
-
-<div class="container mb-5 fade-in-up" style="animation-delay: 0.2s;">
-    <div class="row g-4 text-center">
-        <div class="col-md-4">
-            <div class="stat-card">
-                <div class="stat-number" data-target="97.3">0%</div>
-                <p class="text-muted fw-bold text-uppercase small mb-0">Model Accuracy</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="stat-card" style="border-bottom-color: #FFC107;">
-                <div class="stat-number" data-target="{{ total_scans }}">0</div>
-                <p class="text-muted fw-bold text-uppercase small mb-0">Total Scans Performed</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="stat-card" style="border-bottom-color: #2196F3;">
-                <div class="stat-number" data-target="3">0</div>
-                <p class="text-muted fw-bold text-uppercase small mb-0">Supported Fruits</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row g-4 justify-content-center mb-5 fade-in-up" style="animation-delay: 0.4s;">
-    <div class="col-lg-10">
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="card h-100 glass-card hover-effect p-4 border-0">
-                    <div class="card-body d-flex flex-column align-items-center text-center">
-                        <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 mb-3 display-6">
-                            📁
-                        </div>
-                        <h3 class="fw-bold">Static Analysis</h3>
-                        <p class="text-muted">Upload high-res images for a detailed breakdown of ripeness, color composition, and nutritional data.</p>
-                        <a href="{{ url_for('ripeness_detection') }}" class="btn btn-outline-success rounded-pill w-100 mt-auto">Upload Image</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="card h-100 glass-card hover-effect p-4 border-0">
-                    <div class="card-body d-flex flex-column align-items-center text-center">
-                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 mb-3 display-6">
-                            📷
-                        </div>
-                        <h3 class="fw-bold">Real-Time Detection</h3>
-                        <p class="text-muted">Activate the YOLOv8-Live stream to detect and classify fruits instantly in the field environment.</p>
-                        <a href="{{ url_for('fruit_detection') }}" class="btn btn-outline-primary rounded-pill w-100 mt-auto">Start Camera</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="how-it-works" class="py-5 mb-5 fade-in-up" style="animation-delay: 0.6s;">
-    <div class="text-center mb-5">
-        <h6 class="text-uppercase text-success fw-bold" style="letter-spacing: 2px;">The Technology</h6>
-        <h2 class="fw-bold">How RipeSense Analyzes Your Fruit</h2>
-        <p class="text-muted">A 3-step hybrid approach combining Deep Learning and Color Science.</p>
-    </div>
-    
-    <div class="row g-4 justify-content-center text-center">
-        <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white">
-                <div class="display-5 mb-3 text-success">
-                    <i class="fas fa-camera-retro"></i>
-                </div>
-                <h5 class="fw-bold">1. Digital Capture</h5>
-                <p class="small text-muted mb-0">The system captures an RGB image and uses <strong>OpenCV</strong> to normalize lighting and reduce background noise for a clean scan.</p>
-                <div class="mt-3 badge bg-light text-success border">Pre-processing</div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white" style="border-top: 4px solid #2E7D32 !important;">
-                <div class="display-5 mb-3 text-primary">
-                    <i class="fas fa-brain"></i>
-                </div>
-                <h5 class="fw-bold">2. Neural Inference</h5>
-                <p class="small text-muted mb-0">Our <strong>YOLOv8</strong> engine identifies the fruit and runs a specialized classification to determine its physical ripeness stage.</p>
-                <div class="mt-3 badge bg-light text-primary border">Deep Learning</div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white">
-                <div class="display-5 mb-3 text-warning">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h5 class="fw-bold">3. Color Validation</h5>
-                <p class="small text-muted mb-0">The <strong>HSV Color Histogram</strong> verifies the AI's guess by measuring exact pixel values to ensure a 97% accuracy rate.</p>
-                <div class="mt-3 badge bg-light text-warning border">Data Analytics</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="text-center mb-5 fade-in-up" style="animation-delay: 0.8s;">
-    <h5 class="fw-bold text-muted mb-4">Currently Calibrated For</h5>
-    <div>
-        <span class="fruit-badge">🍌 Banana</span>
-        <span class="fruit-badge">🍅 Tomato</span>
-        <span class="fruit-badge">🥭 Mango</span>
-        <span class="fruit-badge text-muted bg-light border-0">...more coming soon</span>
-    </div>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const counters = document.querySelectorAll('.stat-number');
-        
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText.replace('%', ''); // Handle the % sign
-                
-                const inc = target / 50; 
-
-                if (count < target) {
-                    if(counter.getAttribute('data-target').includes('.')) {
-                        counter.innerText = (count + inc).toFixed(1) + (target === 96.5 ? '%' : '');
-                    } else {
-                        counter.innerText = Math.ceil(count + inc);
-                    }
-                    setTimeout(updateCount, 30);
-                } else {
-                    counter.innerText = target + (target === 96.5 ? '%' : '');
-                }
-            };
-            updateCount();
-        });
-    });
 </script>
 
 {% endblock %}
@@ -10018,47 +9829,212 @@ onnxruntime
 ]
 </file>
 
-<file path="README.md">
-# 🍌 RipeSense: Precision Fruit Ripeness Detection
+<file path="templates/base.html">
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>{% block title %}RipeSense | AI Fruit Detection{% endblock %}</title>
+    
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+    /* Fix for phone status bar overlap */
+    .navbar {
+        padding-top: env(safe-area-inset-top) !important;
+        /* Fallback for older browsers */
+        padding-top: max(15px, env(safe-area-inset-top)) !important;
+        /* Ensure navbar is tall enough */
+        min-height: 80px;
+        align-items: flex-end;
+        padding-bottom: 10px;
+    }
+    
+    /* Push the logo and menu button down slightly so they are easier to tap */
+    .navbar-brand, .navbar-toggler, .btn-outline-light {
+        margin-top: 5px;
+    }
+    </style>
+    
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/icon.png') }}">
+    <meta name="theme-color" content="#2E7D32">
 
-**Student Name:** Gerald Tan Hock Soon  
-**Matric Number:** 294879  
-**Supervisor:** Suwannit Chareen Chit  
-**Project:** STTZK3993 Final Year Project (Academic Project 1)
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="{{ url_for('static', filename='/images/icon.png') }}" 
+                 alt="Logo" 
+                 class="rounded-circle me-2"
+                 style="width: 40px; height: 40px; object-fit: cover;">
+            RipeSense
+        </a>
+        
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-outline-light rounded-circle p-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#helpModal"
+        style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+    <i class="fas fa-question"></i>
+</button>
 
----
+            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
 
-## 📖 Introduction
-**RipeSense** is an AI-powered web application designed to reduce food waste and assist farmers, vendors, and consumers in making better harvesting and purchasing decisions. 
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto p-2 p-lg-0">
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/' else '' }}" href="/">
+            <i class="fas fa-home me-2"></i> Home
+        </a>
+    </li>
 
-Using **YOLOv8** (You Only Look Once) and **OpenCV**, the system analyzes RGB images of fruits to classify their ripeness stages (Unripe, Ripe, Overripe) with high precision. It currently supports **Bananas, Mangoes, and Tomatoes**.
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/ripeness_detection' else '' }}" href="/ripeness_detection">
+            <i class="fas fa-expand me-2"></i> Analyze Fruit
+        </a>
+    </li>
 
-## 🚀 Key Features
-* **Precision Ripeness Detection:** Instantly classifies fruit into three stages: Unripe, Ripe, or Overripe.
-* **Expert Advice Engine:** Provides tailored tips on **Usage** (e.g., "Good for baking"), **Storage**, and **Shelf Life** based on the specific ripeness level.
-* **Continuous Learning Loop:** Includes a "Report Error" feature allowing users to flag incorrect predictions, creating a feedback loop for future model retraining.
-* **Safety First:** Automatically detects overripe fruits and warns users to check for mold/spoilage before consumption.
-* **Digital Scan History:** Locally saves scan results for later reference and export.
-* **Live Mode:** Real-time object detection using the device webcam.
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/fruit_detection' else '' }}" href="/fruit_detection">
+            <i class="fas fa-video me-2"></i> Live Mode
+        </a>
+    </li>
 
-## 🛠️ Tech Stack
-* **Backend:** Python 3.10+, Flask
-* **AI/ML:** Ultralytics YOLOv8 (Classification & Detection), OpenCV, NumPy
-* **Frontend:** HTML5, Bootstrap 5, Jinja2 Templates
-* **Data:** JSON-based local history tracking
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/history' else '' }}" href="/history">
+            <i class="fas fa-history me-2"></i> Scan History
+        </a>
+    </li>
+</ul>
+        </div>
+      </div>
+    </nav>
 
-## 📂 Project Structure
-```text
-RipeSense/
-├── models/              # AI Models (YOLOv8 weights)
-├── static/              # CSS, Images, Uploads
-├── templates/           # HTML Frontend Pages
-├── scripts/             # Testing & Evaluation scripts
-├── archive/             # Old backups (Non-functional)
-├── app.py               # Main Application Controller
-├── history.json         # Scan Database
-├── requirements.txt     # Python Dependencies
-└── README.md            # Project Documentation
+    <div style="height: 100px;"></div>
+
+    <main style="padding-top: 3.5rem;">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm rounded-4" role="alert">
+                            {% if category == 'danger' %}
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                            {% elif category == 'success' %}
+                                <i class="fas fa-check-circle me-2"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle me-2"></i>
+                            {% endif %}
+                            <strong>{{ message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header bg-success text-white border-0">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-book-open me-2"></i>User Guide</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <h6 class="fw-bold text-success mb-3">How to get 97% Accuracy:</h6>
+                    
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">1</div>
+                        <div>
+                            <span class="fw-bold d-block">Clean Background</span>
+                            <small class="text-muted">Place the fruit on a white or plain surface (paper, table).</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">2</div>
+                        <div>
+                            <span class="fw-bold d-block">Good Lighting</span>
+                            <small class="text-muted">Avoid heavy shadows. Natural light works best.</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">3</div>
+                        <div>
+                            <span class="fw-bold d-block">One at a Time</span>
+                            <small class="text-muted">For best results, scan one fruit (Banana, Mango, or Tomato) at a time.</small>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    <div class="text-center">
+                        <small class="text-muted">Developed by <strong>Gerald Tan (294879)</strong></small>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-0 pb-3 pe-3">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Got it!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white pt-5 pb-4 mt-5 border-top">
+        <div class="container text-center text-md-start">
+            <div class="row text-center text-md-start">
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 fw-bold text-success"><i class="fas fa-leaf me-2"></i>RipeSense AI</h5>
+                    <p class="text-muted small">Advancing sustainable agriculture through computer vision and deep learning technologies.</p>
+                </div>
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 fw-bold">Tech Stack</h6>
+                    <p><span class="text-muted small">Python Flask</span></p>
+                    <p><span class="text-muted small">YOLOv8</span></p>
+                    <p><span class="text-muted small">OpenCV</span></p>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 fw-bold">Project</h6>
+                    <p><a href="/history" class="text-muted text-decoration-none small">Scan History</a></p>
+                    <p><a href="/ripeness_detection" class="text-muted text-decoration-none small">Analyze Fruit</a></p>
+                    <p><a href="/model_stats" class="text-muted text-decoration-none small fw-bold text-success">Model Performance</a></p>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 fw-bold">Contact</h6>
+                    <p class="small text-muted"><i class="fas fa-university me-2"></i> Universiti Utara Malaysia </p>
+                    <p class="small text-muted"><i class="fas fa-envelope me-2"></i> geraldtanhocksoon@gmail.com</p>
+                </div>
+            </div>
+            <hr class="my-3">
+            <div class="text-center p-3 small text-muted">© 2025 RipeSense Project. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}");
+        });
+      }
+    </script>
+</body>
+</html>
 </file>
 
 <file path="app.py">

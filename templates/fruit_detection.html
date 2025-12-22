@@ -155,6 +155,10 @@
     }
 
     function startStream() {
+        detectionInterval = setInterval(() => {
+            sendFrameToBackend();
+        }, 100);
+
         navigator.mediaDevices.getUserMedia({ 
             video: { facingMode: 'environment', width: { ideal: 640 }, height: { ideal: 480 } } 
         })
@@ -192,30 +196,40 @@
         });
     }
 
-    function stopStream() {
-        isRunning = false;
-        if (video.srcObject) {
-            video.srcObject.getTracks().forEach(track => track.stop());
-        }
-        video.srcObject = null;
+    let detectionInterval = null; 
 
-        // 🔴 UI UPDATE: CAMERA OFF
-        video.style.display = 'none';
-        cameraPlaceholder.style.display = 'block';
-        
-        toggleBtn.innerHTML = '<i class="fas fa-power-off me-2"></i> Start Stream';
-        toggleBtn.classList.replace('btn-outline-danger', 'btn-success');
-        
-        liveBadge.classList.add('d-none');
-        
-        statusText.innerText = "Standby";
-        statusText.classList.replace('text-success', 'text-muted');
-        statusDot.classList.replace('bg-success', 'bg-secondary');
-        statusDot.classList.remove('pulse-live');
+function stopStream() {
+    isRunning = false;
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        latencyTag.innerText = "-- ms";
+    // 🛑 STOP THE BACKEND CALLS (Crucial Addition!)
+    if (detectionInterval) {
+        clearInterval(detectionInterval);
+        detectionInterval = null;
     }
+
+    if (video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+    }
+    video.srcObject = null;
+
+    // 🔴 UI UPDATE: CAMERA OFF
+    video.style.display = 'none';
+    cameraPlaceholder.style.display = 'block'; // <--- This prevents the "Frozen Face"! Smart!
+    
+    toggleBtn.innerHTML = '<i class="fas fa-power-off me-2"></i> Start Stream';
+    toggleBtn.classList.replace('btn-outline-danger', 'btn-success');
+    
+    liveBadge.classList.add('d-none');
+    
+    statusText.innerText = "Standby";
+    statusText.classList.replace('text-success', 'text-muted');
+    statusDot.classList.replace('bg-success', 'bg-secondary');
+    statusDot.classList.remove('pulse-live');
+
+    // Clear the canvas so no old boxes remain
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    latencyTag.innerText = "-- ms";
+}
 
     async function processFrame() {
         if (!isRunning && !isTestMode) return;

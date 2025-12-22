@@ -63,11 +63,30 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto p-2 p-lg-0">
-                <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/ripeness_detection"><i class="fas fa-expand"></i> Analyze Fruit</a></li>
-                <li class="nav-item"><a class="nav-link" href="/fruit_detection"><i class="fas fa-video"></i> Live Mode</a></li>
-                <li class="nav-item"><a class="nav-link" href="/history"><i class="fas fa-history"></i> Scan History</a></li>
-            </ul>
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/' else '' }}" href="/">
+            <i class="fas fa-home me-2"></i> Home
+        </a>
+    </li>
+
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/ripeness_detection' else '' }}" href="/ripeness_detection">
+            <i class="fas fa-expand me-2"></i> Analyze Fruit
+        </a>
+    </li>
+
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/fruit_detection' else '' }}" href="/fruit_detection">
+            <i class="fas fa-video me-2"></i> Live Mode
+        </a>
+    </li>
+
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/history' else '' }}" href="/history">
+            <i class="fas fa-history me-2"></i> Scan History
+        </a>
+    </li>
+</ul>
         </div>
       </div>
     </nav>

@@ -401,100 +401,132 @@ def detect_objects():
     try:
         image_data = data['image_data'].split(',')[1]
         img = cv2.imdecode(np.frombuffer(base64.b64decode(image_data), np.uint8), cv2.IMREAD_COLOR)
+        # Convert to RGB (needed for PIL/Gatekeeper later)
         img_pil = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-    except: return jsonify([])
+    except:
+        return jsonify([])
+
+    # =========================================================
+    # ✂️ STEP 0: The "Scanning Zone" (ROI Crop)
+    # =========================================================
+    # We only look at the CENTER 50% of the screen.
+    h, w, _ = img.shape
+    
+    # Define the box: Start 25% down, End 75% down (Middle Square)
+    y1_crop = int(h * 0.25)
+    y2_crop = int(h * 0.75)
+    x1_crop = int(w * 0.25)
+    x2_crop = int(w * 0.75)
+    
+    # Crop the image!
+    roi_img = img[y1_crop:y2_crop, x1_crop:x2_crop]
+    
+    if roi_img.size == 0: return jsonify([])
 
     detected_objects = []
-    
-    # ---------------------------------------------------------
-    # STEP 1: Run Specialist (Find Fruit)
-    # ---------------------------------------------------------
+
+    # =========================================================
+    # STEP 1: Run Specialist (On the CROP only)
+    # =========================================================
     specialist_results = []
     try:
-        fruit_detection_model = YOLO(SPECIALIST_PATH)
-        results = fruit_detection_model(img, conf=0.40, imgsz=320, verbose=False)
+        fruit_detection_model = YOLO(SPECIALIST_PATH) 
+        # Conf 0.30 is good for bananas
+        results = fruit_detection_model(roi_img, conf=0.30, imgsz=320, verbose=False)
+        
         if results[0].boxes:
             specialist_results = results[0].boxes
         
         del fruit_detection_model
         cleanup_memory()
+        
     except Exception as e:
         print(f"⚠️ Specialist Error: {e}")
         return jsonify([])
 
-    if len(specialist_results) == 0: return jsonify([])
-
-    # ---------------------------------------------------------
-    # STEP 2: Verify & Color Correct
-    # ---------------------------------------------------------
+    # =========================================================
+    # STEP 2: Verify (Gatekeeper) & Logic
+    # =========================================================
     try:
+        # Load Gatekeeper ONCE here to use for all detections
         gatekeeper_model = YOLO(GATEKEEPER_PATH)
-        
+
         for box in specialist_results:
             detected_class = results[0].names[int(box.cls[0])].lower()
             confidence = float(box.conf[0])
-            x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
             
-            # --- A. GATEKEEPER CHECK (Block Trash) ---
+            # Get coordinates relative to the CROP
+            bx1, by1, bx2, by2 = map(int, box.xyxy[0].tolist())
+            
+            # 📐 SHAPE LOGIC: Banana vs Mango Correction
+            box_w = bx2 - bx1
+            box_h = by2 - by1
+            ratio = box_h / box_w if box_w > 0 else 0
+
+            # Fix Long Mango -> Banana
+            if "mango" in detected_class and (ratio > 1.4 or ratio < 0.6):
+                detected_class = "unripe banana" 
+            # Fix Square Banana -> Mango
+            if "banana" in detected_class and (0.8 < ratio < 1.2):
+                 detected_class = "unripe mango"
+
+            # 🛡️ GATEKEEPER CHECK (The "CleanEnough" Filter)
+            # We must crop the specific fruit image to check it
             try:
-                crop_pil = img_pil.crop((x1, y1, x2, y2))
-                gk_res = gatekeeper_model(crop_pil, verbose=False)
+                # Crop from the ROI image (since bx1... are ROI coords)
+                fruit_crop_cv = roi_img[by1:by2, bx1:bx2]
                 
-                top3 = gk_res[0].probs.top5[:3]
-                gk_labels = [gk_res[0].names[i].lower() for i in top3]
-                
-                FORBIDDEN = ['person', 'face', 'human', 'orange', 'apple', 'lemon', 'strawberry', 'man', 'woman', 'dog', 'cat', 'hamster']
-                is_forbidden = False
-                for lbl in gk_labels:
-                    if any(f in lbl for f in FORBIDDEN):
-                        is_forbidden = True
-                        break
-                if is_forbidden: continue 
-            except: pass
-
-            # --- B. SMART COLOR CORRECTION 🎨 ---
-            try:
-                crop_cv = img[y1:y2, x1:x2]
-                if crop_cv.size > 0:
-                    hsv = cv2.cvtColor(crop_cv, cv2.COLOR_BGR2HSV)
-                    avg_hue = np.median(hsv[:, :, 0])
+                if fruit_crop_cv.size > 0:
+                    # Convert to PIL for the model
+                    fruit_crop_pil = Image.fromarray(cv2.cvtColor(fruit_crop_cv, cv2.COLOR_BGR2RGB))
                     
-                    fruit_type = ""
-                    if "banana" in detected_class: fruit_type = "Banana"
-                    elif "mango" in detected_class: fruit_type = "Mango"
-                    elif "tomato" in detected_class: fruit_type = "Tomato"
+                    gk_res = gatekeeper_model(fruit_crop_pil, verbose=False)
+                    top3 = gk_res[0].probs.top5[:3]
+                    gk_labels = [gk_res[0].names[i].lower() for i in top3]
                     
-                    if fruit_type == "Tomato":
-                        # 🍅 TOMATO LOGIC: Check for RED
-                        # Red is at both ends of the spectrum (0-20 AND 160-180)
-                        is_red = (avg_hue < 20) or (avg_hue > 160)
-                        
-                        if is_red:
-                            detected_class = "Ripe Tomato"
-                        else:
-                            # If it's NOT red, it's Unripe (covers Green, Pale, Yellow-Green)
-                            detected_class = "Unripe Tomato"
-
-                    elif fruit_type in ["Banana", "Mango"]:
-                        # 🍌🥭 BANANA/MANGO LOGIC: Check for GREEN
-                        # Green is approx 35 to 90
-                        is_green = 35 < avg_hue < 90
-                        
-                        if is_green:
-                            detected_class = f"Unripe {fruit_type}"
-                        else:
-                            if "overripe" in detected_class:
-                                detected_class = f"Overripe {fruit_type}"
-                            else:
-                                detected_class = f"Ripe {fruit_type}"
-
+                    # The "Forbidden" List
+                    FORBIDDEN = ['person', 'face', 'human', 'orange', 'apple', 'lemon', 'strawberry', 'man', 'woman', 'dog', 'cat', 'hamster']
+                    
+                    is_forbidden = False
+                    for lbl in gk_labels:
+                        if any(f in lbl for f in FORBIDDEN):
+                            is_forbidden = True
+                            break
+                    
+                    if is_forbidden:
+                        print(f"🗑️ Gatekeeper blocked: {detected_class} (Identified as {gk_labels[0]})")
+                        continue # Skip this trash!
             except Exception as e:
+                print(f"⚠️ Gatekeeper Check Failed: {e}")
                 pass
+
+            # 🎨 COLOR LOGIC (HSV)
+            # (Re-using the fruit_crop_cv from above)
+            if fruit_crop_cv.size > 0:
+                hsv = cv2.cvtColor(fruit_crop_cv, cv2.COLOR_BGR2HSV)
+                avg_hue = np.median(hsv[:, :, 0])
+                
+                if "tomato" in detected_class:
+                    if (avg_hue < 20) or (avg_hue > 160): detected_class = "Ripe Tomato"
+                    else: detected_class = "Unripe Tomato"
+
+                elif "banana" in detected_class or "mango" in detected_class:
+                    fruit_name = "Banana" if "banana" in detected_class else "Mango"
+                    if 35 < avg_hue < 90: detected_class = f"Unripe {fruit_name}"
+                    else:
+                        if "overripe" in detected_class: detected_class = f"Overripe {fruit_name}"
+                        else: detected_class = f"Ripe {fruit_name}"
+
+            # 🔧 REMAPPING COORDINATES (Back to Main Screen)
+            final_x1 = bx1 + x1_crop
+            final_y1 = by1 + y1_crop
+            final_x2 = bx2 + x1_crop
+            final_y2 = by2 + y1_crop
 
             detected_objects.append({
                 'class': detected_class.title(),
                 'confidence': confidence,
-                'bbox': box.xyxy[0].tolist() 
+                'bbox': [final_x1, final_y1, final_x2, final_y2]
             })
 
         del gatekeeper_model
