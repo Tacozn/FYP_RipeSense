@@ -264,6 +264,41 @@ static/uploads/1766351335_unripe_mango2.jpg
 static/uploads/1766351343_unripe_mango2.jpg
 static/uploads/1766351494_ripe_banana.png
 static/uploads/1766351547_unripe_mango2.jpg
+static/uploads/1766391588_ripe_mango.jpg
+static/uploads/1766392298_ripe_mango.jpg
+static/uploads/1766392304_ripe_mango.jpg
+static/uploads/1766392312_ripe_mango.jpg
+static/uploads/1766392319_ripe_mango.jpg
+static/uploads/1766392343_ripe_mango.jpg
+static/uploads/1766392367_apple_strawberry.jpg
+static/uploads/1766392690_glorp.jpg
+static/uploads/1766392700_unripe_mango2.jpg
+static/uploads/1766392715_Screenshot_2025-12-21_184558.png
+static/uploads/1766392727_orange.jpg
+static/uploads/1766392745_rltomato.jpeg
+static/uploads/1766392814_ripe_banana.png
+static/uploads/1766392821_unripe_tomato_error.jpg
+static/uploads/1766392861_unripe_tomato_error.jpg
+static/uploads/1766392921_unripe_mango_error.jpg
+static/uploads/1766392974_apple_strawberry.jpg
+static/uploads/1766393139_istockphoto-184276818-612x612.jpg
+static/uploads/1766393348_istockphoto-184276818-612x612.jpg
+static/uploads/1766393373_apple_strawberry.jpg
+static/uploads/1766393451_unripe_tomato_error.jpg
+static/uploads/1766393595_unripe_tomato_error.jpg
+static/uploads/1766393842_unripe_tomato_error.jpg
+static/uploads/1766393862_istockphoto-184276818-612x612.jpg
+static/uploads/1766393878_unripe_mango_error.jpg
+static/uploads/1766393891_rl_banana.jpeg
+static/uploads/1766393914_ripe_mango.jpg
+static/uploads/1766394473_unripe_tomato_error.jpg
+static/uploads/1766394794_m15.jpg
+static/uploads/1766395079_ripe_mango.jpg
+static/uploads/1766395128_apple_strawberry.jpg
+static/uploads/1766395134_orange.jpg
+static/uploads/1766395145_unripe_tomato_error.jpg
+static/uploads/1766395159_glorp.jpg
+static/uploads/1766395184_rl_banana.jpeg
 static/uploads/9921387.png
 static/uploads/a99ca1355d867dee19fb4f379c6af02d.jpg
 static/uploads/apple_strawberry.jpg
@@ -4410,6 +4445,21 @@ ext {
 {% endblock %}
 </file>
 
+<file path="requirements.txt">
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+Flask==3.0.0
+opencv-python-headless==4.8.1.78
+numpy==1.26.2
+Pillow==10.1.0
+torch
+torchvision
+ultralytics
+gunicorn
+onnx
+onnxruntime
+</file>
+
 <file path="static/css/style.css">
 /* --- 1. MODERN VARIABLES --- */
 :root {
@@ -4827,19 +4877,171 @@ body {
 }
 </file>
 
-<file path="requirements.txt">
---extra-index-url https://download.pytorch.org/whl/cpu
+<file path="templates/index.html">
+{% extends "base.html" %}
+{% block title %}Home - RipeSense AI{% endblock %}
 
-Flask==3.0.0
-opencv-python-headless==4.8.1.78
-numpy==1.26.2
-Pillow==10.1.0
-torch
-torchvision
-ultralytics
-gunicorn
-onnx
-onnxruntime
+{% block content %}
+
+<header class="hero-section text-center py-5 mb-5 fade-in-up" 
+        style="background: radial-gradient(circle at top right, #43A047, #1B5E20); color: white;">
+    
+    <div class="hero-overlay"></div>
+    
+    <div class="container position-relative py-5 z-2">
+        
+        <h1 class="display-3 fw-bold mb-3 text-white">Precision Agriculture <br>in Your Pocket</h1>
+        <p class="lead mb-4 text-white-75 mx-auto" style="max-width: 650px;">
+            Utilizing Convolutional Neural Networks (CNN) and YOLOv8 to reduce food waste and optimize harvest timing with 97% accuracy.
+        </p>
+        
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('ripeness_detection') }}" class="btn btn-success btn-lg rounded-pill px-5 shadow-lg">
+                🚀 Launch App
+            </a>
+            <a href="#how-it-works" class="btn btn-outline-light btn-lg rounded-pill px-4">
+                How it Works
+            </a>
+        </div>
+    </div>
+</header>
+
+<div class="container mb-5 fade-in-up" style="animation-delay: 0.2s;">
+    <div class="row g-4 text-center">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-number" data-target="97.3">0%</div>
+                <p class="text-muted fw-bold text-uppercase small mb-0">Model Accuracy</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card" style="border-bottom-color: #FFC107;">
+                <div class="stat-number" data-target="{{ total_scans }}">0</div>
+                <p class="text-muted fw-bold text-uppercase small mb-0">Total Scans Performed</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card" style="border-bottom-color: #2196F3;">
+                <div class="stat-number" data-target="3">0</div>
+                <p class="text-muted fw-bold text-uppercase small mb-0">Supported Fruits</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 justify-content-center mb-5 fade-in-up" style="animation-delay: 0.4s;">
+    <div class="col-lg-10">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 glass-card hover-effect p-4 border-0">
+                    <div class="card-body d-flex flex-column align-items-center text-center">
+                        <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 mb-3 display-6">
+                            📁
+                        </div>
+                        <h3 class="fw-bold">Static Analysis</h3>
+                        <p class="text-muted">Upload high-res images for a detailed breakdown of ripeness, color composition, and nutritional data.</p>
+                        <a href="{{ url_for('ripeness_detection') }}" class="btn btn-outline-success rounded-pill w-100 mt-auto">Upload Image</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card h-100 glass-card hover-effect p-4 border-0">
+                    <div class="card-body d-flex flex-column align-items-center text-center">
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 mb-3 display-6">
+                            📷
+                        </div>
+                        <h3 class="fw-bold">Real-Time Detection</h3>
+                        <p class="text-muted">Activate the YOLOv8-Live stream to detect and classify fruits instantly in the field environment.</p>
+                        <a href="{{ url_for('fruit_detection') }}" class="btn btn-outline-primary rounded-pill w-100 mt-auto">Start Camera</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="how-it-works" class="py-5 mb-5 fade-in-up" style="animation-delay: 0.6s;">
+    <div class="text-center mb-5">
+        <h6 class="text-uppercase text-success fw-bold" style="letter-spacing: 2px;">The Technology</h6>
+        <h2 class="fw-bold">How RipeSense Analyzes Your Fruit</h2>
+        <p class="text-muted">A 3-step hybrid approach combining Deep Learning and Color Science.</p>
+    </div>
+    
+    <div class="row g-4 justify-content-center text-center">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white">
+                <div class="display-5 mb-3 text-success">
+                    <i class="fas fa-camera-retro"></i>
+                </div>
+                <h5 class="fw-bold">1. Digital Capture</h5>
+                <p class="small text-muted mb-0">The system captures an RGB image and uses <strong>OpenCV</strong> to normalize lighting and reduce background noise for a clean scan.</p>
+                <div class="mt-3 badge bg-light text-success border">Pre-processing</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white" style="border-top: 4px solid #2E7D32 !important;">
+                <div class="display-5 mb-3 text-primary">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h5 class="fw-bold">2. Neural Inference</h5>
+                <p class="small text-muted mb-0">Our <strong>YOLOv8</strong> engine identifies the fruit and runs a specialized classification to determine its physical ripeness stage.</p>
+                <div class="mt-3 badge bg-light text-primary border">Deep Learning</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white">
+                <div class="display-5 mb-3 text-warning">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h5 class="fw-bold">3. Color Validation</h5>
+                <p class="small text-muted mb-0">The <strong>HSV Color Histogram</strong> verifies the AI's guess by measuring exact pixel values to ensure a 97% accuracy rate.</p>
+                <div class="mt-3 badge bg-light text-warning border">Data Analytics</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mb-5 fade-in-up" style="animation-delay: 0.8s;">
+    <h5 class="fw-bold text-muted mb-4">Currently Calibrated For</h5>
+    <div>
+        <span class="fruit-badge">🍌 Banana</span>
+        <span class="fruit-badge">🍅 Tomato</span>
+        <span class="fruit-badge">🥭 Mango</span>
+        <span class="fruit-badge text-muted bg-light border-0">...more coming soon</span>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const counters = document.querySelectorAll('.stat-number');
+        
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText.replace('%', ''); // Handle the % sign
+                
+                const inc = target / 50; 
+
+                if (count < target) {
+                    if(counter.getAttribute('data-target').includes('.')) {
+                        counter.innerText = (count + inc).toFixed(1) + (target === 96.5 ? '%' : '');
+                    } else {
+                        counter.innerText = Math.ceil(count + inc);
+                    }
+                    setTimeout(updateCount, 30);
+                } else {
+                    counter.innerText = target + (target === 96.5 ? '%' : '');
+                }
+            };
+            updateCount();
+        });
+    });
+</script>
+
+{% endblock %}
 </file>
 
 <file path="templates/fruit_detection.html">
@@ -5000,6 +5202,10 @@ onnxruntime
     }
 
     function startStream() {
+        detectionInterval = setInterval(() => {
+            sendFrameToBackend();
+        }, 100);
+
         navigator.mediaDevices.getUserMedia({ 
             video: { facingMode: 'environment', width: { ideal: 640 }, height: { ideal: 480 } } 
         })
@@ -5037,30 +5243,40 @@ onnxruntime
         });
     }
 
-    function stopStream() {
-        isRunning = false;
-        if (video.srcObject) {
-            video.srcObject.getTracks().forEach(track => track.stop());
-        }
-        video.srcObject = null;
+    let detectionInterval = null; 
 
-        // 🔴 UI UPDATE: CAMERA OFF
-        video.style.display = 'none';
-        cameraPlaceholder.style.display = 'block';
-        
-        toggleBtn.innerHTML = '<i class="fas fa-power-off me-2"></i> Start Stream';
-        toggleBtn.classList.replace('btn-outline-danger', 'btn-success');
-        
-        liveBadge.classList.add('d-none');
-        
-        statusText.innerText = "Standby";
-        statusText.classList.replace('text-success', 'text-muted');
-        statusDot.classList.replace('bg-success', 'bg-secondary');
-        statusDot.classList.remove('pulse-live');
+function stopStream() {
+    isRunning = false;
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        latencyTag.innerText = "-- ms";
+    // 🛑 STOP THE BACKEND CALLS (Crucial Addition!)
+    if (detectionInterval) {
+        clearInterval(detectionInterval);
+        detectionInterval = null;
     }
+
+    if (video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+    }
+    video.srcObject = null;
+
+    // 🔴 UI UPDATE: CAMERA OFF
+    video.style.display = 'none';
+    cameraPlaceholder.style.display = 'block'; // <--- This prevents the "Frozen Face"! Smart!
+    
+    toggleBtn.innerHTML = '<i class="fas fa-power-off me-2"></i> Start Stream';
+    toggleBtn.classList.replace('btn-outline-danger', 'btn-success');
+    
+    liveBadge.classList.add('d-none');
+    
+    statusText.innerText = "Standby";
+    statusText.classList.replace('text-success', 'text-muted');
+    statusDot.classList.replace('bg-success', 'bg-secondary');
+    statusDot.classList.remove('pulse-live');
+
+    // Clear the canvas so no old boxes remain
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    latencyTag.innerText = "-- ms";
+}
 
     async function processFrame() {
         if (!isRunning && !isTestMode) return;
@@ -5240,173 +5456,6 @@ onnxruntime
         latencyTag.innerText = "-- ms";
     }
 </script>
-{% endblock %}
-</file>
-
-<file path="templates/index.html">
-{% extends "base.html" %}
-{% block title %}Home - RipeSense AI{% endblock %}
-
-{% block content %}
-
-<header class="hero-section text-center py-5 mb-5 fade-in-up" 
-        style="background: radial-gradient(circle at top right, #43A047, #1B5E20); color: white;">
-    
-    <div class="hero-overlay"></div>
-    
-    <div class="container position-relative py-5 z-2">
-        
-        <h1 class="display-3 fw-bold mb-3 text-white">Precision Agriculture <br>in Your Pocket</h1>
-        <p class="lead mb-4 text-white-75 mx-auto" style="max-width: 650px;">
-            Utilizing Convolutional Neural Networks (CNN) and YOLOv8 to reduce food waste and optimize harvest timing with 97% accuracy.
-        </p>
-        
-        <div class="d-flex justify-content-center gap-3">
-            <a href="{{ url_for('ripeness_detection') }}" class="btn btn-success btn-lg rounded-pill px-5 shadow-lg">
-                🚀 Launch App
-            </a>
-            <a href="#how-it-works" class="btn btn-outline-light btn-lg rounded-pill px-4">
-                How it Works
-            </a>
-        </div>
-    </div>
-</header>
-
-<div class="container mb-5 fade-in-up" style="animation-delay: 0.2s;">
-    <div class="row g-4 text-center">
-        <div class="col-md-4">
-            <div class="stat-card">
-                <div class="stat-number" data-target="97.3">0%</div>
-                <p class="text-muted fw-bold text-uppercase small mb-0">Model Accuracy</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="stat-card" style="border-bottom-color: #FFC107;">
-                <div class="stat-number" data-target="{{ total_scans }}">0</div>
-                <p class="text-muted fw-bold text-uppercase small mb-0">Total Scans Performed</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="stat-card" style="border-bottom-color: #2196F3;">
-                <div class="stat-number" data-target="3">0</div>
-                <p class="text-muted fw-bold text-uppercase small mb-0">Supported Fruits</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row g-4 justify-content-center mb-5 fade-in-up" style="animation-delay: 0.4s;">
-    <div class="col-lg-10">
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="card h-100 glass-card hover-effect p-4 border-0">
-                    <div class="card-body d-flex flex-column align-items-center text-center">
-                        <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 mb-3 display-6">
-                            📁
-                        </div>
-                        <h3 class="fw-bold">Static Analysis</h3>
-                        <p class="text-muted">Upload high-res images for a detailed breakdown of ripeness, color composition, and nutritional data.</p>
-                        <a href="{{ url_for('ripeness_detection') }}" class="btn btn-outline-success rounded-pill w-100 mt-auto">Upload Image</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="card h-100 glass-card hover-effect p-4 border-0">
-                    <div class="card-body d-flex flex-column align-items-center text-center">
-                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 mb-3 display-6">
-                            📷
-                        </div>
-                        <h3 class="fw-bold">Real-Time Detection</h3>
-                        <p class="text-muted">Activate the YOLOv8-Live stream to detect and classify fruits instantly in the field environment.</p>
-                        <a href="{{ url_for('fruit_detection') }}" class="btn btn-outline-primary rounded-pill w-100 mt-auto">Start Camera</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="how-it-works" class="py-5 mb-5 fade-in-up" style="animation-delay: 0.6s;">
-    <div class="text-center mb-5">
-        <h6 class="text-uppercase text-success fw-bold" style="letter-spacing: 2px;">The Technology</h6>
-        <h2 class="fw-bold">How RipeSense Analyzes Your Fruit</h2>
-        <p class="text-muted">A 3-step hybrid approach combining Deep Learning and Color Science.</p>
-    </div>
-    
-    <div class="row g-4 justify-content-center text-center">
-        <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white">
-                <div class="display-5 mb-3 text-success">
-                    <i class="fas fa-camera-retro"></i>
-                </div>
-                <h5 class="fw-bold">1. Digital Capture</h5>
-                <p class="small text-muted mb-0">The system captures an RGB image and uses <strong>OpenCV</strong> to normalize lighting and reduce background noise for a clean scan.</p>
-                <div class="mt-3 badge bg-light text-success border">Pre-processing</div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white" style="border-top: 4px solid #2E7D32 !important;">
-                <div class="display-5 mb-3 text-primary">
-                    <i class="fas fa-brain"></i>
-                </div>
-                <h5 class="fw-bold">2. Neural Inference</h5>
-                <p class="small text-muted mb-0">Our <strong>YOLOv8</strong> engine identifies the fruit and runs a specialized classification to determine its physical ripeness stage.</p>
-                <div class="mt-3 badge bg-light text-primary border">Deep Learning</div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-effect bg-white">
-                <div class="display-5 mb-3 text-warning">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h5 class="fw-bold">3. Color Validation</h5>
-                <p class="small text-muted mb-0">The <strong>HSV Color Histogram</strong> verifies the AI's guess by measuring exact pixel values to ensure a 97% accuracy rate.</p>
-                <div class="mt-3 badge bg-light text-warning border">Data Analytics</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="text-center mb-5 fade-in-up" style="animation-delay: 0.8s;">
-    <h5 class="fw-bold text-muted mb-4">Currently Calibrated For</h5>
-    <div>
-        <span class="fruit-badge">🍌 Banana</span>
-        <span class="fruit-badge">🍅 Tomato</span>
-        <span class="fruit-badge">🥭 Mango</span>
-        <span class="fruit-badge text-muted bg-light border-0">...more coming soon</span>
-    </div>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const counters = document.querySelectorAll('.stat-number');
-        
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText.replace('%', ''); // Handle the % sign
-                
-                const inc = target / 50; 
-
-                if (count < target) {
-                    if(counter.getAttribute('data-target').includes('.')) {
-                        counter.innerText = (count + inc).toFixed(1) + (target === 96.5 ? '%' : '');
-                    } else {
-                        counter.innerText = Math.ceil(count + inc);
-                    }
-                    setTimeout(updateCount, 30);
-                } else {
-                    counter.innerText = target + (target === 96.5 ? '%' : '');
-                }
-            };
-            updateCount();
-        });
-    });
-</script>
-
 {% endblock %}
 </file>
 
@@ -9825,6 +9874,228 @@ RipeSense/
         "fruit": "Mango #3264",
         "result": "Unripe",
         "confidence": "93.5%"
+    },
+    {
+        "timestamp": "2025-12-22 16:19:49",
+        "file": "1766391588_ripe_mango.jpg",
+        "fruit": "Banana #2194",
+        "result": "Ripe",
+        "confidence": "75.2%"
+    },
+    {
+        "timestamp": "2025-12-22 16:32:26",
+        "file": "1766392343_ripe_mango.jpg",
+        "fruit": "Banana #2550",
+        "result": "Ripe",
+        "confidence": "75.2%"
+    },
+    {
+        "timestamp": "2025-12-22 16:32:48",
+        "file": "1766392367_apple_strawberry.jpg",
+        "fruit": "Tomato #3118",
+        "result": "Overripe",
+        "confidence": "92.4%"
+    },
+    {
+        "timestamp": "2025-12-22 16:38:11",
+        "file": "1766392690_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected (Not Food)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 16:38:21",
+        "file": "1766392700_unripe_mango2.jpg",
+        "fruit": "Mango #5451",
+        "result": "Unripe",
+        "confidence": "93.5%"
+    },
+    {
+        "timestamp": "2025-12-22 16:38:35",
+        "file": "1766392715_Screenshot_2025-12-21_184558.png",
+        "fruit": "Tomato #5564",
+        "result": "Overripe",
+        "confidence": "84.3%"
+    },
+    {
+        "timestamp": "2025-12-22 16:38:48",
+        "file": "1766392727_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 16:39:06",
+        "file": "1766392745_rltomato.jpeg",
+        "fruit": "Tomato #9986",
+        "result": "Overripe",
+        "confidence": "97.9%"
+    },
+    {
+        "timestamp": "2025-12-22 16:40:14",
+        "file": "1766392814_ripe_banana.png",
+        "fruit": "Banana #4987",
+        "result": "Ripe",
+        "confidence": "98.3%"
+    },
+    {
+        "timestamp": "2025-12-22 16:40:22",
+        "file": "1766392821_unripe_tomato_error.jpg",
+        "fruit": "Forbidden: granny_smith",
+        "result": "Rejected (Not Food)",
+        "confidence": "0.0%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 16:41:03",
+        "file": "1766392861_unripe_tomato_error.jpg",
+        "fruit": "Tomato #4348",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 16:42:02",
+        "file": "1766392921_unripe_mango_error.jpg",
+        "fruit": "Mango #9907",
+        "result": "Unripe",
+        "confidence": "89.3%"
+    },
+    {
+        "timestamp": "2025-12-22 16:42:54",
+        "file": "1766392974_apple_strawberry.jpg",
+        "fruit": "Tomato #4691",
+        "result": "Overripe",
+        "confidence": "92.4%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 16:45:39",
+        "file": "1766393139_istockphoto-184276818-612x612.jpg",
+        "fruit": "Mango #4533",
+        "result": "Overripe",
+        "confidence": "80.8%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 16:49:11",
+        "file": "1766393348_istockphoto-184276818-612x612.jpg",
+        "fruit": "Mango #8572",
+        "result": "Overripe",
+        "confidence": "80.8%"
+    },
+    {
+        "timestamp": "2025-12-22 16:49:33",
+        "file": "1766393373_apple_strawberry.jpg",
+        "fruit": "Forbidden: strawberry",
+        "result": "Rejected (Forbidden)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 16:50:52",
+        "file": "1766393451_unripe_tomato_error.jpg",
+        "fruit": "Tomato #9593",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 16:53:18",
+        "file": "1766393595_unripe_tomato_error.jpg",
+        "fruit": "Tomato #2275",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 16:57:25",
+        "file": "1766393842_unripe_tomato_error.jpg",
+        "fruit": "Tomato #3117",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 16:57:43",
+        "file": "1766393862_istockphoto-184276818-612x612.jpg",
+        "fruit": "Mango #4587",
+        "result": "Overripe",
+        "confidence": "80.8%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 16:57:59",
+        "file": "1766393878_unripe_mango_error.jpg",
+        "fruit": "Mango #1010",
+        "result": "Unripe",
+        "confidence": "89.3%"
+    },
+    {
+        "timestamp": "2025-12-22 16:58:12",
+        "file": "1766393891_rl_banana.jpeg",
+        "fruit": "Banana #6811",
+        "result": "Ripe",
+        "confidence": "85.4%"
+    },
+    {
+        "timestamp": "2025-12-22 16:58:35",
+        "file": "1766393914_ripe_mango.jpg",
+        "fruit": "Banana #5466",
+        "result": "Ripe",
+        "confidence": "75.2%"
+    },
+    {
+        "timestamp": "2025-12-22 17:07:55",
+        "file": "1766394473_unripe_tomato_error.jpg",
+        "fruit": "Tomato #9905",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 17:13:15",
+        "file": "1766394794_m15.jpg",
+        "fruit": "Mango #2883",
+        "result": "Ripe",
+        "confidence": "97.1%"
+    },
+    {
+        "timestamp": "2025-12-22 17:18:01",
+        "file": "1766395079_ripe_mango.jpg",
+        "fruit": "Banana #1899",
+        "result": "Ripe",
+        "confidence": "75.2%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 17:18:48",
+        "file": "1766395128_apple_strawberry.jpg",
+        "fruit": "Forbidden: strawberry",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 17:18:55",
+        "file": "1766395134_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 17:19:06",
+        "file": "1766395145_unripe_tomato_error.jpg",
+        "fruit": "Tomato #7494",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 17:19:19",
+        "file": "1766395159_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 17:19:45",
+        "file": "1766395184_rl_banana.jpeg",
+        "fruit": "Banana #7633",
+        "result": "Ripe",
+        "confidence": "85.4%"
     }
 ]
 </file>
@@ -10210,7 +10481,7 @@ def ripeness_detection():
 
 @app.route('/detect_ripeness', methods=['POST'])
 def detect_ripeness():
-    # --- SETUP LOGGING (Verbose Mode) ---
+    # --- SETUP LOGGING ---
     ai_logs = [] 
 
     # 1. Validation
@@ -10227,8 +10498,6 @@ def detect_ripeness():
     
     try:
         img_pil = Image.open(filepath).convert("RGB")
-        
-        # 👇 SAFETY RESIZE
         if img_pil.width > 1024 or img_pil.height > 1024:
             img_pil.thumbnail((1024, 1024))
             ai_logs.append("⚠️ [INIT] Image too large. Resized to 1024px for safety.")
@@ -10243,7 +10512,7 @@ def detect_ripeness():
     # ==========================================================
     # 🛡️ LAYER 1: THE BOUNCER (Face Check)
     # ==========================================================
-    ai_logs.append("🛡️ [LAYER 1: BOUNCER] Scanning for human faces (OpenCV Haar Cascade)...")
+    ai_logs.append("🛡️ [LAYER 1: BOUNCER] Scanning for human faces...")
     gray = cv2.cvtColor(img_cv2, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30,30))
     
@@ -10251,19 +10520,18 @@ def detect_ripeness():
         img_area = img_cv2.shape[0] * img_cv2.shape[1]
         for i, (fx, fy, fw, fh) in enumerate(faces):
             face_ratio = (fw * fh) / img_area
-            ai_logs.append(f"   - Face {i+1}: Occupies {face_ratio*100:.1f}% of image area.")
             if face_ratio > 0.1: 
-                ai_logs.append("⛔ [DENY] Face is too dominant (>10%). Rejecting image as non-fruit.")
+                ai_logs.append("⛔ [DENY] Face is too dominant. Rejecting.")
                 save_history(filename, "Human Face", "Rejected (Face)", "0.0")
-                return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object="Human Face detected", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
-        ai_logs.append("  → Faces found but are background/small. Proceeding.")
+                return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object="Human Face", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
+        ai_logs.append("  → Faces found but are background. Proceeding.")
     else:
         ai_logs.append("✅ [LAYER 1] Cleared. No faces detected.")
 
     # ==========================================================
-    # 🧠 LAYER 2: THE GATEKEEPER (Lazy Load)
+    # 🧠 LAYER 2: THE GATEKEEPER
     # ==========================================================
-    ai_logs.append("🧠 [LAYER 2: GATEKEEPER] Running general object classification...")
+    ai_logs.append("🧠 [LAYER 2: GATEKEEPER] Running general classification...")
     VALID_FRUITS = ['banana', 'mango', 'tomato']
     FORBIDDEN = ['apple', 'strawberry', 'lemon', 'grape', 'hamster', 'cat', 'dog', 'face']
     
@@ -10273,61 +10541,73 @@ def detect_ripeness():
     
     try:
         gatekeeper_model = YOLO(GATEKEEPER_PATH)
-        res = gatekeeper_model(img_pil, imgsz=320)
-        
+        res = gatekeeper_model(img_pil, imgsz=320, verbose=False)
         gatekeeper_label = res[0].names[res[0].probs.top1].lower()
         gatekeeper_conf = float(res[0].probs.top1conf)
-        
         del gatekeeper_model
         cleanup_memory()
 
         if 'orange' in gatekeeper_label:
-            ai_logs.append(f"⚠️ [GATEKEEPER] Detected '{gatekeeper_label}'. Allowing pass for verification.")
+            ai_logs.append(f"⚠️ [GATEKEEPER] Saw '{gatekeeper_label}' ({gatekeeper_conf*100:.1f}%). Passing for verification.")
             gatekeeper_valid = False 
         elif any(f in gatekeeper_label for f in FORBIDDEN):
             ai_logs.append(f"⛔ [DENY] Gatekeeper identified forbidden item: '{gatekeeper_label}'.")
-            save_history(filename, f"Forbidden: {gatekeeper_label}", "Rejected (Forbidden)", "0.0")
+            save_history(filename, f"Forbidden: {gatekeeper_label}", "Rejected", "0.0")
             return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=gatekeeper_label.capitalize(), ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
         elif any(v in gatekeeper_label for v in VALID_FRUITS):
             gatekeeper_valid = True
-            ai_logs.append(f"✅ [LAYER 2] Gatekeeper confirms '{gatekeeper_label}' is a valid target.")
+            ai_logs.append(f"✅ [LAYER 2] Gatekeeper confirms '{gatekeeper_label}' is valid.")
         else:
-            ai_logs.append(f"⚠️ [LAYER 2] Gatekeeper is unsure ('{gatekeeper_label}'). Passing to Specialist.")
+            ai_logs.append(f"⚠️ [LAYER 2] Gatekeeper unsure ('{gatekeeper_label}'). Passing to Specialist.")
 
     except Exception as e:
         ai_logs.append(f"⚠️ [ERROR] Gatekeeper failed: {e}")
         cleanup_memory()
 
     # ==========================================================
-    # 🦸 LAYER 3: THE SPECIALIST (Lazy Load)
+    # 🦸 LAYER 3: THE SPECIALIST (With SHAPE FIX)
     # ==========================================================
-    ai_logs.append("🦸 [LAYER 3: SPECIALIST] Running custom RipeSense model...")
+    ai_logs.append("🦸 [LAYER 3: SPECIALIST] Running RipeSense model...")
     detected_object = "Unknown"
     ripeness_level = "Unknown"
     confidence = 0.0
     
     try:
-        fruit_detection_model = YOLO(SPECIALIST_PATH)
-        results = fruit_detection_model(img_pil, conf=0.20, imgsz=320, verbose=False)
-        
-        del fruit_detection_model
+        fruit_model = YOLO(SPECIALIST_PATH)
+        results = fruit_model(img_pil, conf=0.20, imgsz=320, verbose=False)
+        del fruit_model
         cleanup_memory()
 
-        num_detections = len(results[0].boxes)
-
-        if num_detections > 0:
+        if results[0].boxes:
             best_box = max(results[0].boxes, key=lambda x: x.conf[0])
             label = results[0].names[int(best_box.cls[0])].lower()
             confidence = float(best_box.conf[0])
             
-        
-            ai_logs.append(f"   → Selected best candidate: '{label}' ({confidence*100:.1f}%)")
+            # 👇👇👇 THIS IS THE MISSING PART! 👇👇👇
+            # 📐 GEOMETRY CHECK (Fix Square Bananas)
+            x1, y1, x2, y2 = map(int, best_box.xyxy[0].tolist())
+            width = x2 - x1
+            height = y2 - y1
+            ratio = height / width if width > 0 else 0
 
-            threshold = 0.50
-            if confidence < threshold:
+            # FORCE LOGIC: 
+            # If it thinks "Banana" but Ratio is square (0.8 - 1.2)...
+            if "banana" in label and (0.8 < ratio < 1.2):
+                ai_logs.append(f"🍌➡️🥭 [SHAPE FIX] AI saw 'Banana' but shape is square (Ratio {ratio:.2f}). Correcting to Mango.")
+                label = label.replace("banana", "mango") # 👈 Change the label!
+            
+            # If it thinks "Mango" but Ratio is long (> 1.4)...
+            elif "mango" in label and (ratio > 1.4 or ratio < 0.6):
+                ai_logs.append(f"🥭➡️🍌 [SHAPE FIX] AI saw 'Mango' but shape is long (Ratio {ratio:.2f}). Correcting to Banana.")
+                label = label.replace("mango", "banana") # 👈 Change the label!
+            # 👆👆👆 END OF FIX 👆👆👆
+
+            ai_logs.append(f"   → Selected candidate: '{label}' ({confidence*100:.1f}%)")
+
+            if confidence < 0.50:
                  ai_logs.append(f"⛔ [DENY] Confidence {confidence*100:.1f}% is too low.")
-                 save_history(filename, "Unidentified Object", "Rejected (Low Conf)", f"{confidence*100:.1f}")
-                 return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object="Unidentified Object (Low Confidence)", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
+                 save_history(filename, "Unidentified Object", "Rejected", f"{confidence*100:.1f}")
+                 return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object="Low Confidence Object", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
 
             if '_' in label:
                 parts = label.split('_')
@@ -10336,28 +10616,23 @@ def detect_ripeness():
             else:
                 detected_object = label.capitalize()
                 ripeness_level = "Ripe"
-            
-            # 🛡️ THE ORANGE VS TOMATO CHECK
+
+            # Orange Check
             if 'orange' in gatekeeper_label and 'tomato' in detected_object.lower():
                  if gatekeeper_conf > 0.60:
-                     ai_logs.append(f"⛔ [DENY] Gatekeeper is confident enough ({gatekeeper_conf*100:.1f}%) it's an Orange. Blocking.")
-                     save_history(filename, "Real Orange", "Rejected (False Positive)", "0.0")
-                     return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=f"Real Orange", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
-                 else:
-                     ai_logs.append(f"⚠️ [PASS] Gatekeeper said 'Orange' but confidence ({gatekeeper_conf*100:.1f}%) is below 60%. Allowing as Unripe Tomato.")
-                
+                      ai_logs.append(f"⛔ [DENY] Gatekeeper says Orange ({gatekeeper_conf*100:.1f}%). Blocking.")
+                      save_history(filename, "Real Orange", "Rejected", "0.0")
+                      return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object="Real Orange", ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
+
             ai_logs.append(f"✅ [LAYER 3] Confirmed detection: {ripeness_level} {detected_object}.")
-            
-            # 🧪 GENERATE ID HERE
             sample_id = random.randint(1000, 9999)
             display_name = f"{detected_object} #{sample_id}"
 
         else:
-            # Specialist saw nothing. Fallback to Gatekeeper.
-            fallback_obj = gatekeeper_label.capitalize() if gatekeeper_label != "unknown" else "Nothing Detected"
-            ai_logs.append(f"⛔ [LAYER 3] Specialist found no fruit. Falling back to Gatekeeper: '{fallback_obj}'.")
-            save_history(filename, fallback_obj, "Rejected (Non-Fruit)", "0.0")
-            return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=fallback_obj, ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
+            fallback = gatekeeper_label.capitalize() if gatekeeper_label != "unknown" else "Nothing"
+            ai_logs.append(f"⛔ [LAYER 3] No fruit found. Fallback: '{fallback}'.")
+            save_history(filename, fallback, "Rejected", "0.0")
+            return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=fallback, ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
 
     except Exception as e:
         ai_logs.append(f"⚠️ [ERROR] Specialist failed: {e}")
@@ -10365,16 +10640,13 @@ def detect_ripeness():
         return redirect(url_for('ripeness_detection'))
     
     # ==========================================================
-    # 🎨 LAYER 4: TUNED COLOR ANALYSIS
+    # 🎨 LAYER 4: COLOR TUNING
     # ==========================================================
-    # Pass clean name (without ID) to color tuner
-    ai_logs.append(f"🎨 [LAYER 4: COLOR TUNING] Generating visual graph data guided by AI conclusion: '{ripeness_level} {detected_object}'.")
+    ai_logs.append(f"🎨 [LAYER 4] Analyzing colors for: '{ripeness_level} {detected_object}'...")
     colors = analyze_ripeness_tuned(img_cv2, f"{ripeness_level} {detected_object}")
-    ai_logs.append(f"✅ [FINAL] Stats: Green {colors['green_percentage']}%, Yellow {colors['yellow_percentage']}%, Brown {colors['brown_percentage']}%.")
+    ai_logs.append(f"✅ [FINAL] Green {colors['green_percentage']}%, Yellow {colors['yellow_percentage']}%, Brown {colors['brown_percentage']}%.")
 
-    # Save to history with ID
     save_history(filename, display_name, ripeness_level, f"{confidence*100:.1f}")
-    
     advice = get_expert_advice(detected_object, ripeness_level)
     
     nutrition_data = {}
@@ -10387,10 +10659,7 @@ def detect_ripeness():
     return render_template('result_page.html', 
                           img_str=image_to_base64(img_pil), 
                           ripeness_result={'ripeness_level': ripeness_level, 'confidence': confidence, 'color_analysis': colors},
-                          
-                          # 👇 NOW we send the clean ID name to the screen!
                           class_names=[display_name],
-                          
                           is_red_fruit=('tomato' in detected_object.lower()),
                           nutrition=nutrition_data,
                           advice=advice,
