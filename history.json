@@ -3859,5 +3859,298 @@
         "fruit": "Mango #3264",
         "result": "Unripe",
         "confidence": "93.5%"
+    },
+    {
+        "timestamp": "2025-12-22 16:19:49",
+        "file": "1766391588_ripe_mango.jpg",
+        "fruit": "Banana #2194",
+        "result": "Ripe",
+        "confidence": "75.2%"
+    },
+    {
+        "timestamp": "2025-12-22 16:32:26",
+        "file": "1766392343_ripe_mango.jpg",
+        "fruit": "Banana #2550",
+        "result": "Ripe",
+        "confidence": "75.2%"
+    },
+    {
+        "timestamp": "2025-12-22 16:32:48",
+        "file": "1766392367_apple_strawberry.jpg",
+        "fruit": "Tomato #3118",
+        "result": "Overripe",
+        "confidence": "92.4%"
+    },
+    {
+        "timestamp": "2025-12-22 16:38:11",
+        "file": "1766392690_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected (Not Food)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 16:38:21",
+        "file": "1766392700_unripe_mango2.jpg",
+        "fruit": "Mango #5451",
+        "result": "Unripe",
+        "confidence": "93.5%"
+    },
+    {
+        "timestamp": "2025-12-22 16:38:35",
+        "file": "1766392715_Screenshot_2025-12-21_184558.png",
+        "fruit": "Tomato #5564",
+        "result": "Overripe",
+        "confidence": "84.3%"
+    },
+    {
+        "timestamp": "2025-12-22 16:38:48",
+        "file": "1766392727_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected (False Positive)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 16:39:06",
+        "file": "1766392745_rltomato.jpeg",
+        "fruit": "Tomato #9986",
+        "result": "Overripe",
+        "confidence": "97.9%"
+    },
+    {
+        "timestamp": "2025-12-22 16:40:14",
+        "file": "1766392814_ripe_banana.png",
+        "fruit": "Banana #4987",
+        "result": "Ripe",
+        "confidence": "98.3%"
+    },
+    {
+        "timestamp": "2025-12-22 16:40:22",
+        "file": "1766392821_unripe_tomato_error.jpg",
+        "fruit": "Forbidden: granny_smith",
+        "result": "Rejected (Not Food)",
+        "confidence": "0.0%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 16:41:03",
+        "file": "1766392861_unripe_tomato_error.jpg",
+        "fruit": "Tomato #4348",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 16:42:02",
+        "file": "1766392921_unripe_mango_error.jpg",
+        "fruit": "Mango #9907",
+        "result": "Unripe",
+        "confidence": "89.3%"
+    },
+    {
+        "timestamp": "2025-12-22 16:42:54",
+        "file": "1766392974_apple_strawberry.jpg",
+        "fruit": "Tomato #4691",
+        "result": "Overripe",
+        "confidence": "92.4%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 16:45:39",
+        "file": "1766393139_istockphoto-184276818-612x612.jpg",
+        "fruit": "Mango #4533",
+        "result": "Overripe",
+        "confidence": "80.8%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 16:49:11",
+        "file": "1766393348_istockphoto-184276818-612x612.jpg",
+        "fruit": "Mango #8572",
+        "result": "Overripe",
+        "confidence": "80.8%"
+    },
+    {
+        "timestamp": "2025-12-22 16:49:33",
+        "file": "1766393373_apple_strawberry.jpg",
+        "fruit": "Forbidden: strawberry",
+        "result": "Rejected (Forbidden)",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 16:50:52",
+        "file": "1766393451_unripe_tomato_error.jpg",
+        "fruit": "Tomato #9593",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 16:53:18",
+        "file": "1766393595_unripe_tomato_error.jpg",
+        "fruit": "Tomato #2275",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 16:57:25",
+        "file": "1766393842_unripe_tomato_error.jpg",
+        "fruit": "Tomato #3117",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 16:57:43",
+        "file": "1766393862_istockphoto-184276818-612x612.jpg",
+        "fruit": "Mango #4587",
+        "result": "Overripe",
+        "confidence": "80.8%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 16:57:59",
+        "file": "1766393878_unripe_mango_error.jpg",
+        "fruit": "Mango #1010",
+        "result": "Unripe",
+        "confidence": "89.3%"
+    },
+    {
+        "timestamp": "2025-12-22 16:58:12",
+        "file": "1766393891_rl_banana.jpeg",
+        "fruit": "Banana #6811",
+        "result": "Ripe",
+        "confidence": "85.4%"
+    },
+    {
+        "timestamp": "2025-12-22 16:58:35",
+        "file": "1766393914_ripe_mango.jpg",
+        "fruit": "Banana #5466",
+        "result": "Ripe",
+        "confidence": "75.2%"
+    },
+    {
+        "timestamp": "2025-12-22 17:07:55",
+        "file": "1766394473_unripe_tomato_error.jpg",
+        "fruit": "Tomato #9905",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 17:13:15",
+        "file": "1766394794_m15.jpg",
+        "fruit": "Mango #2883",
+        "result": "Ripe",
+        "confidence": "97.1%"
+    },
+    {
+        "timestamp": "2025-12-22 17:18:01",
+        "file": "1766395079_ripe_mango.jpg",
+        "fruit": "Banana #1899",
+        "result": "Ripe",
+        "confidence": "75.2%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 17:18:48",
+        "file": "1766395128_apple_strawberry.jpg",
+        "fruit": "Forbidden: strawberry",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 17:18:55",
+        "file": "1766395134_orange.jpg",
+        "fruit": "Real Orange",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 17:19:06",
+        "file": "1766395145_unripe_tomato_error.jpg",
+        "fruit": "Tomato #7494",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 17:19:19",
+        "file": "1766395159_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 17:19:45",
+        "file": "1766395184_rl_banana.jpeg",
+        "fruit": "Banana #7633",
+        "result": "Ripe",
+        "confidence": "85.4%"
+    },
+    {
+        "timestamp": "2025-12-22 17:25:04",
+        "file": "1766395501_rl_banana.jpeg",
+        "fruit": "Banana #4523",
+        "result": "Ripe",
+        "confidence": "85.4%"
+    },
+    {
+        "timestamp": "2025-12-22 17:25:21",
+        "file": "1766395520_unripe_tomato_error.jpg",
+        "fruit": "Tomato #7132",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 17:25:42",
+        "file": "1766395540_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 17:25:56",
+        "file": "1766395555_apple_strawberry.jpg",
+        "fruit": "Forbidden: strawberry",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 17:26:12",
+        "file": "1766395572_ripe_mango.jpg",
+        "fruit": "Banana #5494",
+        "result": "Ripe",
+        "confidence": "75.2%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 17:31:59",
+        "file": "1766395918_overripe_tomato.jpg",
+        "fruit": "Tomato #9976",
+        "result": "Overripe",
+        "confidence": "98.7%"
+    },
+    {
+        "timestamp": "2025-12-22 17:32:12",
+        "file": "1766395931_ripe_tomato.jpg",
+        "fruit": "Tomato #6407",
+        "result": "Ripe",
+        "confidence": "96.2%"
+    },
+    {
+        "timestamp": "2025-12-22 17:32:26",
+        "file": "1766395946_unripe_mango_error.jpg",
+        "fruit": "Banana #9719",
+        "result": "Unripe",
+        "confidence": "89.3%"
+    },
+    {
+        "timestamp": "2025-12-22 17:36:27",
+        "file": "1766396185_unripe_mango_error.jpg",
+        "fruit": "Mango #4150",
+        "result": "Unripe",
+        "confidence": "89.3%"
+    },
+    {
+        "timestamp": "2025-12-22 17:42:37",
+        "file": "1766396556_ripe_mango.jpg",
+        "fruit": "Banana #6073",
+        "result": "Ripe",
+        "confidence": "75.2%"
     }
 ]
