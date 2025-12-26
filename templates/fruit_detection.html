@@ -149,23 +149,35 @@
     // Ensure canvas stays on top
     canvas.style.zIndex = "10"; 
 
+    // --- MAIN CONTROLS ---
+
     async function toggleStream() {
-        if (isRunning) stopStream();
-        else startStream();
+        if (isRunning) {
+            stopStream();
+        } else {
+            startStream();
+        }
     }
 
     function startStream() {
-        detectionInterval = setInterval(() => {
-            sendFrameToBackend();
-        }, 100);
+        console.log("🚀 Attempting to start camera...");
 
         navigator.mediaDevices.getUserMedia({ 
-            video: { facingMode: 'environment', width: { ideal: 640 }, height: { ideal: 480 } } 
+            video: { 
+                facingMode: 'environment', // Tries back camera on mobile
+                width: { ideal: 640 }, 
+                height: { ideal: 480 } 
+            } 
         })
         .then(stream => {
+            console.log("✅ Camera access granted!");
             video.srcObject = stream;
+            
+            // Wait for video to be ready before starting loop
             video.onloadedmetadata = () => {
-                // Setup dimensions
+                console.log("📏 Metadata loaded. Dimensions:", video.videoWidth, video.videoHeight);
+                
+                // Setup dimensions to match camera
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 ghostCanvas.width = video.videoWidth;
@@ -185,55 +197,51 @@
                 statusText.innerText = "Active Scan";
                 statusText.classList.replace('text-muted', 'text-success');
                 statusDot.classList.replace('bg-secondary', 'bg-success');
-                statusDot.classList.add('pulse-live'); // Add blink effect to dot
+                statusDot.classList.add('pulse-live'); 
                 
+                // 🚀 START THE LOOP
                 requestAnimationFrame(processFrame);
             };
         })
         .catch(err => {
-            console.error("Camera Error:", err);
-            alert("⛔ Camera access denied. Please allow permissions.");
+            console.error("⛔ Camera Error:", err);
+            alert("Could not start camera. \n\nCheck:\n1. Is your browser allowing camera access?\n2. Are you on HTTPS or localhost?");
         });
     }
 
-    let detectionInterval = null; 
+    function stopStream() {
+        console.log("🛑 Stopping stream...");
+        isRunning = false; // Stops the loop
 
-function stopStream() {
-    isRunning = false;
+        if (video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop());
+        }
+        video.srcObject = null;
 
-    // 🛑 STOP THE BACKEND CALLS (Crucial Addition!)
-    if (detectionInterval) {
-        clearInterval(detectionInterval);
-        detectionInterval = null;
+        // 🔴 UI UPDATE: CAMERA OFF
+        video.style.display = 'none';
+        cameraPlaceholder.style.display = 'block';
+        
+        toggleBtn.innerHTML = '<i class="fas fa-power-off me-2"></i> Start Stream';
+        toggleBtn.classList.replace('btn-outline-danger', 'btn-success');
+        
+        liveBadge.classList.add('d-none');
+        
+        statusText.innerText = "Standby";
+        statusText.classList.replace('text-success', 'text-muted');
+        statusDot.classList.replace('bg-success', 'bg-secondary');
+        statusDot.classList.remove('pulse-live');
+
+        // Clear the canvas results
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        latencyTag.innerText = "-- ms";
     }
-
-    if (video.srcObject) {
-        video.srcObject.getTracks().forEach(track => track.stop());
-    }
-    video.srcObject = null;
-
-    // 🔴 UI UPDATE: CAMERA OFF
-    video.style.display = 'none';
-    cameraPlaceholder.style.display = 'block'; // <--- This prevents the "Frozen Face"! Smart!
-    
-    toggleBtn.innerHTML = '<i class="fas fa-power-off me-2"></i> Start Stream';
-    toggleBtn.classList.replace('btn-outline-danger', 'btn-success');
-    
-    liveBadge.classList.add('d-none');
-    
-    statusText.innerText = "Standby";
-    statusText.classList.replace('text-success', 'text-muted');
-    statusDot.classList.replace('bg-success', 'bg-secondary');
-    statusDot.classList.remove('pulse-live');
-
-    // Clear the canvas so no old boxes remain
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    latencyTag.innerText = "-- ms";
-}
 
     async function processFrame() {
+        // STOP check
         if (!isRunning && !isTestMode) return;
         
+        // BUSY check (Prevent overlapping requests)
         if (isProcessing) {
             requestAnimationFrame(processFrame);
             return;
@@ -243,15 +251,19 @@ function stopStream() {
         const startTime = Date.now();
 
         try {
-            // 1. Capture Frame
+            // 1. Capture Frame (Test Mode or Camera)
             if (isTestMode && testImage) {
                 ghostCtx.drawImage(testImage, 0, 0, ghostCanvas.width, ghostCanvas.height);
             } else {
-                ghostCtx.drawImage(video, 0, 0, ghostCanvas.width, ghostCanvas.height);
+                // Only draw if video has valid dimensions
+                if (video.videoWidth > 0 && video.videoHeight > 0) {
+                    ghostCtx.drawImage(video, 0, 0, ghostCanvas.width, ghostCanvas.height);
+                }
             }
             
             // 2. Send to AI
-            const imageData = ghostCanvas.toDataURL('image/jpeg', 0.5); // Speed optimization
+            const imageData = ghostCanvas.toDataURL('image/jpeg', 0.5); 
+            
             const response = await fetch('/detect_objects', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -260,10 +272,20 @@ function stopStream() {
 
             const data = await response.json();
 
+            // 🛑 ADD THIS SAFETY CHECK HERE 🛑
+            // If the user clicked stop while we were waiting for the AI, 
+            // do NOT draw the result.
+            if (!isRunning && !isTestMode) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Ensure clean
+                isProcessing = false;
+                return;
+            }
+            // 🛑 END ADDITION 🛑
+
             // 3. Draw Results
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Helper function for Test Mode scaling
+            // Scaling logic for Test Mode
             function getScaledCoords(bbox) {
                 let [x1, y1, x2, y2] = bbox;
                 if (isTestMode && testImage && testImage.scaleX) {
@@ -275,43 +297,43 @@ function stopStream() {
                 return [x1, y1, x2, y2];
             }
 
-            data.forEach(obj => {
-                let [x1, y1, x2, y2] = getScaledCoords(obj.bbox);
-                const width = x2 - x1;
-                const height = y2 - y1;
-                
-                // 🎨 DRAW THE BOX (Sci-Fi Green)
-                ctx.shadowColor = '#00E676';
-                ctx.shadowBlur = 10;
-                ctx.strokeStyle = '#00E676';
-                ctx.lineWidth = 3;
-                
-                // Draw corners only (Optional fancy look) or full rect
-                ctx.strokeRect(x1, y1, width, height);
-                ctx.shadowBlur = 0; // Reset shadow for text
+            // Draw each detected box
+            if (data && data.length > 0) {
+                data.forEach(obj => {
+                    let [x1, y1, x2, y2] = getScaledCoords(obj.bbox);
+                    const width = x2 - x1;
+                    const height = y2 - y1;
+                    
+                    // Box Style
+                    ctx.shadowColor = '#00E676';
+                    ctx.shadowBlur = 10;
+                    ctx.strokeStyle = '#00E676';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(x1, y1, width, height);
+                    ctx.shadowBlur = 0;
 
-                // 🏷️ DRAW THE LABEL
-                const label = `${obj.class} ${Math.round(obj.confidence * 100)}%`;
-                ctx.font = 'bold 16px "Courier New", monospace';
-                const textWidth = ctx.measureText(label).width;
-                
-                // Label Background
-                ctx.fillStyle = 'rgba(0, 230, 118, 0.8)';
-                ctx.fillRect(x1, y1 - 25, textWidth + 10, 25);
-                
-                // Label Text
-                ctx.fillStyle = '#000';
-                ctx.fillText(label, x1 + 5, y1 - 7);
-            });
+                    // Label Style
+                    const label = `${obj.class} ${Math.round(obj.confidence * 100)}%`;
+                    ctx.font = 'bold 16px "Courier New", monospace';
+                    const textWidth = ctx.measureText(label).width;
+                    
+                    ctx.fillStyle = 'rgba(0, 230, 118, 0.8)';
+                    ctx.fillRect(x1, y1 - 25, textWidth + 10, 25);
+                    
+                    ctx.fillStyle = '#000';
+                    ctx.fillText(label, x1 + 5, y1 - 7);
+                });
+            }
 
             // Update Latency
             const duration = Date.now() - startTime;
             latencyTag.innerText = `${duration} ms`;
 
         } catch (err) {
-            console.error(err);
+            console.error("Frame Processing Error:", err);
         } finally {
             isProcessing = false;
+            // Loop again if still running
             if (isRunning) requestAnimationFrame(processFrame);
         }
     }
@@ -332,8 +354,7 @@ function stopStream() {
             testImage.onload = function() {
                 if (isRunning) stopStream();
                 
-                // Setup Canvas to match Container
-                const container = document.querySelector('.bg-black'); // Find the main view box
+                const container = document.querySelector('.bg-black');
                 const containerW = container.clientWidth;
                 const containerH = container.clientHeight;
                 
@@ -342,20 +363,19 @@ function stopStream() {
                 ghostCanvas.width = testImage.width;
                 ghostCanvas.height = testImage.height;
                 
-                // Scale Logic (Contain)
+                // Scale Logic
                 const scale = Math.min(containerW / testImage.width, containerH / testImage.height);
                 const displayW = testImage.width * scale;
                 const displayH = testImage.height * scale;
                 const offX = (containerW - displayW) / 2;
                 const offY = (containerH - displayH) / 2;
 
-                // Create a background img element to show the user what they uploaded
                 let displayImg = document.getElementById('testDisplayImg');
                 if(!displayImg) {
                     displayImg = document.createElement('img');
                     displayImg.id = 'testDisplayImg';
                     displayImg.style.position = 'absolute';
-                    displayImg.style.zIndex = '1'; // Behind canvas
+                    displayImg.style.zIndex = '1';
                     container.appendChild(displayImg);
                 }
                 displayImg.src = e.target.result;
@@ -368,8 +388,6 @@ function stopStream() {
                 cameraPlaceholder.style.display = 'none';
                 
                 isTestMode = true;
-                
-                // We store scale info for drawing the boxes later
                 testImage.scaleX = scale;
                 testImage.scaleY = scale;
                 testImage.offsetX = offX;
@@ -383,7 +401,6 @@ function stopStream() {
                 statusText.classList.replace('text-muted', 'text-warning');
                 statusDot.classList.replace('bg-secondary', 'bg-warning');
 
-                // Run detection once
                 setTimeout(() => requestAnimationFrame(processFrame), 100);
             };
             testImage.src = e.target.result;

@@ -40,6 +40,7 @@ The content is organized as follows:
 </file_summary>
 
 <directory_structure>
+.gitattributes
 .gitignore
 android/.gitignore
 android/.idea/.gitignore
@@ -104,6 +105,7 @@ android/variables.gradle
 app.py
 Aptfile
 capacitor.config.ts
+Dockerfile
 history.json
 LICENSE
 models/best.onnx
@@ -205,7 +207,6 @@ static/uploads/1766334964_Screenshot_2025-12-21_184558.png
 static/uploads/1766334971_Screenshot_2025-12-21_184558.png
 static/uploads/1766335007_Screenshot_2025-12-21_184558.png
 static/uploads/1766335015_Screenshot_2025-12-21_184558.png
-static/uploads/1766335664_monster_image.jpg
 static/uploads/1766335686_Screenshot_2025-12-21_184558.png
 static/uploads/1766335701_orange.jpg
 static/uploads/1766335761_rltomato.jpeg
@@ -229,7 +230,6 @@ static/uploads/1766338769_ripe_mango.jpg
 static/uploads/1766338775_rl_banana.jpeg
 static/uploads/1766339567_apple_strawberry.jpg
 static/uploads/1766339576_apple_strawberry.jpg
-static/uploads/1766339608_monster_image.jpg
 static/uploads/1766339626_orange.jpg
 static/uploads/1766339739_orange.jpg
 static/uploads/1766341528_unripe_tomato_error.jpg
@@ -299,6 +299,23 @@ static/uploads/1766395134_orange.jpg
 static/uploads/1766395145_unripe_tomato_error.jpg
 static/uploads/1766395159_glorp.jpg
 static/uploads/1766395184_rl_banana.jpeg
+static/uploads/1766395501_rl_banana.jpeg
+static/uploads/1766395520_unripe_tomato_error.jpg
+static/uploads/1766395540_glorp.jpg
+static/uploads/1766395555_apple_strawberry.jpg
+static/uploads/1766395572_ripe_mango.jpg
+static/uploads/1766395918_overripe_tomato.jpg
+static/uploads/1766395931_ripe_tomato.jpg
+static/uploads/1766395946_unripe_mango_error.jpg
+static/uploads/1766396156_unripe_mango_error.jpg
+static/uploads/1766396163_unripe_mango_error.jpg
+static/uploads/1766396176_unripe_mango_error.jpg
+static/uploads/1766396185_unripe_mango_error.jpg
+static/uploads/1766396556_ripe_mango.jpg
+static/uploads/1766465838_unripe_mango2.jpg
+static/uploads/1766465846_unripe_mango2.jpg
+static/uploads/1766465855_unripe_mango2.jpg
+static/uploads/1766465863_unripe_mango2.jpg
 static/uploads/9921387.png
 static/uploads/a99ca1355d867dee19fb4f379c6af02d.jpg
 static/uploads/apple_strawberry.jpg
@@ -397,6 +414,73 @@ templates/ripeness_detection.html
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path="Dockerfile">
+# 1. Use Python 3.10 as the base image
+FROM python:3.10
+
+# 2. Set the working directory inside the container
+WORKDIR /code
+
+# 3. Install system dependencies required for OpenCV (GL libraries)
+# ⚠️ This step is CRITICAL for image processing apps!
+RUN apt-get update && apt-get install -y libgl1 libglib2.0-0
+
+# 4. Copy requirements file
+COPY ./requirements.txt /code/requirements.txt
+
+# 5. Install Python dependencies
+# We use --no-cache-dir to keep the image small
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+# 6. Copy the rest of your application code
+COPY . /code
+
+# 7. Create the uploads folder and set permissions
+# Hugging Face permissions can be tricky; this ensures your app can save uploaded images.
+RUN mkdir -p /code/static/uploads && chmod 777 /code/static/uploads
+
+# 8. Start the application using Gunicorn on port 7860
+CMD ["gunicorn", "-b", "0.0.0.0:7860", "app:app"]
+</file>
+
+<file path=".gitattributes">
+*.7z filter=lfs diff=lfs merge=lfs -text
+*.arrow filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+*.bz2 filter=lfs diff=lfs merge=lfs -text
+*.ckpt filter=lfs diff=lfs merge=lfs -text
+*.ftz filter=lfs diff=lfs merge=lfs -text
+*.gz filter=lfs diff=lfs merge=lfs -text
+*.h5 filter=lfs diff=lfs merge=lfs -text
+*.joblib filter=lfs diff=lfs merge=lfs -text
+*.lfs.* filter=lfs diff=lfs merge=lfs -text
+*.mlmodel filter=lfs diff=lfs merge=lfs -text
+*.model filter=lfs diff=lfs merge=lfs -text
+*.msgpack filter=lfs diff=lfs merge=lfs -text
+*.npy filter=lfs diff=lfs merge=lfs -text
+*.npz filter=lfs diff=lfs merge=lfs -text
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.ot filter=lfs diff=lfs merge=lfs -text
+*.parquet filter=lfs diff=lfs merge=lfs -text
+*.pb filter=lfs diff=lfs merge=lfs -text
+*.pickle filter=lfs diff=lfs merge=lfs -text
+*.pkl filter=lfs diff=lfs merge=lfs -text
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.pth filter=lfs diff=lfs merge=lfs -text
+*.rar filter=lfs diff=lfs merge=lfs -text
+*.safetensors filter=lfs diff=lfs merge=lfs -text
+saved_model/**/* filter=lfs diff=lfs merge=lfs -text
+*.tar.* filter=lfs diff=lfs merge=lfs -text
+*.tar filter=lfs diff=lfs merge=lfs -text
+*.tflite filter=lfs diff=lfs merge=lfs -text
+*.tgz filter=lfs diff=lfs merge=lfs -text
+*.wasm filter=lfs diff=lfs merge=lfs -text
+*.xz filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.zst filter=lfs diff=lfs merge=lfs -text
+*tfevents* filter=lfs diff=lfs merge=lfs -text
+</file>
 
 <file path="android/.gitignore">
 # Using Android gitignore template: https://github.com/github/gitignore/blob/HEAD/Android.gitignore
@@ -6012,6 +6096,214 @@ RipeSense/
 {% endblock %}
 </file>
 
+<file path="templates/base.html">
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>{% block title %}RipeSense | AI Fruit Detection{% endblock %}</title>
+    
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+    /* Fix for phone status bar overlap */
+    .navbar {
+        padding-top: env(safe-area-inset-top) !important;
+        /* Fallback for older browsers */
+        padding-top: max(15px, env(safe-area-inset-top)) !important;
+        /* Ensure navbar is tall enough */
+        min-height: 80px;
+        align-items: flex-end;
+        padding-bottom: 10px;
+    }
+    
+    /* Push the logo and menu button down slightly so they are easier to tap */
+    .navbar-brand, .navbar-toggler, .btn-outline-light {
+        margin-top: 5px;
+    }
+    </style>
+    
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/icon.png') }}">
+    <meta name="theme-color" content="#2E7D32">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="{{ url_for('static', filename='/images/icon.png') }}" 
+                 alt="Logo" 
+                 class="rounded-circle me-2"
+                 style="width: 40px; height: 40px; object-fit: cover;">
+            RipeSense
+        </a>
+        
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-outline-light rounded-circle p-0" 
+        data-bs-toggle="modal" 
+        data-bs-target="#helpModal"
+        style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+    <i class="fas fa-question"></i>
+</button>
+
+            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto p-2 p-lg-0">
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/' else '' }}" href="/">
+            <i class="fas fa-home me-2"></i> Home
+        </a>
+    </li>
+
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/ripeness_detection' else '' }}" href="/ripeness_detection">
+            <i class="fas fa-expand me-2"></i> Analyze Fruit
+        </a>
+    </li>
+
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/fruit_detection' else '' }}" href="/fruit_detection">
+            <i class="fas fa-video me-2"></i> Live Mode
+        </a>
+    </li>
+
+    <li class="nav-item w-100">
+        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/history' else '' }}" href="/history">
+            <i class="fas fa-history me-2"></i> Scan History
+        </a>
+    </li>
+</ul>
+        </div>
+      </div>
+    </nav>
+
+    <div style="height: 100px;"></div>
+
+    <main style="padding-top: 3.5rem;">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm rounded-4" role="alert">
+                            {% if category == 'danger' %}
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                            {% elif category == 'success' %}
+                                <i class="fas fa-check-circle me-2"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle me-2"></i>
+                            {% endif %}
+                            <strong>{{ message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header bg-success text-white border-0">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-book-open me-2"></i>User Guide</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <h6 class="fw-bold text-success mb-3">How to get 97% Accuracy:</h6>
+                    
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">1</div>
+                        <div>
+                            <span class="fw-bold d-block">Clean Background</span>
+                            <small class="text-muted">Place the fruit on a white or plain surface (paper, table).</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">2</div>
+                        <div>
+                            <span class="fw-bold d-block">Good Lighting</span>
+                            <small class="text-muted">Avoid heavy shadows. Natural light works best.</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">3</div>
+                        <div>
+                            <span class="fw-bold d-block">One at a Time</span>
+                            <small class="text-muted">For best results, scan one fruit (Banana, Mango, or Tomato) at a time.</small>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    <div class="text-center">
+                        <small class="text-muted">Developed by <strong>Gerald Tan (294879)</strong></small>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-0 pb-3 pe-3">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Got it!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white pt-5 pb-4 mt-5 border-top">
+        <div class="container text-center text-md-start">
+            <div class="row text-center text-md-start">
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 fw-bold text-success"><i class="fas fa-leaf me-2"></i>RipeSense AI</h5>
+                    <p class="text-muted small">Advancing sustainable agriculture through computer vision and deep learning technologies.</p>
+                </div>
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 fw-bold">Tech Stack</h6>
+                    <p><span class="text-muted small">Python Flask</span></p>
+                    <p><span class="text-muted small">YOLOv8</span></p>
+                    <p><span class="text-muted small">OpenCV</span></p>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 fw-bold">Project</h6>
+                    <p><a href="/history" class="text-muted text-decoration-none small">Scan History</a></p>
+                    <p><a href="/ripeness_detection" class="text-muted text-decoration-none small">Analyze Fruit</a></p>
+                    <p><a href="/model_stats" class="text-muted text-decoration-none small fw-bold text-success">Model Performance</a></p>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 fw-bold">Contact</h6>
+                    <p class="small text-muted"><i class="fas fa-university me-2"></i> Universiti Utara Malaysia </p>
+                    <p class="small text-muted"><i class="fas fa-envelope me-2"></i> geraldtanhocksoon@gmail.com</p>
+                </div>
+            </div>
+            <hr class="my-3">
+            <div class="text-center p-3 small text-muted">© 2025 RipeSense Project. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}");
+        });
+      }
+    </script>
+</body>
+</html>
+</file>
+
 <file path="history.json">
 [
     {
@@ -10096,216 +10388,86 @@ RipeSense/
         "fruit": "Banana #7633",
         "result": "Ripe",
         "confidence": "85.4%"
+    },
+    {
+        "timestamp": "2025-12-22 17:25:04",
+        "file": "1766395501_rl_banana.jpeg",
+        "fruit": "Banana #4523",
+        "result": "Ripe",
+        "confidence": "85.4%"
+    },
+    {
+        "timestamp": "2025-12-22 17:25:21",
+        "file": "1766395520_unripe_tomato_error.jpg",
+        "fruit": "Tomato #7132",
+        "result": "Unripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-22 17:25:42",
+        "file": "1766395540_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 17:25:56",
+        "file": "1766395555_apple_strawberry.jpg",
+        "fruit": "Forbidden: strawberry",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-22 17:26:12",
+        "file": "1766395572_ripe_mango.jpg",
+        "fruit": "Banana #5494",
+        "result": "Ripe",
+        "confidence": "75.2%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-22 17:31:59",
+        "file": "1766395918_overripe_tomato.jpg",
+        "fruit": "Tomato #9976",
+        "result": "Overripe",
+        "confidence": "98.7%"
+    },
+    {
+        "timestamp": "2025-12-22 17:32:12",
+        "file": "1766395931_ripe_tomato.jpg",
+        "fruit": "Tomato #6407",
+        "result": "Ripe",
+        "confidence": "96.2%"
+    },
+    {
+        "timestamp": "2025-12-22 17:32:26",
+        "file": "1766395946_unripe_mango_error.jpg",
+        "fruit": "Banana #9719",
+        "result": "Unripe",
+        "confidence": "89.3%"
+    },
+    {
+        "timestamp": "2025-12-22 17:36:27",
+        "file": "1766396185_unripe_mango_error.jpg",
+        "fruit": "Mango #4150",
+        "result": "Unripe",
+        "confidence": "89.3%"
+    },
+    {
+        "timestamp": "2025-12-22 17:42:37",
+        "file": "1766396556_ripe_mango.jpg",
+        "fruit": "Banana #6073",
+        "result": "Ripe",
+        "confidence": "75.2%"
+    },
+    {
+        "timestamp": "2025-12-23 12:57:45",
+        "file": "1766465863_unripe_mango2.jpg",
+        "fruit": "Mango #9788",
+        "result": "Unripe",
+        "confidence": "93.5%"
     }
 ]
-</file>
-
-<file path="templates/base.html">
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>{% block title %}RipeSense | AI Fruit Detection{% endblock %}</title>
-    
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <style>
-    /* Fix for phone status bar overlap */
-    .navbar {
-        padding-top: env(safe-area-inset-top) !important;
-        /* Fallback for older browsers */
-        padding-top: max(15px, env(safe-area-inset-top)) !important;
-        /* Ensure navbar is tall enough */
-        min-height: 80px;
-        align-items: flex-end;
-        padding-bottom: 10px;
-    }
-    
-    /* Push the logo and menu button down slightly so they are easier to tap */
-    .navbar-brand, .navbar-toggler, .btn-outline-light {
-        margin-top: 5px;
-    }
-    </style>
-    
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/icon.png') }}">
-    <meta name="theme-color" content="#2E7D32">
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-</head>
-<body>
-    
-    <nav class="navbar navbar-expand-lg fixed-top">
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="/">
-            <img src="{{ url_for('static', filename='/images/icon.png') }}" 
-                 alt="Logo" 
-                 class="rounded-circle me-2"
-                 style="width: 40px; height: 40px; object-fit: cover;">
-            RipeSense
-        </a>
-        
-        <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-sm btn-outline-light rounded-circle p-0" 
-        data-bs-toggle="modal" 
-        data-bs-target="#helpModal"
-        style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-    <i class="fas fa-question"></i>
-</button>
-
-            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto p-2 p-lg-0">
-    <li class="nav-item w-100">
-        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/' else '' }}" href="/">
-            <i class="fas fa-home me-2"></i> Home
-        </a>
-    </li>
-
-    <li class="nav-item w-100">
-        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/ripeness_detection' else '' }}" href="/ripeness_detection">
-            <i class="fas fa-expand me-2"></i> Analyze Fruit
-        </a>
-    </li>
-
-    <li class="nav-item w-100">
-        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/fruit_detection' else '' }}" href="/fruit_detection">
-            <i class="fas fa-video me-2"></i> Live Mode
-        </a>
-    </li>
-
-    <li class="nav-item w-100">
-        <a class="nav-link py-3 px-3 {{ 'active' if request.path == '/history' else '' }}" href="/history">
-            <i class="fas fa-history me-2"></i> Scan History
-        </a>
-    </li>
-</ul>
-        </div>
-      </div>
-    </nav>
-
-    <div style="height: 100px;"></div>
-
-    <main style="padding-top: 3.5rem;">
-        <div class="container">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm rounded-4" role="alert">
-                            {% if category == 'danger' %}
-                                <i class="fas fa-exclamation-circle me-2"></i>
-                            {% elif category == 'success' %}
-                                <i class="fas fa-check-circle me-2"></i>
-                            {% else %}
-                                <i class="fas fa-info-circle me-2"></i>
-                            {% endif %}
-                            <strong>{{ message }}</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </div>
-
-        {% block content %}{% endblock %}
-    </main>
-
-    <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg rounded-4">
-                <div class="modal-header bg-success text-white border-0">
-                    <h5 class="modal-title fw-bold"><i class="fas fa-book-open me-2"></i>User Guide</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <h6 class="fw-bold text-success mb-3">How to get 97% Accuracy:</h6>
-                    
-                    <div class="d-flex align-items-start mb-3">
-                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">1</div>
-                        <div>
-                            <span class="fw-bold d-block">Clean Background</span>
-                            <small class="text-muted">Place the fruit on a white or plain surface (paper, table).</small>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-start mb-3">
-                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">2</div>
-                        <div>
-                            <span class="fw-bold d-block">Good Lighting</span>
-                            <small class="text-muted">Avoid heavy shadows. Natural light works best.</small>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-start mb-3">
-                        <div class="bg-light rounded-circle p-2 me-3 text-success fw-bold">3</div>
-                        <div>
-                            <span class="fw-bold d-block">One at a Time</span>
-                            <small class="text-muted">For best results, scan one fruit (Banana, Mango, or Tomato) at a time.</small>
-                        </div>
-                    </div>
-                    
-                    <hr>
-                    <div class="text-center">
-                        <small class="text-muted">Developed by <strong>Gerald Tan (294879)</strong></small>
-                    </div>
-                </div>
-                <div class="modal-footer border-0 p-0 pb-3 pe-3">
-                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Got it!</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="bg-white pt-5 pb-4 mt-5 border-top">
-        <div class="container text-center text-md-start">
-            <div class="row text-center text-md-start">
-                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 fw-bold text-success"><i class="fas fa-leaf me-2"></i>RipeSense AI</h5>
-                    <p class="text-muted small">Advancing sustainable agriculture through computer vision and deep learning technologies.</p>
-                </div>
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-                    <h6 class="text-uppercase mb-4 fw-bold">Tech Stack</h6>
-                    <p><span class="text-muted small">Python Flask</span></p>
-                    <p><span class="text-muted small">YOLOv8</span></p>
-                    <p><span class="text-muted small">OpenCV</span></p>
-                </div>
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-                    <h6 class="text-uppercase mb-4 fw-bold">Project</h6>
-                    <p><a href="/history" class="text-muted text-decoration-none small">Scan History</a></p>
-                    <p><a href="/ripeness_detection" class="text-muted text-decoration-none small">Analyze Fruit</a></p>
-                    <p><a href="/model_stats" class="text-muted text-decoration-none small fw-bold text-success">Model Performance</a></p>
-                </div>
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h6 class="text-uppercase mb-4 fw-bold">Contact</h6>
-                    <p class="small text-muted"><i class="fas fa-university me-2"></i> Universiti Utara Malaysia </p>
-                    <p class="small text-muted"><i class="fas fa-envelope me-2"></i> geraldtanhocksoon@gmail.com</p>
-                </div>
-            </div>
-            <hr class="my-3">
-            <div class="text-center p-3 small text-muted">© 2025 RipeSense Project. All rights reserved.</div>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}");
-        });
-      }
-    </script>
-</body>
-</html>
 </file>
 
 <file path="app.py">
@@ -10532,7 +10694,10 @@ def detect_ripeness():
     # 🧠 LAYER 2: THE GATEKEEPER
     # ==========================================================
     ai_logs.append("🧠 [LAYER 2: GATEKEEPER] Running general classification...")
+    
+    # Define Lists
     VALID_FRUITS = ['banana', 'mango', 'tomato']
+    # Items we absolutely hate and want to block immediately
     FORBIDDEN = ['apple', 'strawberry', 'lemon', 'grape', 'hamster', 'cat', 'dog', 'face']
     
     gatekeeper_valid = False
@@ -10540,25 +10705,42 @@ def detect_ripeness():
     gatekeeper_conf = 0.0
     
     try:
+        # Load Generic Model
         gatekeeper_model = YOLO(GATEKEEPER_PATH)
         res = gatekeeper_model(img_pil, imgsz=320, verbose=False)
+        
+        # Get Top Result
         gatekeeper_label = res[0].names[res[0].probs.top1].lower()
         gatekeeper_conf = float(res[0].probs.top1conf)
+        
         del gatekeeper_model
         cleanup_memory()
 
+        # ---------------- LOGIC RULES ----------------
+        
+        # Rule 1: The "Orange" Trap (Pass it to Layer 3 to double-check)
         if 'orange' in gatekeeper_label:
-            ai_logs.append(f"⚠️ [GATEKEEPER] Saw '{gatekeeper_label}' ({gatekeeper_conf*100:.1f}%). Passing for verification.")
+            ai_logs.append(f"⚠️ [GATEKEEPER] Detected '{gatekeeper_label}' ({gatekeeper_conf*100:.1f}%). Passing for verification.")
             gatekeeper_valid = False 
+            
+        # Rule 2: The Ban Hammer (Block Forbidden items if confident)
         elif any(f in gatekeeper_label for f in FORBIDDEN):
-            ai_logs.append(f"⛔ [DENY] Gatekeeper identified forbidden item: '{gatekeeper_label}'.")
-            save_history(filename, f"Forbidden: {gatekeeper_label}", "Rejected", "0.0")
-            return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=gatekeeper_label.capitalize(), ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
+            # Only block if confidence is decent (>40%) to avoid blocking fruits that look like trash
+            if gatekeeper_conf > 0.40:
+                ai_logs.append(f"⛔ [DENY] Gatekeeper identified forbidden item: '{gatekeeper_label}' ({gatekeeper_conf*100:.1f}%).")
+                save_history(filename, f"Forbidden: {gatekeeper_label}", "Rejected", "0.0")
+                return render_template('result_page.html', img_str=image_to_base64(img_pil), not_fruit=True, detected_object=gatekeeper_label.capitalize(), ai_logs=ai_logs, advice={}, ripeness_result={'confidence': 0}, nutrition={}, filename=filename)
+            else:
+                 ai_logs.append(f"⚠️ [GATEKEEPER] Thought it was '{gatekeeper_label}' but confidence is low ({gatekeeper_conf*100:.1f}%). Ignoring.")
+
+        # Rule 3: Valid Fruits (Green Light)
         elif any(v in gatekeeper_label for v in VALID_FRUITS):
             gatekeeper_valid = True
-            ai_logs.append(f"✅ [LAYER 2] Gatekeeper confirms '{gatekeeper_label}' is valid.")
+            ai_logs.append(f"✅ [LAYER 2] Gatekeeper confirms '{gatekeeper_label}' ({gatekeeper_conf*100:.1f}%) is valid.")
+            
+        # Rule 4: The "I Don't Know" (Pass to Layer 3)
         else:
-            ai_logs.append(f"⚠️ [LAYER 2] Gatekeeper unsure ('{gatekeeper_label}'). Passing to Specialist.")
+            ai_logs.append(f"⚠️ [LAYER 2] Gatekeeper is unsure ('{gatekeeper_label}' @ {gatekeeper_conf*100:.1f}%). Passing to Specialist.")
 
     except Exception as e:
         ai_logs.append(f"⚠️ [ERROR] Gatekeeper failed: {e}")
@@ -10583,24 +10765,24 @@ def detect_ripeness():
             label = results[0].names[int(best_box.cls[0])].lower()
             confidence = float(best_box.conf[0])
             
-            # 👇👇👇 THIS IS THE MISSING PART! 👇👇👇
-            # 📐 GEOMETRY CHECK (Fix Square Bananas)
-            x1, y1, x2, y2 = map(int, best_box.xyxy[0].tolist())
-            width = x2 - x1
-            height = y2 - y1
-            ratio = height / width if width > 0 else 0
+            # # 👇👇👇 THIS IS THE MISSING PART! 👇👇👇
+            # # 📐 GEOMETRY CHECK (Fix Square Bananas)
+            # x1, y1, x2, y2 = map(int, best_box.xyxy[0].tolist())
+            # width = x2 - x1
+            # height = y2 - y1
+            # ratio = height / width if width > 0 else 0
 
-            # FORCE LOGIC: 
-            # If it thinks "Banana" but Ratio is square (0.8 - 1.2)...
-            if "banana" in label and (0.8 < ratio < 1.2):
-                ai_logs.append(f"🍌➡️🥭 [SHAPE FIX] AI saw 'Banana' but shape is square (Ratio {ratio:.2f}). Correcting to Mango.")
-                label = label.replace("banana", "mango") # 👈 Change the label!
+            # # FORCE LOGIC: 
+            # # If it thinks "Banana" but Ratio is square (0.8 - 1.2)...
+            # if "banana" in label and (0.8 < ratio < 1.2):
+            #     ai_logs.append(f"🍌➡️🥭 [SHAPE FIX] AI saw 'Banana' but shape is square (Ratio {ratio:.2f}). Correcting to Mango.")
+            #     label = label.replace("banana", "mango") # 👈 Change the label!
             
-            # If it thinks "Mango" but Ratio is long (> 1.4)...
-            elif "mango" in label and (ratio > 1.4 or ratio < 0.6):
-                ai_logs.append(f"🥭➡️🍌 [SHAPE FIX] AI saw 'Mango' but shape is long (Ratio {ratio:.2f}). Correcting to Banana.")
-                label = label.replace("mango", "banana") # 👈 Change the label!
-            # 👆👆👆 END OF FIX 👆👆👆
+            # # If it thinks "Mango" but Ratio is long (> 1.4)...
+            # elif "mango" in label and (ratio > 1.4 or ratio < 0.6):
+            #     ai_logs.append(f"🥭➡️🍌 [SHAPE FIX] AI saw 'Mango' but shape is long (Ratio {ratio:.2f}). Correcting to Banana.")
+            #     label = label.replace("mango", "banana") # 👈 Change the label!
+            # # 👆👆👆 END OF FIX 👆👆👆
 
             ai_logs.append(f"   → Selected candidate: '{label}' ({confidence*100:.1f}%)")
 

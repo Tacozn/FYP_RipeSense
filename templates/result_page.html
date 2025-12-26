@@ -26,7 +26,21 @@
               </div>
               <h2 class="fw-bold text-danger mb-3">Detection Failed</h2>
               <p class="text-muted lead mb-4">
-                Our AI detected <strong>"{{ detected_object }}"</strong>, but RipeSense is currently calibrated only for:
+                {% if failure_reason == 'quality' %}
+                  Image quality is too poor. Please ensure your image has <strong>good lighting</strong> and is <strong>in focus</strong>.
+                {% elif failure_reason == 'face' %}
+                  A human face was detected in the image. RipeSense only analyzes fruits, not people.
+                {% elif failure_reason == 'forbidden_fruit' %}
+                  <strong>"{{ detected_object }}"</strong> is not supported. RipeSense is calibrated only for:
+                {% elif failure_reason == 'suspicious_item' %}
+                  The detected item appears to be a <strong>"{{ detected_object }}"</strong> rather than a fruit. RipeSense only analyzes:
+                {% elif failure_reason == 'low_confidence' %}
+                  Couldn't confidently identify a fruit in this image. Please try a clearer photo.
+                {% elif failure_reason == 'not_detected' %}
+                  No fruit was detected in this image. Make sure the fruit is clearly visible and centered.
+                {% else %}
+                  Our AI detected <strong>"{{ detected_object }}"</strong>, but RipeSense is currently calibrated only for:
+                {% endif %}
               </p>
               <div class="d-flex justify-content-center gap-2 mb-5">
                 <span class="badge bg-warning text-dark rounded-pill px-3 py-2">🍌 Banana</span>

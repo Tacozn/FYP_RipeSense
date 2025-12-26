@@ -4152,5 +4152,482 @@
         "fruit": "Banana #6073",
         "result": "Ripe",
         "confidence": "75.2%"
+    },
+    {
+        "timestamp": "2025-12-23 12:57:45",
+        "file": "1766465863_unripe_mango2.jpg",
+        "fruit": "Mango #9788",
+        "result": "Unripe",
+        "confidence": "93.5%"
+    },
+    {
+        "timestamp": "2025-12-26 01:40:29",
+        "file": "1766684427_orange.jpg",
+        "fruit": "Forbidden: lemon",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 01:40:44",
+        "file": "1766684444_unripe_tomato_error.jpg",
+        "fruit": "Tomato #8282",
+        "result": "Unripe",
+        "confidence": "93.9%"
+    },
+    {
+        "timestamp": "2025-12-26 01:40:59",
+        "file": "1766684458_ripe_mango.jpg",
+        "fruit": "Mango #3436",
+        "result": "Ripe",
+        "confidence": "82.1%"
+    },
+    {
+        "timestamp": "2025-12-26 01:41:18",
+        "file": "1766684478_apple_strawberry.jpg",
+        "fruit": "Mango #5807",
+        "result": "Overripe",
+        "confidence": "97.7%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-26 01:41:40",
+        "file": "1766684500_house.jpg",
+        "fruit": "Mobile_home",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 01:41:47",
+        "file": "1766684507_glorp.jpg",
+        "fruit": "Tomato #8570",
+        "result": "Unripe",
+        "confidence": "70.5%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-26 01:42:59",
+        "file": "1766684579_webcam_capture.jpg",
+        "fruit": "Loudspeaker",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 01:43:12",
+        "file": "1766684591_unripe_banana.jpg",
+        "fruit": "Banana #8616",
+        "result": "Unripe",
+        "confidence": "82.9%"
+    },
+    {
+        "timestamp": "2025-12-26 01:48:14",
+        "file": "1766684893_ripe_banana.png",
+        "fruit": "Banana #2467",
+        "result": "Ripe",
+        "confidence": "90.6%"
+    },
+    {
+        "timestamp": "2025-12-26 01:48:22",
+        "file": "1766684901_istockphoto-184276818-612x612.jpg",
+        "fruit": "Mango #7341",
+        "result": "Overripe",
+        "confidence": "59.8%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-26 01:49:17",
+        "file": "1766684957_Screenshot_2025-12-21_184558.png",
+        "fruit": "Unidentified Object",
+        "result": "Rejected",
+        "confidence": "39.5%"
+    },
+    {
+        "timestamp": "2025-12-26 01:49:41",
+        "file": "1766684980_unripe_mango_error.jpg",
+        "fruit": "Mango #4960",
+        "result": "Unripe",
+        "confidence": "96.4%"
+    },
+    {
+        "timestamp": "2025-12-26 01:55:45",
+        "file": "1766685342_istockphoto-184276818-612x612.jpg",
+        "fruit": "Mango #6845",
+        "result": "Overripe",
+        "confidence": "59.8%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-26 01:55:56",
+        "file": "1766685355_glorp.jpg",
+        "fruit": "Tomato #6583",
+        "result": "Unripe",
+        "confidence": "70.5%"
+    },
+    {
+        "timestamp": "2025-12-26 01:56:58",
+        "file": "1766685416_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 01:57:05",
+        "file": "1766685424_istockphoto-184276818-612x612.jpg",
+        "fruit": "Mango #6464",
+        "result": "Overripe",
+        "confidence": "80.8%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-26 01:57:17",
+        "file": "1766685437_ripe_mango.jpg",
+        "fruit": "Banana #3828",
+        "result": "Ripe",
+        "confidence": "75.2%"
+    },
+    {
+        "timestamp": "2025-12-26 01:57:37",
+        "file": "1766685456_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 01:58:05",
+        "file": "1766685483_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 01:58:14",
+        "file": "1766685493_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 01:59:48",
+        "file": "1766685587_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 02:02:14",
+        "file": "1766685732_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 02:03:36",
+        "file": "1766685814_glorp.jpg",
+        "fruit": "Forbidden: hamster",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 02:03:48",
+        "file": "1766685825_glorp.jpg",
+        "fruit": "Tomato #2382",
+        "result": "Unripe",
+        "confidence": "70.5%"
+    },
+    {
+        "timestamp": "2025-12-26 02:09:03",
+        "file": "1766686141_apple_strawberry.jpg",
+        "fruit": "Mango #2337",
+        "result": "Overripe",
+        "confidence": "97.7%"
+    },
+    {
+        "timestamp": "2025-12-26 02:09:21",
+        "file": "1766686160_house.jpg",
+        "fruit": "Mobile_home",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 02:09:31",
+        "file": "1766686170_unripe_tomato_error.jpg",
+        "fruit": "Tomato #3139",
+        "result": "Unripe",
+        "confidence": "93.9%"
+    },
+    {
+        "timestamp": "2025-12-26 02:12:53",
+        "file": "1766686370_glorp.jpg",
+        "fruit": "Suspicious samoyed",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 02:13:07",
+        "file": "1766686386_orange.jpg",
+        "fruit": "Lemon",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 02:13:25",
+        "file": "1766686404_ripe_mango.jpg",
+        "fruit": "Mango #8050",
+        "result": "Ripe",
+        "confidence": "82.1%"
+    },
+    {
+        "timestamp": "2025-12-26 02:41:56",
+        "file": "1766688115_apple_strawberry.jpg",
+        "fruit": "Mango #8108",
+        "result": "Overripe",
+        "confidence": "97.7%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-26 02:43:16",
+        "file": "1766688195_istockphoto-184276818-612x612.jpg",
+        "fruit": "Red Apple",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 02:43:30",
+        "file": "1766688209_apple_strawberry.jpg",
+        "fruit": "Mango #9963",
+        "result": "Overripe",
+        "confidence": "97.7%"
+    },
+    {
+        "timestamp": "2025-12-26 02:47:46",
+        "file": "1766688463_apple_strawberry.jpg",
+        "fruit": "Suspicious fig",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 03:37:32",
+        "file": "1766691450_unripe_mango2.jpg",
+        "fruit": "Mango #3833",
+        "result": "Unripe",
+        "confidence": "99.0%"
+    },
+    {
+        "timestamp": "2025-12-26 03:37:52",
+        "file": "1766691471_ripe_banana.png",
+        "fruit": "Banana #5453",
+        "result": "Ripe",
+        "confidence": "90.6%"
+    },
+    {
+        "timestamp": "2025-12-26 03:40:56",
+        "file": "1766691654_ripe_banana.png",
+        "fruit": "Banana #6654",
+        "result": "Ripe",
+        "confidence": "90.6%"
+    },
+    {
+        "timestamp": "2025-12-26 03:44:56",
+        "file": "1766691896_webcam_capture.jpg",
+        "fruit": "Poor Quality",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 03:45:47",
+        "file": "1766691945_orange.jpg",
+        "fruit": "Forbidden: lemon",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 04:01:23",
+        "file": "1766692881_glorp.jpg",
+        "fruit": "Suspicious samoyed",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 04:01:38",
+        "file": "1766692898_unripe_banana.jpg",
+        "fruit": "Banana #1027",
+        "result": "Unripe",
+        "confidence": "82.9%"
+    },
+    {
+        "timestamp": "2025-12-26 04:01:54",
+        "file": "1766692913_istockphoto-184276818-612x612.jpg",
+        "fruit": "Red/Brown Fruit",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 04:02:08",
+        "file": "1766692928_rl_banana.jpeg",
+        "fruit": "Poor Quality",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 04:02:37",
+        "file": "1766692956_WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Poor Quality",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 04:06:16",
+        "file": "1766693176_rl_banana.jpeg",
+        "fruit": "Poor Quality",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 04:06:47",
+        "file": "1766693207_rl_banana.jpeg",
+        "fruit": "Human Face",
+        "result": "Rejected (Face)",
+        "confidence": "100.0%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-26 04:10:23",
+        "file": "1766693420_rl_banana.jpeg",
+        "fruit": "Banana #1535",
+        "result": "Ripe",
+        "confidence": "72.9%"
+    },
+    {
+        "timestamp": "2025-12-26 04:10:42",
+        "file": "1766693442_Screenshot_2025-12-21_184558.png",
+        "fruit": "Unidentified Object",
+        "result": "Rejected",
+        "confidence": "39.5%"
+    },
+    {
+        "timestamp": "2025-12-26 04:21:26",
+        "file": "1766694086_rltomato.jpeg",
+        "fruit": "Poor Quality",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 04:21:42",
+        "file": "1766694102_rltomato.jpeg",
+        "fruit": "Poor Quality",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 04:21:53",
+        "file": "1766694113_WhatsApp_Image_2025-12-20_at_7.50.48_PM.jpeg",
+        "fruit": "Human Face",
+        "result": "Rejected (Face)",
+        "confidence": "100.0%",
+        "flagged": true
+    },
+    {
+        "timestamp": "2025-12-26 04:23:37",
+        "file": "1766694217_unripe_tomato_error.jpg",
+        "fruit": "Tomato #1687",
+        "result": "Unripe",
+        "confidence": "93.9%"
+    },
+    {
+        "timestamp": "2025-12-26 04:28:53",
+        "file": "1766694531_unripe_tomato_error.jpg",
+        "fruit": "Tomato",
+        "result": "Unripe",
+        "confidence": "93.9%"
+    },
+    {
+        "timestamp": "2025-12-26 04:29:01",
+        "file": "1766694540_unripe_tomato_error.jpg",
+        "fruit": "Tomato",
+        "result": "Unripe",
+        "confidence": "93.9%"
+    },
+    {
+        "timestamp": "2025-12-26 04:33:07",
+        "file": "1766694784_unripe_tomato_error.jpg",
+        "fruit": "Tomato",
+        "result": "Unripe",
+        "confidence": "93.9%"
+    },
+    {
+        "timestamp": "2025-12-26 04:34:02",
+        "file": "1766694839_ripe_banana.png",
+        "fruit": "Banana",
+        "result": "Ripe",
+        "confidence": "90.6%"
+    },
+    {
+        "timestamp": "2025-12-26 04:37:57",
+        "file": "1766695075_ripe_banana.png",
+        "fruit": "Banana",
+        "result": "Ripe",
+        "confidence": "90.6%"
+    },
+    {
+        "timestamp": "2025-12-26 04:38:13",
+        "file": "1766695092_unripe_tomato_error.jpg",
+        "fruit": "Tomato",
+        "result": "Unripe",
+        "confidence": "93.9%"
+    },
+    {
+        "timestamp": "2025-12-26 04:38:31",
+        "file": "1766695111_orange.jpg",
+        "fruit": "Forbidden: lemon",
+        "result": "Rejected",
+        "confidence": "0.0%"
+    },
+    {
+        "timestamp": "2025-12-26 04:39:04",
+        "file": "1766695142_overripe_mango.jpg",
+        "fruit": "Banana",
+        "result": "Overripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-26 04:44:07",
+        "file": "1766695444_overripe_mango.jpg",
+        "fruit": "Banana",
+        "result": "Overripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-26 04:47:04",
+        "file": "1766695622_overripe_mango.jpg",
+        "fruit": "Mango",
+        "result": "Overripe",
+        "confidence": "99.6%"
+    },
+    {
+        "timestamp": "2025-12-26 04:49:25",
+        "file": "1766695763_m9.jpg",
+        "fruit": "Mango",
+        "result": "Ripe",
+        "confidence": "87.3%"
+    },
+    {
+        "timestamp": "2025-12-26 04:49:44",
+        "file": "1766695783_ripe_mango.jpg",
+        "fruit": "Mango",
+        "result": "Ripe",
+        "confidence": "82.1%"
+    },
+    {
+        "timestamp": "2025-12-26 04:52:27",
+        "file": "1766695945_ripe_mango.jpg",
+        "fruit": "Mango",
+        "result": "Ripe",
+        "confidence": "82.1%"
+    },
+    {
+        "timestamp": "2025-12-26 05:10:57",
+        "file": "1766697056_ripe_tomato.jpg",
+        "fruit": "Tomato",
+        "result": "Ripe",
+        "confidence": "96.9%"
     }
 ]
